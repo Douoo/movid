@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/core/network/network_connection.dart';
-
 import '../../helpers/global_test_helpers.mocks.dart';
 
 void main() {

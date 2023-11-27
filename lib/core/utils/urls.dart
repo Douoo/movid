@@ -11,8 +11,6 @@ class Urls {
   static String movieDetail(int id) => '$baseUrl/movie/$id?$apiKey';
   static String movieRecommendations(int id) =>
       '$baseUrl/movie/$id/recommendations?$apiKey';
-  static String searchMovies(String query) =>
-      '$baseUrl/search/movie?$apiKey&query=$query';
 
   /// Tvs
   static final String onTheAirTvs = '$baseUrl/tv/on_the_air?$apiKey';
@@ -23,6 +21,10 @@ class Urls {
       '$baseUrl/tv/$id/season/$seasonNumber?$apiKey';
   static String tvRecommendations(int id) =>
       '$baseUrl/tv/$id/recommendations?$apiKey';
+
+  /// Search Movies
+  static String searchMovies(String query) =>
+      '$baseUrl/search/movie?$apiKey&query=$query';
   static String searchTvs(String query) =>
       '$baseUrl/search/tv?$apiKey&query=$query';
 
