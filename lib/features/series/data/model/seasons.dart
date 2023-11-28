@@ -6,9 +6,9 @@ class SeasonModel extends Season {
   final int? episodeNumber;
   final String? name;
   final String? description;
-  final String? runTime;
+  final int? runTime;
   final double? voteAverage;
-  final double? voteCount;
+  final int? voteCount;
   const SeasonModel({
     this.id,
     this.airDate,
@@ -32,11 +32,11 @@ class SeasonModel extends Season {
     return SeasonModel(
         id: json['id'],
         name: json["name"],
-        episodeNumber: json['episode_number'],
-        airDate: json['air_date'],
-        runTime: json['runtime'],
+        episodeNumber: json['season_number'],
+        airDate: json['episodes'][0]['air_date'],
+        runTime: json['episodes'][0]['runtime'],
         description: json['overview'],
         voteAverage: json['vote_average'],
-        voteCount: json['vote_count']);
+        voteCount: json['episodes'][0]['vote_count']);
   }
 }

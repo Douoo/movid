@@ -8,7 +8,7 @@ class TvSeriesModel extends TvSeries {
   final String? description;
   final bool? isAdult;
   final int? id;
-  final List<int>? genreIds;
+  final List<dynamic>? genreIds;
   final String? backdropPath;
   final String? poster;
   const TvSeriesModel({
@@ -35,16 +35,17 @@ class TvSeriesModel extends TvSeries {
           poster: poster,
         );
   factory TvSeriesModel.fromJson(Map<String, dynamic> json) {
+    List<dynamic> results = json['results'];
     return TvSeriesModel(
-        title: json['name'],
-        date: json['release_date'],
-        rating: json['vote_average'],
-        description: json['overview'],
-        isAdult: json['adult'],
-        id: json['id'],
-        language: json['original_language'],
-        backdropPath: json['backdrop_path'],
-        genreIds: json['genre_ids'],
-        poster: json['poster_path']);
+        title: json['results'][0]['name'],
+        date: json['results'][0]['first_air_date'],
+        rating: json['results'][0]['vote_average'],
+        description: json['results'][0]['overview'],
+        isAdult: json['results'][0]['adult'],
+        id: json['results'][0]['id'],
+        language: json['results'][0]['original_language'],
+        backdropPath: json['results'][0]['backdrop_path'],
+        genreIds: json['results'][0]['genre_ids'],
+        poster: json['results'][0]['poster_path']);
   }
 }

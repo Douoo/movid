@@ -30,7 +30,7 @@ void main() {
 
   test('should remove TV series from watchList in the repository', () async {
     // Arrange
-    when(mockTvSeriesRepository.addSeriesToWatchList(testTvSeries))
+    when(mockTvSeriesRepository.removeWatchListSeries(testTvSeries))
         .thenAnswer((_) async => true);
 
     // Act
@@ -38,6 +38,6 @@ void main() {
 
     // Assert
     expect(result, true);
-    verify(mockTvSeriesRepository.addSeriesToWatchList(testTvSeries));
+    verify(mockTvSeriesRepository.removeWatchListSeries(testTvSeries));
   });
 }

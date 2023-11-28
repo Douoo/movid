@@ -6,9 +6,9 @@ class Season extends Equatable {
   final int? episodeNumber;
   final String? name;
   final String? description;
-  final String? runTime;
+  final int? runTime;
   final double? voteAverage;
-  final double? voteCount;
+  final int? voteCount;
   const Season({
     this.id,
     this.airDate,

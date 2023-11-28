@@ -19,8 +19,8 @@ void main() {
       description: "this is a random ass description",
       airDate: "2023/20/3",
       voteAverage: 8.3,
-      voteCount: 0.0,
-      runTime: "56",
+      voteCount: 0,
+      runTime: 56,
       episodeNumber: 3);
 
   test('should get popular tv series from repository', () async {

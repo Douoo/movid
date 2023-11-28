@@ -8,7 +8,7 @@ class TvSeries extends Equatable {
   final String? description;
   final bool? isAdult;
   final int? id;
-  final List<int>? genreIds;
+  final List<dynamic>? genreIds;
   final String? backdropPath;
   final String? poster;
 

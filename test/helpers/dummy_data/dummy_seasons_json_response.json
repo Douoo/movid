@@ -1,0 +1,29 @@
+{
+    "_id": "5fc1737e9f51af003ee92c0c",
+    "air_date": "1953-01-01",
+    "episodes": [
+        {
+            "air_date": "1953-01-01",
+            "episode_number": 1,
+            "episode_type": "finale",
+            "id": 2533010,
+            "name": "Episode 1",
+            "overview": "",
+            "production_code": "",
+            "runtime": 15,
+            "season_number": 2,
+            "show_id": 94722,
+            "still_path": null,
+            "vote_average": 0.0,
+            "vote_count": 0,
+            "crew": [],
+            "guest_stars": []
+        }
+    ],
+    "name": "Season 1953",
+    "overview": "",
+    "id": 170277,
+    "poster_path": "/irxJNLAXFNwkoARq62Aj4MBRxoG.jpg",
+    "season_number": 2,
+    "vote_average": 0.0
+}
