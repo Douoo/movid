@@ -32,7 +32,7 @@ void main() {
     );
     //act
 
-    final result = TvSeriesModel.fromJson(jsonMap);
+    final result = TvSeriesModel.fromMap(jsonMap);
 
     //assert
     expect(result, equals(testSeriesModel));

@@ -7,6 +7,6 @@ import 'package:movid/features/series/domain/repository/series_repository.dart';
   InternetConnectionChecker,
   TvSeriesRepository,
 ], customMocks: [
-  MockSpec<http.Client>(as: #Mock)
+  MockSpec<http.Client>(as: #MockHttpClient)
 ])
 void main() {}

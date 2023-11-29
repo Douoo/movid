@@ -1,51 +1,62 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:movid/features/series/domain/entites/series.dart';
 
 class TvSeriesModel extends TvSeries {
-  final String? title;
-  final String? date;
-  final double? rating;
-  final String? language;
-  final String? description;
-  final bool? isAdult;
-  final int? id;
-  final List<dynamic>? genreIds;
-  final String? backdropPath;
-  final String? poster;
   const TvSeriesModel({
-    this.title,
-    this.date,
-    this.rating,
-    this.language,
-    this.description,
-    this.isAdult,
-    this.id,
-    this.backdropPath,
-    this.genreIds,
-    this.poster,
-  }) : super(
-          rating: rating,
-          title: title,
-          date: date,
-          language: language,
-          description: description,
-          isAdult: isAdult,
-          id: id,
-          backdropPath: backdropPath,
-          genreIds: genreIds,
-          poster: poster,
-        );
-  factory TvSeriesModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> results = json['results'];
-    return TvSeriesModel(
-        title: json['results'][0]['name'],
-        date: json['results'][0]['first_air_date'],
-        rating: json['results'][0]['vote_average'],
-        description: json['results'][0]['overview'],
-        isAdult: json['results'][0]['adult'],
-        id: json['results'][0]['id'],
-        language: json['results'][0]['original_language'],
-        backdropPath: json['results'][0]['backdrop_path'],
-        genreIds: json['results'][0]['genre_ids'],
-        poster: json['results'][0]['poster_path']);
+    super.title,
+    super.date,
+    super.backdropPath,
+    super.rating,
+    super.language,
+    super.description,
+    super.isAdult,
+    super.id,
+    super.genreIds,
+    super.poster,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'title': title,
+      'date': date,
+      'rating': rating,
+      'language': language,
+      'description': description,
+      'isAdult': isAdult,
+      'id': id,
+      'genreIds': genreIds,
+      'backdropPath': backdropPath,
+      'poster': poster,
+    };
   }
+
+  factory TvSeriesModel.fromMap(Map<String, dynamic> map) {
+    return TvSeriesModel(
+      title: map['title'] != null ? map['title'] as String : null,
+      date: map['first_air_date'] != null
+          ? map['first_air_date'] as String
+          : null,
+      rating:
+          map['vote_average'] != null ? map['vote_average'] as double : null,
+      language: map['original_language'] != null
+          ? map['original_language'] as String
+          : null,
+      description: map['overview'] != null ? map['overview'] as String : null,
+      isAdult: map['isAdult'] != null ? map['isAdult'] as bool : null,
+      id: map['id'] != null ? map['id'] as int : null,
+      genreIds: map['genreIds'] != null
+          ? List<dynamic>.from((map['genreIds'] as List<dynamic>))
+          : null,
+      backdropPath:
+          map['backdropPath'] != null ? map['backdropPath'] as String : null,
+      poster: map['poster'] != null ? map['poster'] as String : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory TvSeriesModel.fromJson(String source) =>
+      TvSeriesModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
