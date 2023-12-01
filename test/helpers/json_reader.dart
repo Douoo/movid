@@ -7,3 +7,4 @@ String readJson(String name) {
   }
   return File('$dir/test/$name').readAsStringSync();
 }
+String jsonReader(String name) => File(name).readAsStringSync();

@@ -3,19 +3,32 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
-import 'dart:convert' as _i8;
-import 'dart:typed_data' as _i10;
+import 'dart:async' as _i8;
+import 'dart:convert' as _i19;
+import 'dart:typed_data' as _i18;
 
-import 'package:http/http.dart' as _i3;
+import 'package:hive/hive.dart' as _i5;
+import 'package:hive/src/box/default_compaction_strategy.dart' as _i17;
+import 'package:hive/src/box/default_key_comparator.dart' as _i16;
+import 'package:http/http.dart' as _i6;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
-    as _i2;
+    as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i9;
-import 'package:movid/features/series/domain/entites/season.dart' as _i7;
-import 'package:movid/features/series/domain/entites/series.dart' as _i6;
+import 'package:mockito/src/dummies.dart' as _i12;
+import 'package:movid/core/network/network_connection.dart' as _i7;
+import 'package:movid/features/movies/data/data_sources/movie_local_data_source.dart'
+    as _i11;
+import 'package:movid/features/movies/data/data_sources/movie_remote_data_source.dart'
+    as _i9;
+import 'package:movid/features/movies/data/models/media_image_model.dart'
+    as _i3;
+import 'package:movid/features/movies/data/models/movie_detail_model.dart'
+    as _i2;
+import 'package:movid/features/movies/data/models/movie_model.dart' as _i10;
+import 'package:movid/features/series/domain/entites/season.dart' as _i15;
+import 'package:movid/features/series/domain/entites/series.dart' as _i14;
 import 'package:movid/features/series/domain/repository/series_repository.dart'
-    as _i5;
+    as _i13;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -30,8 +43,9 @@ import 'package:movid/features/series/domain/repository/series_repository.dart'
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeDuration_0 extends _i1.SmartFake implements Duration {
-  _FakeDuration_0(
+class _FakeMovieDetailModel_0 extends _i1.SmartFake
+    implements _i2.MovieDetailModel {
+  _FakeMovieDetailModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -40,9 +54,9 @@ class _FakeDuration_0 extends _i1.SmartFake implements Duration {
         );
 }
 
-class _FakeAddressCheckResult_1 extends _i1.SmartFake
-    implements _i2.AddressCheckResult {
-  _FakeAddressCheckResult_1(
+class _FakeMediaImageModel_1 extends _i1.SmartFake
+    implements _i3.MediaImageModel {
+  _FakeMediaImageModel_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -51,8 +65,8 @@ class _FakeAddressCheckResult_1 extends _i1.SmartFake
         );
 }
 
-class _FakeResponse_2 extends _i1.SmartFake implements _i3.Response {
-  _FakeResponse_2(
+class _FakeDuration_2 extends _i1.SmartFake implements Duration {
+  _FakeDuration_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -61,22 +75,236 @@ class _FakeResponse_2 extends _i1.SmartFake implements _i3.Response {
         );
 }
 
-class _FakeStreamedResponse_3 extends _i1.SmartFake
-    implements _i3.StreamedResponse {
-  _FakeStreamedResponse_3(
+class _FakeAddressCheckResult_3 extends _i1.SmartFake
+    implements _i4.AddressCheckResult {
+  _FakeAddressCheckResult_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
           parent,
           parentInvocation,
         );
+}
+
+class _FakeBox_4<E1> extends _i1.SmartFake implements _i5.Box<E1> {
+  _FakeBox_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeLazyBox_5<E1> extends _i1.SmartFake implements _i5.LazyBox<E1> {
+  _FakeLazyBox_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeResponse_6 extends _i1.SmartFake implements _i6.Response {
+  _FakeResponse_6(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_7 extends _i1.SmartFake
+    implements _i6.StreamedResponse {
+  _FakeStreamedResponse_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+/// A class which mocks [NetworkConnection].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockNetworkConnection extends _i1.Mock implements _i7.NetworkConnection {
+  MockNetworkConnection() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<bool> get isAvailable => (super.noSuchMethod(
+        Invocation.getter(#isAvailable),
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
+}
+
+/// A class which mocks [MovieRemoteDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMovieRemoteDataSource extends _i1.Mock
+    implements _i9.MovieRemoteDataSource {
+  MockMovieRemoteDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<List<_i10.MovieModel>> getNowPlayingMovies() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getNowPlayingMovies,
+          [],
+        ),
+        returnValue:
+            _i8.Future<List<_i10.MovieModel>>.value(<_i10.MovieModel>[]),
+      ) as _i8.Future<List<_i10.MovieModel>>);
+
+  @override
+  _i8.Future<List<_i10.MovieModel>> getPopularMovies() => (super.noSuchMethod(
+        Invocation.method(
+          #getPopularMovies,
+          [],
+        ),
+        returnValue:
+            _i8.Future<List<_i10.MovieModel>>.value(<_i10.MovieModel>[]),
+      ) as _i8.Future<List<_i10.MovieModel>>);
+
+  @override
+  _i8.Future<List<_i10.MovieModel>> getTopRatedMovies() => (super.noSuchMethod(
+        Invocation.method(
+          #getTopRatedMovies,
+          [],
+        ),
+        returnValue:
+            _i8.Future<List<_i10.MovieModel>>.value(<_i10.MovieModel>[]),
+      ) as _i8.Future<List<_i10.MovieModel>>);
+
+  @override
+  _i8.Future<_i2.MovieDetailModel> getMovieDetail(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMovieDetail,
+          [id],
+        ),
+        returnValue:
+            _i8.Future<_i2.MovieDetailModel>.value(_FakeMovieDetailModel_0(
+          this,
+          Invocation.method(
+            #getMovieDetail,
+            [id],
+          ),
+        )),
+      ) as _i8.Future<_i2.MovieDetailModel>);
+
+  @override
+  _i8.Future<List<_i10.MovieModel>> getMovieRecommendations(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMovieRecommendations,
+          [id],
+        ),
+        returnValue:
+            _i8.Future<List<_i10.MovieModel>>.value(<_i10.MovieModel>[]),
+      ) as _i8.Future<List<_i10.MovieModel>>);
+
+  @override
+  _i8.Future<_i3.MediaImageModel> getMovieImages(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMovieImages,
+          [id],
+        ),
+        returnValue:
+            _i8.Future<_i3.MediaImageModel>.value(_FakeMediaImageModel_1(
+          this,
+          Invocation.method(
+            #getMovieImages,
+            [id],
+          ),
+        )),
+      ) as _i8.Future<_i3.MediaImageModel>);
+
+  @override
+  _i8.Future<List<_i10.MovieModel>> searchMovies(String? query) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #searchMovies,
+          [query],
+        ),
+        returnValue:
+            _i8.Future<List<_i10.MovieModel>>.value(<_i10.MovieModel>[]),
+      ) as _i8.Future<List<_i10.MovieModel>>);
+}
+
+/// A class which mocks [MovieLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockMovieLocalDataSource extends _i1.Mock
+    implements _i11.MovieLocalDataSource {
+  MockMovieLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<String> saveWatchlist(_i2.MovieDetailModel? movie) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveWatchlist,
+          [movie],
+        ),
+        returnValue: _i8.Future<String>.value(_i12.dummyValue<String>(
+          this,
+          Invocation.method(
+            #saveWatchlist,
+            [movie],
+          ),
+        )),
+      ) as _i8.Future<String>);
+
+  @override
+  _i8.Future<String> removeWatchlist(_i2.MovieDetailModel? movie) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeWatchlist,
+          [movie],
+        ),
+        returnValue: _i8.Future<String>.value(_i12.dummyValue<String>(
+          this,
+          Invocation.method(
+            #removeWatchlist,
+            [movie],
+          ),
+        )),
+      ) as _i8.Future<String>);
+
+  @override
+  _i8.Future<bool> hasMovie(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #hasMovie,
+          [id],
+        ),
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
+
+  @override
+  _i8.Future<List<_i10.MovieModel>> getWatchlistMovies() => (super.noSuchMethod(
+        Invocation.method(
+          #getWatchlistMovies,
+          [],
+        ),
+        returnValue:
+            _i8.Future<List<_i10.MovieModel>>.value(<_i10.MovieModel>[]),
+      ) as _i8.Future<List<_i10.MovieModel>>);
 }
 
 /// A class which mocks [InternetConnectionChecker].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockInternetConnectionChecker extends _i1.Mock
-    implements _i2.InternetConnectionChecker {
+    implements _i4.InternetConnectionChecker {
   MockInternetConnectionChecker() {
     _i1.throwOnMissingStub(this);
   }
@@ -84,7 +312,7 @@ class MockInternetConnectionChecker extends _i1.Mock
   @override
   Duration get checkInterval => (super.noSuchMethod(
         Invocation.getter(#checkInterval),
-        returnValue: _FakeDuration_0(
+        returnValue: _FakeDuration_2(
           this,
           Invocation.getter(#checkInterval),
         ),
@@ -93,20 +321,20 @@ class MockInternetConnectionChecker extends _i1.Mock
   @override
   Duration get checkTimeout => (super.noSuchMethod(
         Invocation.getter(#checkTimeout),
-        returnValue: _FakeDuration_0(
+        returnValue: _FakeDuration_2(
           this,
           Invocation.getter(#checkTimeout),
         ),
       ) as Duration);
 
   @override
-  List<_i2.AddressCheckOptions> get addresses => (super.noSuchMethod(
+  List<_i4.AddressCheckOptions> get addresses => (super.noSuchMethod(
         Invocation.getter(#addresses),
-        returnValue: <_i2.AddressCheckOptions>[],
-      ) as List<_i2.AddressCheckOptions>);
+        returnValue: <_i4.AddressCheckOptions>[],
+      ) as List<_i4.AddressCheckOptions>);
 
   @override
-  set addresses(List<_i2.AddressCheckOptions>? value) => super.noSuchMethod(
+  set addresses(List<_i4.AddressCheckOptions>? value) => super.noSuchMethod(
         Invocation.setter(
           #addresses,
           value,
@@ -115,25 +343,25 @@ class MockInternetConnectionChecker extends _i1.Mock
       );
 
   @override
-  _i4.Future<bool> get hasConnection => (super.noSuchMethod(
+  _i8.Future<bool> get hasConnection => (super.noSuchMethod(
         Invocation.getter(#hasConnection),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i4.Future<_i2.InternetConnectionStatus> get connectionStatus =>
+  _i8.Future<_i4.InternetConnectionStatus> get connectionStatus =>
       (super.noSuchMethod(
         Invocation.getter(#connectionStatus),
-        returnValue: _i4.Future<_i2.InternetConnectionStatus>.value(
-            _i2.InternetConnectionStatus.connected),
-      ) as _i4.Future<_i2.InternetConnectionStatus>);
+        returnValue: _i8.Future<_i4.InternetConnectionStatus>.value(
+            _i4.InternetConnectionStatus.connected),
+      ) as _i8.Future<_i4.InternetConnectionStatus>);
 
   @override
-  _i4.Stream<_i2.InternetConnectionStatus> get onStatusChange =>
+  _i8.Stream<_i4.InternetConnectionStatus> get onStatusChange =>
       (super.noSuchMethod(
         Invocation.getter(#onStatusChange),
-        returnValue: _i4.Stream<_i2.InternetConnectionStatus>.empty(),
-      ) as _i4.Stream<_i2.InternetConnectionStatus>);
+        returnValue: _i8.Stream<_i4.InternetConnectionStatus>.empty(),
+      ) as _i8.Stream<_i4.InternetConnectionStatus>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -148,139 +376,394 @@ class MockInternetConnectionChecker extends _i1.Mock
       ) as bool);
 
   @override
-  _i4.Future<_i2.AddressCheckResult> isHostReachable(
-          _i2.AddressCheckOptions? options) =>
+  _i8.Future<_i4.AddressCheckResult> isHostReachable(
+          _i4.AddressCheckOptions? options) =>
       (super.noSuchMethod(
         Invocation.method(
           #isHostReachable,
           [options],
         ),
         returnValue:
-            _i4.Future<_i2.AddressCheckResult>.value(_FakeAddressCheckResult_1(
+            _i8.Future<_i4.AddressCheckResult>.value(_FakeAddressCheckResult_3(
           this,
           Invocation.method(
             #isHostReachable,
             [options],
           ),
         )),
-      ) as _i4.Future<_i2.AddressCheckResult>);
+      ) as _i8.Future<_i4.AddressCheckResult>);
 }
 
 /// A class which mocks [TvSeriesRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockTvSeriesRepository extends _i1.Mock
-    implements _i5.TvSeriesRepository {
+    implements _i13.TvSeriesRepository {
   MockTvSeriesRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i6.TvSeries>> getOnAirTvSeries() => (super.noSuchMethod(
+  _i8.Future<List<_i14.TvSeries>> getOnAirTvSeries() => (super.noSuchMethod(
         Invocation.method(
           #getOnAirTvSeries,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<List<_i6.TvSeries>> getPopularTvSeries() => (super.noSuchMethod(
+  _i8.Future<List<_i14.TvSeries>> getPopularTvSeries() => (super.noSuchMethod(
         Invocation.method(
           #getPopularTvSeries,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<List<_i6.TvSeries>> getTopRatedTvSeries() => (super.noSuchMethod(
+  _i8.Future<List<_i14.TvSeries>> getTopRatedTvSeries() => (super.noSuchMethod(
         Invocation.method(
           #getTopRatedTvSeries,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<List<_i6.TvSeries>> getDetailTvSeries(int? id) =>
+  _i8.Future<List<_i14.TvSeries>> getDetailTvSeries(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getDetailTvSeries,
           [id],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<List<_i6.TvSeries>> getRecommendedTvSeries(int? id) =>
+  _i8.Future<List<_i14.TvSeries>> getRecommendedTvSeries(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getRecommendedTvSeries,
           [id],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<List<_i7.Season>> getTvSeriesSeasons() => (super.noSuchMethod(
+  _i8.Future<List<_i15.Season>> getTvSeriesSeasons() => (super.noSuchMethod(
         Invocation.method(
           #getTvSeriesSeasons,
           [],
         ),
-        returnValue: _i4.Future<List<_i7.Season>>.value(<_i7.Season>[]),
-      ) as _i4.Future<List<_i7.Season>>);
+        returnValue: _i8.Future<List<_i15.Season>>.value(<_i15.Season>[]),
+      ) as _i8.Future<List<_i15.Season>>);
 
   @override
-  _i4.Future<List<_i6.TvSeries>> searchTvSeries(String? data) =>
+  _i8.Future<List<_i14.TvSeries>> searchTvSeries(String? data) =>
       (super.noSuchMethod(
         Invocation.method(
           #searchTvSeries,
           [data],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<List<_i6.TvSeries>> getWatchListTvSeries() => (super.noSuchMethod(
+  _i8.Future<List<_i14.TvSeries>> getWatchListTvSeries() => (super.noSuchMethod(
         Invocation.method(
           #getWatchListTvSeries,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.TvSeries>>.value(<_i6.TvSeries>[]),
-      ) as _i4.Future<List<_i6.TvSeries>>);
+        returnValue: _i8.Future<List<_i14.TvSeries>>.value(<_i14.TvSeries>[]),
+      ) as _i8.Future<List<_i14.TvSeries>>);
 
   @override
-  _i4.Future<bool> addSeriesToWatchList(_i6.TvSeries? series) =>
+  _i8.Future<bool> addSeriesToWatchList(_i14.TvSeries? series) =>
       (super.noSuchMethod(
         Invocation.method(
           #addSeriesToWatchList,
           [series],
         ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i4.Future<bool> removeWatchListSeries(_i6.TvSeries? series) =>
+  _i8.Future<bool> removeWatchListSeries(_i14.TvSeries? series) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeWatchListSeries,
           [series],
         ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
+}
+
+/// A class which mocks [HiveInterface].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHiveInterface extends _i1.Mock implements _i5.HiveInterface {
+  MockHiveInterface() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void init(
+    String? path, {
+    _i5.HiveStorageBackendPreference? backendPreference =
+        _i5.HiveStorageBackendPreference.native,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [path],
+          {#backendPreference: backendPreference},
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i8.Future<_i5.Box<E>> openBox<E>(
+    String? name, {
+    _i5.HiveCipher? encryptionCipher,
+    _i5.KeyComparator? keyComparator = _i16.defaultKeyComparator,
+    _i5.CompactionStrategy? compactionStrategy = _i17.defaultCompactionStrategy,
+    bool? crashRecovery = true,
+    String? path,
+    _i18.Uint8List? bytes,
+    String? collection,
+    List<int>? encryptionKey,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #openBox,
+          [name],
+          {
+            #encryptionCipher: encryptionCipher,
+            #keyComparator: keyComparator,
+            #compactionStrategy: compactionStrategy,
+            #crashRecovery: crashRecovery,
+            #path: path,
+            #bytes: bytes,
+            #collection: collection,
+            #encryptionKey: encryptionKey,
+          },
+        ),
+        returnValue: _i8.Future<_i5.Box<E>>.value(_FakeBox_4<E>(
+          this,
+          Invocation.method(
+            #openBox,
+            [name],
+            {
+              #encryptionCipher: encryptionCipher,
+              #keyComparator: keyComparator,
+              #compactionStrategy: compactionStrategy,
+              #crashRecovery: crashRecovery,
+              #path: path,
+              #bytes: bytes,
+              #collection: collection,
+              #encryptionKey: encryptionKey,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i5.Box<E>>);
+
+  @override
+  _i8.Future<_i5.LazyBox<E>> openLazyBox<E>(
+    String? name, {
+    _i5.HiveCipher? encryptionCipher,
+    _i5.KeyComparator? keyComparator = _i16.defaultKeyComparator,
+    _i5.CompactionStrategy? compactionStrategy = _i17.defaultCompactionStrategy,
+    bool? crashRecovery = true,
+    String? path,
+    String? collection,
+    List<int>? encryptionKey,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #openLazyBox,
+          [name],
+          {
+            #encryptionCipher: encryptionCipher,
+            #keyComparator: keyComparator,
+            #compactionStrategy: compactionStrategy,
+            #crashRecovery: crashRecovery,
+            #path: path,
+            #collection: collection,
+            #encryptionKey: encryptionKey,
+          },
+        ),
+        returnValue: _i8.Future<_i5.LazyBox<E>>.value(_FakeLazyBox_5<E>(
+          this,
+          Invocation.method(
+            #openLazyBox,
+            [name],
+            {
+              #encryptionCipher: encryptionCipher,
+              #keyComparator: keyComparator,
+              #compactionStrategy: compactionStrategy,
+              #crashRecovery: crashRecovery,
+              #path: path,
+              #collection: collection,
+              #encryptionKey: encryptionKey,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i5.LazyBox<E>>);
+
+  @override
+  _i5.Box<E> box<E>(String? name) => (super.noSuchMethod(
+        Invocation.method(
+          #box,
+          [name],
+        ),
+        returnValue: _FakeBox_4<E>(
+          this,
+          Invocation.method(
+            #box,
+            [name],
+          ),
+        ),
+      ) as _i5.Box<E>);
+
+  @override
+  _i5.LazyBox<E> lazyBox<E>(String? name) => (super.noSuchMethod(
+        Invocation.method(
+          #lazyBox,
+          [name],
+        ),
+        returnValue: _FakeLazyBox_5<E>(
+          this,
+          Invocation.method(
+            #lazyBox,
+            [name],
+          ),
+        ),
+      ) as _i5.LazyBox<E>);
+
+  @override
+  bool isBoxOpen(String? name) => (super.noSuchMethod(
+        Invocation.method(
+          #isBoxOpen,
+          [name],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i8.Future<void> close() => (super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> deleteBoxFromDisk(
+    String? name, {
+    String? path,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteBoxFromDisk,
+          [name],
+          {#path: path},
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> deleteFromDisk() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteFromDisk,
+          [],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  List<int> generateSecureKey() => (super.noSuchMethod(
+        Invocation.method(
+          #generateSecureKey,
+          [],
+        ),
+        returnValue: <int>[],
+      ) as List<int>);
+
+  @override
+  _i8.Future<bool> boxExists(
+    String? name, {
+    String? path,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #boxExists,
+          [name],
+          {#path: path},
+        ),
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
+
+  @override
+  void resetAdapters() => super.noSuchMethod(
+        Invocation.method(
+          #resetAdapters,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void registerAdapter<T>(
+    _i5.TypeAdapter<T>? adapter, {
+    bool? internal = false,
+    bool? override = false,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #registerAdapter,
+          [adapter],
+          {
+            #internal: internal,
+            #override: override,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool isAdapterRegistered(int? typeId) => (super.noSuchMethod(
+        Invocation.method(
+          #isAdapterRegistered,
+          [typeId],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  void ignoreTypeId<T>(int? typeId) => super.noSuchMethod(
+        Invocation.method(
+          #ignoreTypeId,
+          [typeId],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpClient extends _i1.Mock implements _i3.Client {
-  MockHttpClient() {
+class MockClient extends _i1.Mock implements _i6.Client {
+  MockClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i3.Response> head(
+  _i8.Future<_i6.Response> head(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -290,7 +773,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i4.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
           this,
           Invocation.method(
             #head,
@@ -298,10 +781,10 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i4.Future<_i3.Response>);
+      ) as _i8.Future<_i6.Response>);
 
   @override
-  _i4.Future<_i3.Response> get(
+  _i8.Future<_i6.Response> get(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -311,7 +794,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i4.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
           this,
           Invocation.method(
             #get,
@@ -319,14 +802,14 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i4.Future<_i3.Response>);
+      ) as _i8.Future<_i6.Response>);
 
   @override
-  _i4.Future<_i3.Response> post(
+  _i8.Future<_i6.Response> post(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i19.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -338,7 +821,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i4.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
           this,
           Invocation.method(
             #post,
@@ -350,14 +833,14 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             },
           ),
         )),
-      ) as _i4.Future<_i3.Response>);
+      ) as _i8.Future<_i6.Response>);
 
   @override
-  _i4.Future<_i3.Response> put(
+  _i8.Future<_i6.Response> put(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i19.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -369,7 +852,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i4.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
           this,
           Invocation.method(
             #put,
@@ -381,14 +864,14 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             },
           ),
         )),
-      ) as _i4.Future<_i3.Response>);
+      ) as _i8.Future<_i6.Response>);
 
   @override
-  _i4.Future<_i3.Response> patch(
+  _i8.Future<_i6.Response> patch(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i19.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -400,7 +883,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i4.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
           this,
           Invocation.method(
             #patch,
@@ -412,14 +895,14 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             },
           ),
         )),
-      ) as _i4.Future<_i3.Response>);
+      ) as _i8.Future<_i6.Response>);
 
   @override
-  _i4.Future<_i3.Response> delete(
+  _i8.Future<_i6.Response> delete(
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i19.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -431,7 +914,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             #encoding: encoding,
           },
         ),
-        returnValue: _i4.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
           this,
           Invocation.method(
             #delete,
@@ -443,10 +926,10 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             },
           ),
         )),
-      ) as _i4.Future<_i3.Response>);
+      ) as _i8.Future<_i6.Response>);
 
   @override
-  _i4.Future<String> read(
+  _i8.Future<String> read(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -456,7 +939,7 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i4.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i8.Future<String>.value(_i12.dummyValue<String>(
           this,
           Invocation.method(
             #read,
@@ -464,10 +947,10 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
             {#headers: headers},
           ),
         )),
-      ) as _i4.Future<String>);
+      ) as _i8.Future<String>);
 
   @override
-  _i4.Future<_i10.Uint8List> readBytes(
+  _i8.Future<_i18.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -477,25 +960,261 @@ class MockHttpClient extends _i1.Mock implements _i3.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i4.Future<_i10.Uint8List>.value(_i10.Uint8List(0)),
-      ) as _i4.Future<_i10.Uint8List>);
+        returnValue: _i8.Future<_i18.Uint8List>.value(_i18.Uint8List(0)),
+      ) as _i8.Future<_i18.Uint8List>);
 
   @override
-  _i4.Future<_i3.StreamedResponse> send(_i3.BaseRequest? request) =>
+  _i8.Future<_i6.StreamedResponse> send(_i6.BaseRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #send,
           [request],
         ),
         returnValue:
-            _i4.Future<_i3.StreamedResponse>.value(_FakeStreamedResponse_3(
+            _i8.Future<_i6.StreamedResponse>.value(_FakeStreamedResponse_7(
           this,
           Invocation.method(
             #send,
             [request],
           ),
         )),
-      ) as _i4.Future<_i3.StreamedResponse>);
+      ) as _i8.Future<_i6.StreamedResponse>);
+
+  @override
+  void close() => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [Client].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHttpClient extends _i1.Mock implements _i6.Client {
+  MockHttpClient() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<_i6.Response> head(
+    Uri? url, {
+    Map<String, String>? headers,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #head,
+          [url],
+          {#headers: headers},
+        ),
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
+          this,
+          Invocation.method(
+            #head,
+            [url],
+            {#headers: headers},
+          ),
+        )),
+      ) as _i8.Future<_i6.Response>);
+
+  @override
+  _i8.Future<_i6.Response> get(
+    Uri? url, {
+    Map<String, String>? headers,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #get,
+          [url],
+          {#headers: headers},
+        ),
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
+          this,
+          Invocation.method(
+            #get,
+            [url],
+            {#headers: headers},
+          ),
+        )),
+      ) as _i8.Future<_i6.Response>);
+
+  @override
+  _i8.Future<_i6.Response> post(
+    Uri? url, {
+    Map<String, String>? headers,
+    Object? body,
+    _i19.Encoding? encoding,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #post,
+          [url],
+          {
+            #headers: headers,
+            #body: body,
+            #encoding: encoding,
+          },
+        ),
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
+          this,
+          Invocation.method(
+            #post,
+            [url],
+            {
+              #headers: headers,
+              #body: body,
+              #encoding: encoding,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i6.Response>);
+
+  @override
+  _i8.Future<_i6.Response> put(
+    Uri? url, {
+    Map<String, String>? headers,
+    Object? body,
+    _i19.Encoding? encoding,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #put,
+          [url],
+          {
+            #headers: headers,
+            #body: body,
+            #encoding: encoding,
+          },
+        ),
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
+          this,
+          Invocation.method(
+            #put,
+            [url],
+            {
+              #headers: headers,
+              #body: body,
+              #encoding: encoding,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i6.Response>);
+
+  @override
+  _i8.Future<_i6.Response> patch(
+    Uri? url, {
+    Map<String, String>? headers,
+    Object? body,
+    _i19.Encoding? encoding,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patch,
+          [url],
+          {
+            #headers: headers,
+            #body: body,
+            #encoding: encoding,
+          },
+        ),
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
+          this,
+          Invocation.method(
+            #patch,
+            [url],
+            {
+              #headers: headers,
+              #body: body,
+              #encoding: encoding,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i6.Response>);
+
+  @override
+  _i8.Future<_i6.Response> delete(
+    Uri? url, {
+    Map<String, String>? headers,
+    Object? body,
+    _i19.Encoding? encoding,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [url],
+          {
+            #headers: headers,
+            #body: body,
+            #encoding: encoding,
+          },
+        ),
+        returnValue: _i8.Future<_i6.Response>.value(_FakeResponse_6(
+          this,
+          Invocation.method(
+            #delete,
+            [url],
+            {
+              #headers: headers,
+              #body: body,
+              #encoding: encoding,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i6.Response>);
+
+  @override
+  _i8.Future<String> read(
+    Uri? url, {
+    Map<String, String>? headers,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #read,
+          [url],
+          {#headers: headers},
+        ),
+        returnValue: _i8.Future<String>.value(_i12.dummyValue<String>(
+          this,
+          Invocation.method(
+            #read,
+            [url],
+            {#headers: headers},
+          ),
+        )),
+      ) as _i8.Future<String>);
+
+  @override
+  _i8.Future<_i18.Uint8List> readBytes(
+    Uri? url, {
+    Map<String, String>? headers,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #readBytes,
+          [url],
+          {#headers: headers},
+        ),
+        returnValue: _i8.Future<_i18.Uint8List>.value(_i18.Uint8List(0)),
+      ) as _i8.Future<_i18.Uint8List>);
+
+  @override
+  _i8.Future<_i6.StreamedResponse> send(_i6.BaseRequest? request) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #send,
+          [request],
+        ),
+        returnValue:
+            _i8.Future<_i6.StreamedResponse>.value(_FakeStreamedResponse_7(
+          this,
+          Invocation.method(
+            #send,
+            [request],
+          ),
+        )),
+      ) as _i8.Future<_i6.StreamedResponse>);
 
   @override
   void close() => super.noSuchMethod(

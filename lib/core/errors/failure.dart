@@ -20,3 +20,5 @@ class ConnectionFailure extends Failure {
       {super.message =
           '''No (Unstable) internet connection available. Please try again when you have a better connection.'''});
 }
+
+class CacheFailure extends Failure {}
