@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Urls {
-  static final apiKey = dotenv.env['API_KEY'];
+  static final apiKey = 'api_key=${dotenv.env['API_KEY']}';
   static const baseUrl = 'https://api.themoviedb.org/3';
 
   /// Movies

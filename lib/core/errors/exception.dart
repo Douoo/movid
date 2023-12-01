@@ -24,3 +24,5 @@ class ServerException implements Exception {
   factory ServerException.fromJson(String source) =>
       ServerException.fromMap(json.decode(source) as Map<String, dynamic>);
 }
+
+class CacheException implements Exception {}
