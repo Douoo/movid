@@ -15,7 +15,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.1.0
+<<<<<<< HEAD
   get_it: ^7.6.4
+=======
+>>>>>>> ede6b0d (Added the movie module - local and remote data source(in progress))
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   http: ^1.1.0
