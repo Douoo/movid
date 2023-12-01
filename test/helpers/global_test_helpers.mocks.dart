@@ -25,13 +25,10 @@ import 'package:movid/features/movies/data/models/media_image_model.dart'
 import 'package:movid/features/movies/data/models/movie_detail_model.dart'
     as _i2;
 import 'package:movid/features/movies/data/models/movie_model.dart' as _i10;
-<<<<<<< HEAD
 import 'package:movid/features/series/domain/entites/season.dart' as _i15;
 import 'package:movid/features/series/domain/entites/series.dart' as _i14;
 import 'package:movid/features/series/domain/repository/series_repository.dart'
     as _i13;
-=======
->>>>>>> ede6b0d (Added the movie module - local and remote data source(in progress))
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
