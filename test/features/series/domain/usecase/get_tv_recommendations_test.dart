@@ -3,7 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_recommendations.dart';
 
-import '../../../../../helpers/global_test_helpers.mocks.dart';
+import '../../../../helpers/global_test_helpers.mocks.dart';
 
 void main() {
   late GetRecommendedTvsUseCase getRecommendedTvsUseCase;

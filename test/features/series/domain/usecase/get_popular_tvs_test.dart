@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/usecases/series/search_tvs.dart';
+import 'package:movid/features/series/domain/usecases/series/get_popular_tvs.dart';
 
-import '../../../../../helpers/global_test_helpers.mocks.dart';
+import '../../../../helpers/global_test_helpers.mocks.dart';
 
 void main() {
-  late SearchTvsUseCase searchTvsUseCase;
+  late GetPopularTvsUseCase getPopularTvsUseCase;
   late MockTvSeriesRepository mockTvSeriesRepository;
   setUp(() {
     mockTvSeriesRepository = MockTvSeriesRepository();
-    searchTvsUseCase = SearchTvsUseCase(series: mockTvSeriesRepository);
+    getPopularTvsUseCase = GetPopularTvsUseCase(series: mockTvSeriesRepository);
   });
 
   const testTvSeries = TvSeries(
@@ -26,14 +26,12 @@ void main() {
     poster: "/path/to/backdrop.jpg",
   );
 
-  const testSearchData = "Happy";
-
-  test('should get on air tv series from repository', () async {
+  test('should get popular tv series from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.searchTvSeries(testSearchData))
+    when(mockTvSeriesRepository.getPopularTvSeries())
         .thenAnswer((_) async => [testTvSeries]);
     //act
-    final result = await searchTvsUseCase.call(testSearchData);
+    final result = await getPopularTvsUseCase.call();
 
     // assert
     expect(result, [testTvSeries]);

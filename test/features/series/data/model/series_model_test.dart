@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:movid/features/series/data/model/series.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 
-import '../../../../../helpers/json_reader.dart';
+import '../../../../helpers/json_reader.dart';
 
 void main() {
   const testSeriesModel = TvSeriesModel(

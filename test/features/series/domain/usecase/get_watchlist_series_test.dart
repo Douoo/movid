@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/usecases/get_watchlist_series.dart';
-import '../../../../../helpers/global_test_helpers.mocks.dart';
+import '../../../../helpers/global_test_helpers.mocks.dart';
 
 void main() {
   late GetWatchListTvsUseCase getWatchListTvsUseCase;

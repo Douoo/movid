@@ -5,8 +5,8 @@ import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/data/data_sources/remote/remote_data_source_impl.dart';
 import 'package:http/http.dart' as http;
 import 'package:movid/features/series/domain/entites/series.dart';
-import '../../../../../helpers/global_test_helpers.mocks.dart';
-import '../../../../../helpers/json_reader.dart';
+import '../../../../helpers/global_test_helpers.mocks.dart';
+import '../../../../helpers/json_reader.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
