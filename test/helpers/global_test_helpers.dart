@@ -14,7 +14,6 @@ import 'package:movid/features/series/domain/repository/series_repository.dart';
   InternetConnectionChecker,
   TvSeriesRepository,
   HiveInterface,
-  http.Client,
 ], customMocks: [
   MockSpec<http.Client>(as: #MockHttpClient),
 ])

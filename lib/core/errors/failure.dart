@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class Failure extends Equatable {
-  final String? message;
+  final String message;
 
-  const Failure({this.message});
+  const Failure({this.message = 'Something went wrong while fetching data'});
 
   @override
   List<Object?> get props => [
