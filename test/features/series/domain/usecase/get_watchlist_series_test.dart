@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
@@ -42,12 +43,12 @@ void main() {
   test('should get TV series from watchList in the repository', () async {
     //arrange
     when(mockTvSeriesRepository.getWatchListTvSeries())
-        .thenAnswer((_) async => [testTvSeries1, testTvSeries2]);
+        .thenAnswer((_) async => const Right([testTvSeries1, testTvSeries2]));
     //act
     final result = await getWatchListTvsUseCase.call();
 
     // assert
-    expect(result, [testTvSeries1, testTvSeries2]);
+    expect(result, const Right([testTvSeries1, testTvSeries2]));
     verify(mockTvSeriesRepository.getWatchListTvSeries());
   });
 }

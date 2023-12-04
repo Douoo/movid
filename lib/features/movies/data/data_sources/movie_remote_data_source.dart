@@ -25,9 +25,12 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   Future<T> _getData<T>(String url, T Function(dynamic) dataMapper) async {
     try {
-      final response = await client.get(Uri.parse(url), headers: {
-        'Content-Type': 'application/json',
-      });
+      final response = await client.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         final mappedData = dataMapper(response.body);

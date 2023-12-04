@@ -3,9 +3,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/data/data_sources/remote/remote_data_source.dart';
-import 'package:movid/features/series/data/model/series.dart';
+import 'package:movid/features/series/data/model/media_image_model.dart';
+import 'package:movid/features/series/data/model/tv_series_model.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
+import 'package:movid/features/series/domain/entites/series_detail.dart';
+
+abstract class TvSeriesRemoteDataSource {
+  Future<List<TvSeries>> getOnAirTvSeries();
+  Future<List<TvSeries>> getPopularTvSeries();
+  Future<List<TvSeries>> getTopRatedTvSeries();
+  Future<List<SeriesDetail>> getDetailTvSeries(int id);
+  Future<List<TvSeries>> getRecommendedTvSeries(int id);
+  Future<List<TvSeries>> getTvSeriesSeasons();
+  Future<List<TvSeries>> searchTvSeries(String data);
+  Future<MediaImageModel> getSeriesImages(int id);
+
+  Future<List<TvSeries>> getWatchListTvSeries();
+  Future<bool> addSeriesToWatchList(TvSeries series);
+  Future<bool> removeWatchListSeries(TvSeries series);
+}
 
 class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   final http.Client client;
@@ -19,8 +35,11 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   @override
   Future<List<TvSeries>> getOnAirTvSeries() async {
     try {
-      http.Response response = await client.get(
+      final response = await client.get(
         Uri.parse(Urls.onTheAirTvs),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       );
       if (response.statusCode == 200) {
         final List result = jsonDecode(response.body)['results'];
@@ -29,7 +48,7 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
         throw ServerException();
       }
     } catch (e) {
-      throw ServerException();
+      throw CacheException();
     }
   }
 
@@ -46,7 +65,7 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   }
 
   @override
-  Future<List<TvSeries>> getDetailTvSeries(
+  Future<List<SeriesDetail>> getDetailTvSeries(
     int id,
   ) {
     // series.forEach((series) {
@@ -81,8 +100,14 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   }
 
   @override
-  Future<List<TvSeries>> searchTvSeries() {
+  Future<List<TvSeries>> searchTvSeries(String data) {
     // TODO: implement searchTvSeries
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<MediaImageModel> getSeriesImages(int id) {
+    // TODO: implement getSeriesImages
     throw UnimplementedError();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
@@ -14,7 +15,7 @@ void main() {
         GetRecommendedTvsUseCase(series: mockTvSeriesRepository);
   });
 
-  const testTvSeries = TvSeries(
+  const testRecommendedTvSeries = TvSeries(
     id: 1,
     title: 'test',
     description: "this is a random ass description",
@@ -30,11 +31,11 @@ void main() {
   test('should get Recommended tv series from repository', () async {
     //arrange
     when(mockTvSeriesRepository.getRecommendedTvSeries(testTvSeriesId))
-        .thenAnswer((_) async => [testTvSeries]);
+        .thenAnswer((_) async => const Right([testRecommendedTvSeries]));
     //act
     final result = await getRecommendedTvsUseCase.call(testTvSeriesId);
 
     // assert
-    expect(result, [testTvSeries]);
+    expect(result, const Right([testRecommendedTvSeries]));
   });
 }

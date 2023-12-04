@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movid/core/styles/colors.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
@@ -29,11 +30,11 @@ void main() {
   test('should get popular tv series from repository', () async {
     //arrange
     when(mockTvSeriesRepository.getPopularTvSeries())
-        .thenAnswer((_) async => [testTvSeries]);
+        .thenAnswer((_) async => const Right([testTvSeries]));
     //act
     final result = await getPopularTvsUseCase.call();
 
     // assert
-    expect(result, [testTvSeries]);
+    expect(result, const Right([testTvSeries]));
   });
 }
