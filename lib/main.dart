@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:movid/features/series/presentation/pages/home.dart';
+import 'package:movid/features/movies/presentation/pages/popular_movies_page.dart';
+import 'package:movid/features/movies/presentation/pages/top_rated_movies_page.dart';
 import 'package:hive/hive.dart';
 import 'package:movid/core/presentation/pages/home_page.dart';
 import 'package:movid/core/presentation/provider/home_provider.dart';
@@ -67,9 +68,12 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const HomePage(),
         initialRoute: HomePage.route,
-        routes: {},
+        routes: {
+          HomePage.route: (context) => const HomePage(),
+          PopularMoviesPage.route: (context) => const PopularMoviesPage(),
+          TopRatedMoviesPage.route: (context) => const TopRatedMoviesPage(),
+        },
       ),
     );
   }

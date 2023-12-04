@@ -6,6 +6,7 @@ import 'package:movid/features/movies/presentation/widgets/movie_card.dart';
 import 'package:provider/provider.dart';
 
 class PopularMoviesPage extends StatefulWidget {
+  static const String route = '/popular';
   const PopularMoviesPage({super.key});
 
   @override
