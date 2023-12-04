@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/data/data_sources/remote/remote_data_source.dart';
-import 'package:movid/features/series/data/model/series.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
+
+import '../../model/tv_series.dart';
 
 class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   final http.Client client;

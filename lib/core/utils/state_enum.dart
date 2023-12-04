@@ -1,3 +1,3 @@
 enum RequestState { empty, loading, loaded, error }
 
-enum GeneralContentType { movie, tvSeries }
+enum ContentType { movie, tvSeries }

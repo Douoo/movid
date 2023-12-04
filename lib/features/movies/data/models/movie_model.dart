@@ -9,6 +9,7 @@ class MovieModel extends Movie {
     required super.id,
     super.backdropPath,
     super.genreIds,
+    super.language,
     super.overview,
     super.posterPath,
     super.releaseDate,
@@ -17,21 +18,22 @@ class MovieModel extends Movie {
     super.voteCount,
   });
 
-
   MovieModel.copy(MovieData movie)
       : this(
-            releaseDate: movie.releaseDate,
-            id: movie.id,
-            title: movie.title,
-            posterPath: movie.posterPath,
-            overview: movie.overview,
-            voteAverage: movie.voteAverage,);
+          releaseDate: movie.releaseDate,
+          id: movie.id,
+          title: movie.title,
+          posterPath: movie.posterPath,
+          overview: movie.overview,
+          voteAverage: movie.voteAverage,
+        );
 
   factory MovieModel.fromMap(Map<String, dynamic> map) {
     return MovieModel(
       backdropPath: map['backdrop_path'] as String?,
       genreIds: map['genre_ids'] != null ? List.from((map['genre_ids'])) : null,
       id: map['id'] as int,
+      language: map['original_language'] as String?,
       overview: map['overview'] as String?,
       posterPath: map['poster_path'] as String?,
       releaseDate: map['release_date'] as String?,

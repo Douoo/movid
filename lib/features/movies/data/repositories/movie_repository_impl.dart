@@ -8,12 +8,16 @@ import 'package:movid/features/movies/domain/entities/movie.dart';
 import 'package:movid/features/movies/domain/entities/movie_detail.dart';
 import 'package:movid/features/movies/domain/repositories/movie_repository.dart';
 
+import '../data_sources/movie_local_data_source.dart';
+
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDataSource remoteDataSource;
+  final MovieLocalDataSource localDataSource;
   final NetworkConnection networkConnection;
 
   MovieRepositoryImpl({
     required this.remoteDataSource,
+    required this.localDataSource,
     required this.networkConnection,
   });
 
