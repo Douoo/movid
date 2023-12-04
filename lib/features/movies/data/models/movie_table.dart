@@ -5,6 +5,8 @@ import 'package:hive/hive.dart';
 
 import 'movie_model.dart';
 
+part 'movie_table.g.dart';
+
 @HiveType(typeId: 0)
 class MovieData extends HiveObject {
   @HiveField(0)
@@ -29,14 +31,15 @@ class MovieData extends HiveObject {
     required this.voteAverage,
   });
 
-MovieData.copy(MovieModel movie)
+  MovieData.copy(MovieModel movie)
       : this(
-            releaseDate: movie.releaseDate,
-            id: movie.id,
-            title: movie.title,
-            posterPath: movie.posterPath,
-            overview: movie.overview,
-            voteAverage: movie.voteAverage,);
+          releaseDate: movie.releaseDate,
+          id: movie.id,
+          title: movie.title,
+          posterPath: movie.posterPath,
+          overview: movie.overview,
+          voteAverage: movie.voteAverage,
+        );
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

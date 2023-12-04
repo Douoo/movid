@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
@@ -19,15 +21,15 @@ void main() {
   late MockHiveInterface mockHive;
   late MockHiveBox mockBox;
   late MovieLocalDataSourceImpl localDataSource;
-  const TEST_MOCK_STORAGE = './test/helpers/fixtures/core';
+  const testMockStorage = './test/helpers/fixtures/core';
 
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
     const channel = MethodChannel(
-      'plugins.flutter.io/path\_provider',
+      'plugins.flutter.io/path_provider',
     );
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return TEST_MOCK_STORAGE;
+      return testMockStorage;
     });
     final appDocumentDir =
         await path_provider.getApplicationDocumentsDirectory();

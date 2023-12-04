@@ -11,15 +11,17 @@ import '../../../../helpers/movie/dummy_objects.dart';
 void main() {
   late MockNetworkConnection mockConnection;
   late MockMovieRemoteDataSource mockRemoteDataSource;
+  late MockMovieLocalDataSource mockLocalDataSource;
   late MovieRepositoryImpl repository;
 
   setUp(() {
     mockConnection = MockNetworkConnection();
     mockRemoteDataSource = MockMovieRemoteDataSource();
+    mockLocalDataSource = MockMovieLocalDataSource();
     repository = MovieRepositoryImpl(
-      networkConnection: mockConnection,
-      remoteDataSource: mockRemoteDataSource,
-    );
+        networkConnection: mockConnection,
+        remoteDataSource: mockRemoteDataSource,
+        localDataSource: mockLocalDataSource);
   });
 
   group('Device Online', () {

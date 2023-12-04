@@ -15,13 +15,15 @@ abstract class MovieLocalDataSource {
 
 class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   Box<dynamic> box;
+
   MovieLocalDataSourceImpl({
     required this.box,
   });
+
   @override
   Future<List<MovieModel>> getWatchlistMovies() async {
     try {
-      final watchlistBox =  box;
+      final watchlistBox = box; //Hive.openBox('watchlist')
       List<MovieModel> movies = [];
 
       for (MovieData movieData in watchlistBox.values) {
