@@ -3,6 +3,7 @@ import 'package:movid/core/presentation/provider/home_provider.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
+import 'package:movid/features/search/presentation/pages/search_movie_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +29,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
     );
 
-    _drawerTween = Tween(begin: 0, end: 1).animate(
+    _drawerTween = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
       CurvedAnimation(
         parent: _drawerAnimationController,
         curve: Curves.easeInCirc,
@@ -76,8 +80,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: AnimatedBuilder(
         animation: _drawerTween,
         builder: (context, child) {
-          double slide = 300.0 * _drawerTween.value;
-          double scale = 1.0 - (_drawerTween.value * 0.25);
+          double slide = 250.0 * _drawerTween.value;
+          double scale = 1.0 - (_drawerTween.value * 0.15);
           double radius = _drawerTween.value * 30.0;
           double rotate = _drawerTween.value * -0.139626;
           double toolbarOpacity = 1.0 - _drawerTween.value;
@@ -191,7 +195,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             actions: [
                               IconButton(
                                 onPressed: () {
-                                  //TODO: implement search functionality
+                                  //TODO: Add search function for tv
+                                  Navigator.pushNamed(
+                                      context, MovieSearchPage.routeName);
                                 },
                                 icon: const Icon(
                                   Icons.search,

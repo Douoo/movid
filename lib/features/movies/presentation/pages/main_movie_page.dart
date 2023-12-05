@@ -4,12 +4,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/movies/presentation/provider/movie_images_provider.dart';
-import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
+import 'popular_movies_page.dart';
+import 'top_rated_movies_page.dart';
+import '../provider/movie_images_provider.dart';
+import '../provider/movie_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../widgets/horizontal_item_list.dart';
+import '../widgets/minimal_detail.dart';
 import '../widgets/sub_heading.dart';
 
 class MainMoviePage extends StatefulWidget {
@@ -50,7 +53,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
                     duration: const Duration(milliseconds: 500),
                     child: CarouselSlider(
                       options: CarouselOptions(
-                        height: 575.0,
+                        height: 475.0,
                         viewportFraction: 1.0,
                         // autoPlay: true,
                         onPageChanged: (index, reason) {
@@ -63,7 +66,20 @@ class _MainMoviePageState extends State<MainMoviePage> {
                       items: data.nowPlayingMovies.map((movie) {
                         return GestureDetector(
                           onTap: () {
-                            //TODO: Implement navigation
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return MinimalDetail(
+                                  movie: movie,
+                                );
+                              },
+                            );
                           },
                           child: Stack(
                             children: [
@@ -90,7 +106,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                 },
                                 blendMode: BlendMode.dstIn,
                                 child: CachedNetworkImage(
-                                  height: 560.0,
+                                  height: 460.0,
                                   imageUrl: Urls.imageUrl(movie.backdropPath!),
                                   fit: BoxFit.cover,
                                 ),
@@ -164,9 +180,10 @@ class _MainMoviePageState extends State<MainMoviePage> {
             SubHeading(
               valueKey: 'seePopularMovies',
               text: 'Popular',
-              onSeeMoreTapped: () {
-                //TODO: Navigate to popular
-              },
+              onSeeMoreTapped: () => Navigator.pushNamed(
+                context,
+                PopularMoviesPage.route,
+              ),
             ),
             Consumer<MovieListProvider>(builder: (context, data, _) {
               if (data.popularMoviesState == RequestState.loaded) {
@@ -179,15 +196,16 @@ class _MainMoviePageState extends State<MainMoviePage> {
               } else if (data.popularMoviesState == RequestState.error) {
                 return const Center(child: Text('Load data failed'));
               } else {
-                return LoadingWidget();
+                return const LoadingWidget();
               }
             }),
             SubHeading(
               valueKey: 'seeTopRatedMovies',
               text: 'Top rated',
-              onSeeMoreTapped: () {
-                //TODO: Navigate to popular
-              },
+              onSeeMoreTapped: () => Navigator.pushNamed(
+                context,
+                TopRatedMoviesPage.route,
+              ),
             ),
             Consumer<MovieListProvider>(builder: (context, data, _) {
               if (data.topRatedMoviesState == RequestState.loaded) {
@@ -200,7 +218,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
               } else if (data.topRatedMoviesState == RequestState.error) {
                 return const Center(child: Text('Load data failed'));
               } else {
-                return LoadingWidget();
+                return const LoadingWidget();
               }
             }),
           ],

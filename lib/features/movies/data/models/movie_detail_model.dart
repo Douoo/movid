@@ -8,6 +8,7 @@ class MovieDetailModel extends MovieDetail {
     required super.backdropPath,
     required super.genres,
     required super.id,
+    super.language,
     required super.overview,
     required super.posterPath,
     required super.releaseDate,
@@ -23,6 +24,7 @@ class MovieDetailModel extends MovieDetail {
       genres:
           List.from((map['genres']).map((genre) => GenreModel.fromMap(genre))),
       id: map['id'] as int,
+      language:  map['original_language'] as String?,
       overview: map['overview'] as String,
       posterPath: map['poster_path'] as String?,
       releaseDate: map['release_date'] as String,

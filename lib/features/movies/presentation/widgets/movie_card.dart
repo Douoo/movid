@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movid/core/styles/text_styles.dart';
 import 'package:movid/core/utils/urls.dart';
+import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
 
 import '../../domain/entities/movie.dart';
 
@@ -17,18 +17,26 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //TODO: Navigate to movie detail page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieDetailPage(
+              movieId: movie.id,
+            ),
+          ),
+        );
       },
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(right: 8.0),
         margin: const EdgeInsets.only(bottom: 16.0),
         decoration: BoxDecoration(
-          color: Colors.grey[850],
+          color: Color(0xFF14141C),
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Row(
           children: [
             Expanded(
+              // flex: 2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: CachedNetworkImage(
@@ -44,29 +52,23 @@ class MovieCard extends StatelessWidget {
             ),
             const SizedBox(width: 16.0),
             Expanded(
-              flex: 3,
+              // flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     movie.title,
                     overflow: TextOverflow.ellipsis,
-                    style: kHeading6,
-                    maxLines: 1,
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                    maxLines: 2,
                   ),
                   const SizedBox(height: 4.0),
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 2.0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                        child: Text(movie.releaseDate!.split('-')[0]),
+                      Text(
+                        '${(movie.language ?? '').toUpperCase()} | ${movie.releaseDate}',
                       ),
                       const SizedBox(width: 16.0),
                       const Icon(
@@ -84,7 +86,7 @@ class MovieCard extends StatelessWidget {
                   Text(
                     movie.overview ?? '-',
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    maxLines: 4,
                   ),
                 ],
               ),

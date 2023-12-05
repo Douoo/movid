@@ -10,14 +10,20 @@ import 'package:movid/features/movies/data/repositories/movie_repository_impl.da
 import 'package:movid/features/movies/domain/repositories/movie_repository.dart';
 import 'package:movid/features/movies/domain/usecases/get_movie_detail.dart';
 import 'package:movid/features/movies/domain/usecases/get_movie_images.dart';
+import 'package:movid/features/movies/domain/usecases/get_movie_recommendations.dart';
+import 'package:movid/features/movies/domain/usecases/get_movie_watchlist_status.dart';
 import 'package:movid/features/movies/domain/usecases/get_now_playing_movies.dart';
 import 'package:movid/features/movies/domain/usecases/get_popular_movies.dart';
 import 'package:movid/features/movies/domain/usecases/get_top_rated_movies.dart';
+import 'package:movid/features/movies/domain/usecases/remove_watchlist.dart';
+import 'package:movid/features/movies/domain/usecases/save_watchlist.dart';
 import 'package:movid/features/movies/presentation/provider/movie_detail_provider.dart';
 import 'package:movid/features/movies/presentation/provider/movie_images_provider.dart';
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
+import 'package:movid/features/search/domain/usecases/search_movie.dart';
+import 'package:movid/features/search/presentation/provider/movie_search_provider.dart';
 
 final locator = GetIt.instance;
 
@@ -36,6 +42,10 @@ Future<void> init() async {
   ///Movie provider
   locator.registerFactory(() => MovieDetailProvider(
         getMovieDetail: locator(),
+        getMovieRecommendations: locator(),
+        getMovieWatchlistStatus: locator(),
+        saveWatchlist: locator(),
+        removeWatchlist: locator(),
       ));
   locator.registerFactory(() => MovieImagesProvider(
         getMovieImages: locator(),
@@ -52,6 +62,8 @@ Future<void> init() async {
         getTopRatedMovies: locator(),
       ));
 
+  locator.registerFactory(() => MovieSearchProvider(searchMovie: locator()));
+
   //******** Usecases **********//
   /// Movie related
   locator.registerLazySingleton(() => GetMovieDetail(locator()));
@@ -59,6 +71,13 @@ Future<void> init() async {
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
   locator.registerLazySingleton(() => GetPopularMovies(locator()));
   locator.registerLazySingleton(() => GetTopRatedMovies(locator()));
+  locator.registerLazySingleton(() => GetMovieRecommendations(locator()));
+  locator.registerLazySingleton(() => GetMovieWatchlistStatus(locator()));
+  locator.registerLazySingleton(() => SaveWatchlist(locator()));
+  locator.registerLazySingleton(() => RemoveWatchlist(locator()));
+
+  ///Search movies
+  locator.registerLazySingleton(() => SearchMovie(locator()));
 
   //******** Repository **********//
   ///Movie repo and its implementations

@@ -19,7 +19,7 @@ void main() {
 
   setUp(() {
     mockGetMovieDetail = MockGetMovieDetail();
-    notifier = MovieDetailProvider(getMovieDetail: mockGetMovieDetail);
+    notifier = MovieDetailProvider(getMovieDetail: mockGetMovieDetail, getMovieRecommendations: null, getMovieWatchlistStatus: null, saveWatchlist: null, removeWatchlist: null);
   });
 
   test(

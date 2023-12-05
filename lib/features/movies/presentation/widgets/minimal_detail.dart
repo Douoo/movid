@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/urls.dart';
+import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
 
 import '../../domain/entities/movie.dart';
 
@@ -93,7 +94,14 @@ class MinimalDetail extends StatelessWidget {
                       ),
                       const SizedBox(height: 12.0),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MovieDetailPage(
+                                    movieId: movie.id,
+                                  ),
+                                ),
+                              ),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor,
                               foregroundColor: kWhiteColor,

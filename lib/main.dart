@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
 import 'package:movid/features/movies/presentation/pages/popular_movies_page.dart';
 import 'package:movid/features/movies/presentation/pages/top_rated_movies_page.dart';
 import 'package:hive/hive.dart';
@@ -11,6 +12,8 @@ import 'package:movid/features/movies/presentation/provider/movie_images_provide
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
+import 'package:movid/features/search/presentation/pages/search_movie_page.dart';
+import 'package:movid/features/search/presentation/provider/movie_search_provider.dart';
 import 'package:movid/injection.dart' as di;
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -55,6 +58,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedMoviesProvider>(),
         ),
+
+        ///Search movie provider
+        ChangeNotifierProvider(
+          create: (_) => di.locator<MovieSearchProvider>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Movid',
@@ -72,6 +80,8 @@ class MyApp extends StatelessWidget {
           HomePage.route: (context) => const HomePage(),
           PopularMoviesPage.route: (context) => const PopularMoviesPage(),
           TopRatedMoviesPage.route: (context) => const TopRatedMoviesPage(),
+          MovieDetailPage.route: (context) => const MovieDetailPage(),
+          MovieSearchPage.routeName: (context) => const MovieSearchPage(),
         },
       ),
     );
