@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movid/core/presentation/pages/watchlist_page.dart';
 import 'package:movid/core/presentation/provider/home_provider.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
@@ -144,13 +145,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             Provider.of<HomeProvider>(context).contentType ==
                                 ContentType.tvSeries,
                         selectedTileColor: primaryColor,
+                        selectedColor: kWhiteColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       ListTile(
                         key: const Key('watchlistTile'),
-                        onTap: () {},
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          WatchlistPage.route,
+                        ),
                         leading: const Icon(Icons.star_border),
                         title: const Text('Watchlist'),
                         iconColor: kWhiteColor,

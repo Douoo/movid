@@ -41,7 +41,7 @@ class MovieCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 child: CachedNetworkImage(
                   imageUrl: Urls.imageUrl(
-                    movie.posterPath!,
+                    movie.posterPath ?? '',
                   ),
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),

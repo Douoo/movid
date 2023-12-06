@@ -53,7 +53,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
                     duration: const Duration(milliseconds: 500),
                     child: CarouselSlider(
                       options: CarouselOptions(
-                        height: 475.0,
+                        height: 575.0,
                         viewportFraction: 1.0,
                         // autoPlay: true,
                         onPageChanged: (index, reason) {
@@ -106,41 +106,43 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                 },
                                 blendMode: BlendMode.dstIn,
                                 child: CachedNetworkImage(
-                                  height: 460.0,
-                                  imageUrl: Urls.imageUrl(movie.backdropPath!),
+                                  height: 560.0,
+                                  width: double.infinity,
+                                  imageUrl: Urls.imageUrl(movie.posterPath!),
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: Consumer<MovieImagesProvider>(
-                                  builder: (context, data, child) {
-                                    if (data.state == RequestState.loaded) {
-                                      if (data.mediaImages.logoPaths.isEmpty) {
-                                        return Text(movie.title);
-                                      }
-                                      return Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: CachedNetworkImage(
-                                          width: 200.0,
-                                          imageUrl: Urls.imageUrl(
-                                            data.mediaImages.logoPaths[0],
-                                          ),
-                                        ),
-                                      );
-                                    } else if (data.state ==
-                                        RequestState.error) {
-                                      return const Center(
-                                        child: Text('Load data failed'),
-                                      );
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: const EdgeInsets.only(bottom: 16.0),
+                              //   child: Consumer<MovieImagesProvider>(
+                              //     builder: (context, data, child) {
+                              //       if (data.state == RequestState.loaded) {
+                              //         if (data.mediaImages.logoPaths.isEmpty) {
+                              //           return Text(movie.title);
+                              //         }
+                              //         return Align(
+                              //           alignment: Alignment.bottomCenter,
+                              //           child: CachedNetworkImage(
+                              //             width: 200.0,
+                              //             imageUrl: Urls.imageUrl(
+                              //               data.mediaImages.logoPaths[0],
+                              //             ),
+                              //           ),
+                              //         );
+                              //       } else if (data.state ==
+                              //           RequestState.error) {
+                              //         return const Center(
+                              //           child: Text('Load data failed'),
+                              //         );
+                              //       } else {
+                              //         //TODO: Remove this
+                              //         return const Center(
+                              //           child: SizedBox(),
+                              //         );
+                              //       }
+                              //     },
+                              //   ),
+                              // ),
                             ],
                           ),
                         );

@@ -17,31 +17,40 @@ class MovieDataAdapter extends TypeAdapter<MovieData> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MovieData(
-      releaseDate: fields[0] as String?,
-      id: fields[1] as int,
-      title: fields[2] as String,
-      posterPath: fields[3] as String?,
-      overview: fields[4] as String?,
-      voteAverage: fields[5] as double?,
+      backdropPath: fields[0] as String?,
+      releaseDate: fields[1] as String?,
+      id: fields[2] as int,
+      title: fields[3] as String,
+      posterPath: fields[4] as String?,
+      overview: fields[5] as String?,
+      voteAverage: fields[6] as double?,
+      voteCount: fields[7] as int?,
+      runtime: fields[8] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MovieData obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(9)
       ..writeByte(0)
-      ..write(obj.releaseDate)
+      ..write(obj.backdropPath)
       ..writeByte(1)
-      ..write(obj.id)
+      ..write(obj.releaseDate)
       ..writeByte(2)
-      ..write(obj.title)
+      ..write(obj.id)
       ..writeByte(3)
-      ..write(obj.posterPath)
+      ..write(obj.title)
       ..writeByte(4)
-      ..write(obj.overview)
+      ..write(obj.posterPath)
       ..writeByte(5)
-      ..write(obj.voteAverage);
+      ..write(obj.overview)
+      ..writeByte(6)
+      ..write(obj.voteAverage)
+      ..writeByte(7)
+      ..write(obj.voteCount)
+      ..writeByte(8)
+      ..write(obj.runtime);
   }
 
   @override

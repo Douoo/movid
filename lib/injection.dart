@@ -15,6 +15,7 @@ import 'package:movid/features/movies/domain/usecases/get_movie_watchlist_status
 import 'package:movid/features/movies/domain/usecases/get_now_playing_movies.dart';
 import 'package:movid/features/movies/domain/usecases/get_popular_movies.dart';
 import 'package:movid/features/movies/domain/usecases/get_top_rated_movies.dart';
+import 'package:movid/features/movies/domain/usecases/get_watchlist_movies.dart';
 import 'package:movid/features/movies/domain/usecases/remove_watchlist.dart';
 import 'package:movid/features/movies/domain/usecases/save_watchlist.dart';
 import 'package:movid/features/movies/presentation/provider/movie_detail_provider.dart';
@@ -22,6 +23,7 @@ import 'package:movid/features/movies/presentation/provider/movie_images_provide
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
+import 'package:movid/features/movies/presentation/provider/watchlist_movies_provider.dart';
 import 'package:movid/features/search/domain/usecases/search_movie.dart';
 import 'package:movid/features/search/presentation/provider/movie_search_provider.dart';
 
@@ -62,7 +64,17 @@ Future<void> init() async {
         getTopRatedMovies: locator(),
       ));
 
-  locator.registerFactory(() => MovieSearchProvider(searchMovie: locator()));
+  locator.registerFactory(
+    () => MovieSearchProvider(
+      searchMovie: locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => MovieWatchlistProvider(
+      getWatchlistMovies: locator(),
+    ),
+  );
 
   //******** Usecases **********//
   /// Movie related
@@ -72,6 +84,7 @@ Future<void> init() async {
   locator.registerLazySingleton(() => GetPopularMovies(locator()));
   locator.registerLazySingleton(() => GetTopRatedMovies(locator()));
   locator.registerLazySingleton(() => GetMovieRecommendations(locator()));
+  locator.registerLazySingleton(() => GetWatchlistMovies(locator()));
   locator.registerLazySingleton(() => GetMovieWatchlistStatus(locator()));
   locator.registerLazySingleton(() => SaveWatchlist(locator()));
   locator.registerLazySingleton(() => RemoveWatchlist(locator()));

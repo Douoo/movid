@@ -5,6 +5,10 @@ import 'package:mockito/mockito.dart';
 import 'package:movid/core/errors/failure.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/domain/usecases/get_movie_detail.dart';
+import 'package:movid/features/movies/domain/usecases/get_movie_recommendations.dart';
+import 'package:movid/features/movies/domain/usecases/get_movie_watchlist_status.dart';
+import 'package:movid/features/movies/domain/usecases/remove_watchlist.dart';
+import 'package:movid/features/movies/domain/usecases/save_watchlist.dart';
 import 'package:movid/features/movies/presentation/provider/movie_detail_provider.dart';
 
 import '../../../../helpers/movie/dummy_objects.dart';
@@ -12,14 +16,32 @@ import 'movie_detail_provider_test.mocks.dart';
 
 @GenerateMocks([
   GetMovieDetail,
+  GetMovieRecommendations,
+  GetMovieWatchlistStatus,
+  SaveWatchlist,
+  RemoveWatchlist,
 ])
 void main() {
   late MockGetMovieDetail mockGetMovieDetail;
+  late MockGetMovieRecommendations mockMovieRecommendations;
+  late MockGetMovieWatchlistStatus mockWatchlist;
+  late MockSaveWatchlist mockSaveWatchlist;
+  late MockRemoveWatchlist mockRemoveWatchlist;
   late MovieDetailProvider notifier;
 
   setUp(() {
     mockGetMovieDetail = MockGetMovieDetail();
-    notifier = MovieDetailProvider(getMovieDetail: mockGetMovieDetail, getMovieRecommendations: null, getMovieWatchlistStatus: null, saveWatchlist: null, removeWatchlist: null);
+    mockMovieRecommendations = MockGetMovieRecommendations();
+    mockWatchlist = MockGetMovieWatchlistStatus();
+    mockSaveWatchlist = MockSaveWatchlist();
+    mockRemoveWatchlist = MockRemoveWatchlist();
+    notifier = MovieDetailProvider(
+      getMovieDetail: mockGetMovieDetail,
+      getMovieRecommendations: mockMovieRecommendations,
+      getMovieWatchlistStatus: mockWatchlist,
+      saveWatchlist: mockSaveWatchlist,
+      removeWatchlist: mockRemoveWatchlist,
+    );
   });
 
   test(

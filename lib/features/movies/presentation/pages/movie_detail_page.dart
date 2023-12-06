@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
@@ -24,8 +27,14 @@ class MovieDetailPage extends StatefulWidget {
 class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
-    Provider.of<MovieDetailProvider>(context, listen: false)
-        .fetchMovieDetail(widget.movieId!);
+    final movieDetailProvider =
+        Provider.of<MovieDetailProvider>(context, listen: false);
+    Future.microtask(
+      () {
+        movieDetailProvider.fetchMovieDetail(widget.movieId!);
+        movieDetailProvider.loadWatchlistStatus(widget.movieId!);
+      },
+    );
     super.initState();
   }
 
@@ -70,8 +79,21 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         blendMode: BlendMode.dstIn,
                         child: CachedNetworkImage(
                           width: MediaQuery.of(context).size.width,
-                          imageUrl: Urls.imageUrl(movie.backdropPath!),
+                          imageUrl: Urls.imageUrl(movie.backdropPath ?? ''),
                           fit: BoxFit.cover,
+                          errorWidget: (context, url, error) => Container(
+                            color: kSpaceGrey,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.warning,
+                                  size: 50,
+                                ),
+                                Text('Loading image failed')
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -183,8 +205,18 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                                   message ==
                                       MovieDetailProvider
                                           .watchlistRemoveSuccessMessage) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(message)));
+                                Fluttertoast.showToast(
+                                    msg: message,
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: message ==
+                                            MovieDetailProvider
+                                                .watchlistAddSuccessMessage
+                                        ? kSpaceGrey
+                                        : Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
                               } else {
                                 showDialog(
                                   context: context,
@@ -260,22 +292,26 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     ),
                   ),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
-                  sliver: SliverToBoxAdapter(
-                    child: FadeInUp(
-                      from: 20,
-                      duration: const Duration(milliseconds: 500),
-                      child: Text(
-                        'More like this'.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.2,
+                Consumer<MovieDetailProvider>(
+                  builder: (context, data, child) {
+                    if (data.recommendedMovies.isNotEmpty) {
+                      return SliverPadding(
+                        padding:
+                            const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+                        sliver: SliverToBoxAdapter(
+                          child: FadeInUp(
+                            from: 20,
+                            duration: const Duration(milliseconds: 500),
+                            child: Text(
+                              'More like this'.toUpperCase(),
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
+                      );
+                    }
+                    return const SliverToBoxAdapter();
+                  },
                 ),
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
@@ -311,7 +347,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       children: genres.map((genre) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-          margin: const EdgeInsets.only(right: 8),
+          margin: const EdgeInsets.only(right: 8, bottom: 8),
           decoration: BoxDecoration(
             border: Border.all(color: kWhiteColor),
             borderRadius: BorderRadius.circular(20),

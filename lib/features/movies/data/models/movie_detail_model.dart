@@ -18,13 +18,27 @@ class MovieDetailModel extends MovieDetail {
     required super.voteCount,
   });
 
+  MovieDetailModel.copy(MovieDetail movieDetail)
+      : this(
+          backdropPath: movieDetail.backdropPath,
+          genres: movieDetail.genres,
+          releaseDate: movieDetail.releaseDate,
+          runtime: movieDetail.runtime,
+          id: movieDetail.id,
+          title: movieDetail.title,
+          posterPath: movieDetail.posterPath,
+          overview: movieDetail.overview,
+          voteAverage: movieDetail.voteAverage,
+          voteCount: movieDetail.voteCount,
+        );
+
   factory MovieDetailModel.fromMap(Map<String, dynamic> map) {
     return MovieDetailModel(
       backdropPath: map['backdrop_path'] as String?,
       genres:
           List.from((map['genres']).map((genre) => GenreModel.fromMap(genre))),
       id: map['id'] as int,
-      language:  map['original_language'] as String?,
+      language: map['original_language'] as String?,
       overview: map['overview'] as String,
       posterPath: map['poster_path'] as String?,
       releaseDate: map['release_date'] as String,
