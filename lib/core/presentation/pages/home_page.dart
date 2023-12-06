@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movid/core/presentation/pages/about_page.dart';
 import 'package:movid/core/presentation/pages/watchlist_page.dart';
 import 'package:movid/core/presentation/provider/home_provider.dart';
 import 'package:movid/core/styles/colors.dart';
@@ -164,7 +165,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       ListTile(
                         key: const Key('aboutListTile'),
-                        onTap: () {},
+                        onTap: () =>
+                            Navigator.pushNamed(context, AboutPage.route),
                         leading: const Icon(Icons.info_outline),
                         title: const Text('About'),
                         iconColor: kWhiteColor,

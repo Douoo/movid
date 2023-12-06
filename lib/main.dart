@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movid/core/presentation/pages/about_page.dart';
 import 'package:movid/core/presentation/pages/watchlist_page.dart';
 import 'package:movid/features/movies/data/models/movie_table.dart';
 import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
           MovieDetailPage.route: (context) => const MovieDetailPage(),
           MovieSearchPage.routeName: (context) => const MovieSearchPage(),
           WatchlistPage.route: (context) => const WatchlistPage(),
+          AboutPage.route: (context) => const AboutPage(),
         },
       ),
     );

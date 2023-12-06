@@ -50,6 +50,8 @@ void main() {
     //arrange
     when(mockGetMovieDetail(testId))
         .thenAnswer((realInvocation) async => const Right(testMovieDetail));
+    when(mockMovieRecommendations(testId))
+        .thenAnswer((realInvocation) async => Right(testMovieList));
     //act
     await notifier.fetchMovieDetail(testId);
     //assert
@@ -61,6 +63,8 @@ void main() {
     //arrange
     when(mockGetMovieDetail(testId))
         .thenAnswer((realInvocation) async => const Right(testMovieDetail));
+    when(mockMovieRecommendations(testId))
+        .thenAnswer((realInvocation) async => Right(testMovieList));
     //act
     await notifier.fetchMovieDetail(testId);
     //assert
@@ -72,6 +76,8 @@ void main() {
       () async {
     //arrange
     when(mockGetMovieDetail(testId))
+        .thenAnswer((realInvocation) async => const Left(ServerFailure()));
+    when(mockMovieRecommendations(testId))
         .thenAnswer((realInvocation) async => const Left(ServerFailure()));
     //act
     await notifier.fetchMovieDetail(testId);

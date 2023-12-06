@@ -55,7 +55,8 @@ class _MainMoviePageState extends State<MainMoviePage> {
                       options: CarouselOptions(
                         height: 575.0,
                         viewportFraction: 1.0,
-                        // autoPlay: true,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 15),
                         onPageChanged: (index, reason) {
                           Provider.of<MovieImagesProvider>(context,
                                   listen: false)
@@ -112,6 +113,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
+
                               // Padding(
                               //   padding: const EdgeInsets.only(bottom: 16.0),
                               //   child: Consumer<MovieImagesProvider>(
