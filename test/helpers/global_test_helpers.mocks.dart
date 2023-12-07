@@ -310,38 +310,6 @@ class MockMovieLocalDataSource extends _i1.Mock
   }
 
   @override
-  _i12.Future<String> saveWatchlist(_i2.MovieDetailModel? movie) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #saveWatchlist,
-          [movie],
-        ),
-        returnValue: _i12.Future<String>.value(_i16.dummyValue<String>(
-          this,
-          Invocation.method(
-            #saveWatchlist,
-            [movie],
-          ),
-        )),
-      ) as _i12.Future<String>);
-
-  @override
-  _i12.Future<String> removeWatchlist(_i2.MovieDetailModel? movie) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #removeWatchlist,
-          [movie],
-        ),
-        returnValue: _i12.Future<String>.value(_i16.dummyValue<String>(
-          this,
-          Invocation.method(
-            #removeWatchlist,
-            [movie],
-          ),
-        )),
-      ) as _i12.Future<String>);
-
-  @override
   _i12.Future<bool> hasMovie(int? id) => (super.noSuchMethod(
         Invocation.method(
           #hasMovie,

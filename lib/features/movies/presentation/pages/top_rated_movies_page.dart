@@ -18,7 +18,10 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
   @override
   void initState() {
     Future.microtask(
-      () => Provider.of<TopRatedMoviesProvider>(context).fetchTopRatedMovies(),
+      () => Provider.of<TopRatedMoviesProvider>(
+        context,
+        listen: false,
+      ).fetchTopRatedMovies(),
     );
     super.initState();
   }

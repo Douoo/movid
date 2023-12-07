@@ -7,10 +7,15 @@ import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/movies/presentation/provider/movie_images_provider.dart';
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
+import 'popular_movies_page.dart';
+import 'top_rated_movies_page.dart';
+import '../provider/movie_images_provider.dart';
+import '../provider/movie_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../widgets/horizontal_item_list.dart';
+import '../widgets/minimal_detail.dart';
 import '../widgets/sub_heading.dart';
 
 class MainMoviePage extends StatefulWidget {
@@ -58,7 +63,8 @@ class _MainMoviePageState extends State<MainMoviePage> {
                       options: CarouselOptions(
                         height: 575.0,
                         viewportFraction: 1.0,
-                        // autoPlay: true,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 15),
                         onPageChanged: (index, reason) {
                           Provider.of<MovieImagesProvider>(context,
                                   listen: false)
@@ -69,7 +75,20 @@ class _MainMoviePageState extends State<MainMoviePage> {
                       items: data.nowPlayingMovies.map((movie) {
                         return GestureDetector(
                           onTap: () {
-                            //TODO: Implement navigation
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return MinimalDetail(
+                                  movie: movie,
+                                );
+                              },
+                            );
                           },
                           child: Stack(
                             children: [
@@ -97,40 +116,43 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                 blendMode: BlendMode.dstIn,
                                 child: CachedNetworkImage(
                                   height: 560.0,
-                                  imageUrl: Urls.imageUrl(movie.backdropPath!),
+                                  width: double.infinity,
+                                  imageUrl: Urls.imageUrl(movie.posterPath!),
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: Consumer<MovieImagesProvider>(
-                                  builder: (context, data, child) {
-                                    if (data.state == RequestState.loaded) {
-                                      if (data.mediaImages.logoPaths.isEmpty) {
-                                        return Text(movie.title);
-                                      }
-                                      return Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: CachedNetworkImage(
-                                          width: 200.0,
-                                          imageUrl: Urls.imageUrl(
-                                            data.mediaImages.logoPaths[0],
-                                          ),
-                                        ),
-                                      );
-                                    } else if (data.state ==
-                                        RequestState.error) {
-                                      return const Center(
-                                        child: Text('Load data failed'),
-                                      );
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
+
+                              // Padding(
+                              //   padding: const EdgeInsets.only(bottom: 16.0),
+                              //   child: Consumer<MovieImagesProvider>(
+                              //     builder: (context, data, child) {
+                              //       if (data.state == RequestState.loaded) {
+                              //         if (data.mediaImages.logoPaths.isEmpty) {
+                              //           return Text(movie.title);
+                              //         }
+                              //         return Align(
+                              //           alignment: Alignment.bottomCenter,
+                              //           child: CachedNetworkImage(
+                              //             width: 200.0,
+                              //             imageUrl: Urls.imageUrl(
+                              //               data.mediaImages.logoPaths[0],
+                              //             ),
+                              //           ),
+                              //         );
+                              //       } else if (data.state ==
+                              //           RequestState.error) {
+                              //         return const Center(
+                              //           child: Text('Load data failed'),
+                              //         );
+                              //       } else {
+                              //         //TODO: Remove this
+                              //         return const Center(
+                              //           child: SizedBox(),
+                              //         );
+                              //       }
+                              //     },
+                              //   ),
+                              // ),
                             ],
                           ),
                         );
@@ -170,9 +192,10 @@ class _MainMoviePageState extends State<MainMoviePage> {
             SubHeading(
               valueKey: 'seePopularMovies',
               text: 'Popular',
-              onSeeMoreTapped: () {
-                //TODO: Navigate to popular
-              },
+              onSeeMoreTapped: () => Navigator.pushNamed(
+                context,
+                PopularMoviesPage.route,
+              ),
             ),
             Consumer<MovieListProvider>(builder: (context, data, _) {
               if (data.popularMoviesState == RequestState.loaded) {
@@ -185,15 +208,16 @@ class _MainMoviePageState extends State<MainMoviePage> {
               } else if (data.popularMoviesState == RequestState.error) {
                 return const Center(child: Text('Load data failed'));
               } else {
-                return LoadingWidget();
+                return const LoadingWidget();
               }
             }),
             SubHeading(
               valueKey: 'seeTopRatedMovies',
               text: 'Top rated',
-              onSeeMoreTapped: () {
-                //TODO: Navigate to popular
-              },
+              onSeeMoreTapped: () => Navigator.pushNamed(
+                context,
+                TopRatedMoviesPage.route,
+              ),
             ),
             Consumer<MovieListProvider>(builder: (context, data, _) {
               if (data.topRatedMoviesState == RequestState.loaded) {
@@ -206,7 +230,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
               } else if (data.topRatedMoviesState == RequestState.error) {
                 return const Center(child: Text('Load data failed'));
               } else {
-                return LoadingWidget();
+                return const LoadingWidget();
               }
             }),
           ],

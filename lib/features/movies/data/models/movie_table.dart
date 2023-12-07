@@ -3,42 +3,54 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 
-import 'movie_model.dart';
+import '../../domain/entities/movie_detail.dart';
 
 part 'movie_table.g.dart';
 
 @HiveType(typeId: 0)
 class MovieData extends HiveObject {
   @HiveField(0)
-  final String? releaseDate;
+  final String? backdropPath;
   @HiveField(1)
-  final int id;
+  final String? releaseDate;
   @HiveField(2)
-  final String title;
+  final int id;
   @HiveField(3)
-  final String? posterPath;
+  final String title;
   @HiveField(4)
-  final String? overview;
+  final String? posterPath;
   @HiveField(5)
+  final String? overview;
+  @HiveField(6)
   final double? voteAverage;
+  @HiveField(7)
+  final int? voteCount;
+  @HiveField(8)
+  final int? runtime;
 
   MovieData({
+    this.backdropPath,
     required this.releaseDate,
     required this.id,
     required this.title,
     required this.posterPath,
     required this.overview,
     required this.voteAverage,
+    this.voteCount,
+    this.runtime,
   });
 
-  MovieData.copy(MovieModel movie)
+  MovieData.copy(MovieDetail movie)
       : this(
+          backdropPath: movie.backdropPath,
           releaseDate: movie.releaseDate,
+          runtime: movie.runtime,
           id: movie.id,
           title: movie.title,
           posterPath: movie.posterPath,
           overview: movie.overview,
           voteAverage: movie.voteAverage,
+          voteCount: movie.voteCount,
         );
 
   Map<String, dynamic> toMap() {

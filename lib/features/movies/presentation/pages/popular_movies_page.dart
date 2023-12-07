@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
-import 'package:movid/features/movies/presentation/widgets/movie_card.dart';
+import '../widgets/movie_card.dart';
 import 'package:provider/provider.dart';
 
 class PopularMoviesPage extends StatefulWidget {
@@ -16,8 +16,10 @@ class PopularMoviesPage extends StatefulWidget {
 class _PopularMoviesPageState extends State<PopularMoviesPage> {
   @override
   void initState() {
-    Future.microtask(
-        () => Provider.of<PopularMoviesProvider>(context).fetchPopularMovies());
+    Future.microtask(() => Provider.of<PopularMoviesProvider>(
+          context,
+          listen: false,
+        ).fetchPopularMovies());
     super.initState();
   }
 

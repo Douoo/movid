@@ -5,6 +5,7 @@ class MovieDetail extends Equatable {
   final String? backdropPath;
   final List<Genre> genres;
   final int id;
+  final String? language;
   final String overview;
   final String? posterPath;
   final String releaseDate;
@@ -17,8 +18,9 @@ class MovieDetail extends Equatable {
     required this.backdropPath,
     required this.genres,
     required this.id,
+    this.language,
     required this.overview,
-    required this.posterPath,
+     this.posterPath,
     required this.releaseDate,
     required this.runtime,
     required this.title,

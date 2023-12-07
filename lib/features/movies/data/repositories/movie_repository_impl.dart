@@ -9,6 +9,7 @@ import 'package:movid/features/movies/domain/entities/movie_detail.dart';
 import 'package:movid/features/movies/domain/repositories/movie_repository.dart';
 
 import '../data_sources/movie_local_data_source.dart';
+import '../models/movie_table.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDataSource remoteDataSource;
@@ -32,6 +33,16 @@ class MovieRepositoryImpl implements MovieRepository {
       }
     } else {
       return const Left(ConnectionFailure());
+    }
+  }
+
+  Future<Either<Failure, T>> _localOperation<T>(
+      Future<T> Function() operation) async {
+    try {
+      final result = await operation();
+      return Right(result);
+    } on CacheException {
+      return Left(CacheFailure());
     }
   }
 
@@ -67,27 +78,26 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getWatchlistMovies() {
-    // TODO: implement getWatchlistMovies
-    throw UnimplementedError();
+  Future<Either<Failure, List<Movie>>> getWatchlistMovies() async {
+    return await _localOperation(() => localDataSource.getWatchlistMovies());
   }
 
   @override
-  Future<bool> isAddedToWatchlist(int id) {
-    // TODO: implement isAddedToWatchlist
-    throw UnimplementedError();
+  Future<bool> isAddedToWatchlist(int id) async {
+    return await localDataSource.hasMovie(id);
   }
 
   @override
-  Future<Either<Failure, String>> removeWatchlist(MovieDetail movie) {
-    // TODO: implement removeWatchlist
-    throw UnimplementedError();
+  Future<Either<Failure, String>> removeWatchlist(
+      MovieDetail movieDetail) async {
+    return await _localOperation(
+        () => localDataSource.removeWatchlist(MovieData.copy(movieDetail)));
   }
 
   @override
-  Future<Either<Failure, String>> saveWatchlist(MovieDetail movie) {
-    // TODO: implement saveWatchlist
-    throw UnimplementedError();
+  Future<Either<Failure, String>> saveWatchlist(MovieDetail movieDetail) async {
+    return await _localOperation(
+        () => localDataSource.saveWatchlist(MovieData.copy(movieDetail)));
   }
 
   @override
