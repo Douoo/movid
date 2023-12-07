@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movid/core/presentation/pages/about_page.dart';
 import 'package:movid/core/presentation/pages/watchlist_page.dart';
@@ -33,6 +34,12 @@ void main() async {
 
   await di.init();
   runApp(const MyApp());
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
 }
 
 class MyApp extends StatelessWidget {
