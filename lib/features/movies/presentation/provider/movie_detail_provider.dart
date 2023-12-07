@@ -82,7 +82,7 @@ class MovieDetailProvider extends ChangeNotifier {
     final result = await saveWatchlist(movie);
 
     result.fold((failure) {
-      _watchlistMessage = failure.message;
+      _watchlistMessage = 'Failed to add movie to watchlist';
     }, (successMsg) {
       _watchlistMessage = successMsg;
     });
