@@ -20,7 +20,7 @@ void main() {
     mockProvider = MockPopularMoviesProvider();
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return ChangeNotifierProvider<PopularMoviesProvider>.value(
       value: mockProvider,
       child: MaterialApp(home: body),
@@ -38,7 +38,7 @@ void main() {
     final progressBar = find.byType(CircularProgressIndicator);
 
     await widgetTester.pumpWidget(
-      _makeTestableWidget(const PopularMoviesPage()),
+      makeTestableWidget(const PopularMoviesPage()),
     );
 
     //assert
@@ -55,7 +55,7 @@ void main() {
     final listView = find.byType(ListView);
 
     await widgetTester
-        .pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
+        .pumpWidget(makeTestableWidget(const PopularMoviesPage()));
     await widgetTester.pumpAndSettle(const Duration(milliseconds: 500));
     //assert
     expect(listView, findsOneWidget);
@@ -72,7 +72,7 @@ void main() {
     //act
     final errorTextWidget = find.byKey(Key('error_message'));
     await widgetTester
-        .pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
+        .pumpWidget(makeTestableWidget(const PopularMoviesPage()));
     await widgetTester.pumpAndSettle(const Duration(milliseconds: 500));
     //assert
     expect(errorTextWidget, findsOneWidget);

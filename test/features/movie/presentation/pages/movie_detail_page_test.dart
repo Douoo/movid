@@ -80,7 +80,7 @@ void main() {
     when(mockProvider.watchlistMessage).thenReturn('Added to watchlist');
 
     //act
-    final watchlistButton = find.byKey(const Key('movieToWatchlist'));
+    final watchlistButton = find.byType(ElevatedButton);
 
     await widgetTester.pumpWidget(
       makeTestableWidget(
@@ -111,7 +111,7 @@ void main() {
     when(mockProvider.watchlistMessage)
         .thenReturn('Failed to add movie to watchlist');
     //act
-    final watchlistButton = find.byKey(const Key('movieToWatchlist'));
+    final watchlistButton = find.byType(ElevatedButton);
 
     await widgetTester.pumpWidget(
       makeTestableWidget(
