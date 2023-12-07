@@ -6,7 +6,7 @@ import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
 abstract class TvSeriesRepository {
-  Future<Either<Failure, List<TvSeries>>> getOnAirTvSeries();
+  Future<Either<Failure, List<TvSeries>>> getOnAirTvSeries(int page);
   Future<Either<Failure, List<TvSeries>>> getPopularTvSeries();
   Future<Either<Failure, List<TvSeries>>> getTopRatedTvSeries();
   Future<Either<Failure, SeriesDetail>> getDetailTvSeries(int id);

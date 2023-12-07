@@ -1,19 +1,34 @@
 import 'package:dartz/dartz.dart';
+import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/errors/failure.dart';
 import 'package:movid/core/network/network_connection.dart';
-import 'package:movid/features/series/data/data_sources/remote/remote_data_source_impl.dart';
+import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart';
 import 'package:movid/features/series/data/model/media_image_model.dart';
 import 'package:movid/features/series/domain/entites/season.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
 
-class SeriesRepositoryImpl implements TvSeriesRepository {
+class TvSeriesRepositoryImpl implements TvSeriesRepository {
   final TvSeriesRemoteDataSource remoteDataSource;
   final NetworkConnection connection;
 
-  SeriesRepositoryImpl(
+  TvSeriesRepositoryImpl(
       {required this.remoteDataSource, required this.connection});
+
+  Future<Either<Failure, T>> _remoteOperation<T>(
+      Future<T> Function() operation) async {
+    if (await connection.isAvailable) {
+      try {
+        final result = await operation();
+        return Right(result);
+      } on ServerException {
+        return const Left(ServerFailure());
+      }
+    } else {
+      return const Left(ConnectionFailure());
+    }
+  }
 
   @override
   Future<bool> addSeriesToWatchList(TvSeries series) {
@@ -34,20 +49,18 @@ class SeriesRepositoryImpl implements TvSeriesRepository {
 
   @override
   Future<Either<Failure, SeriesDetail>> getDetailTvSeries(int id) {
-    // TODO: implement getDetailTvSeries
-    throw UnimplementedError();
+    return _remoteOperation(() => remoteDataSource.getDetailTvSeries(id));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getOnAirTvSeries() {
-    // TODO: implement getOAirTvSeries
-    throw UnimplementedError();
+  Future<Either<Failure, List<TvSeries>>> getOnAirTvSeries(int page) async {
+    return await _remoteOperation(
+        () => remoteDataSource.getOnAirTvSeries(page));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getPopularTvSeries() {
-    // TODO: implement getPopularTvSeries
-    throw UnimplementedError();
+  Future<Either<Failure, List<TvSeries>>> getPopularTvSeries() async {
+    return await _remoteOperation(() => remoteDataSource.getPopularTvSeries());
   }
 
   @override
@@ -57,9 +70,8 @@ class SeriesRepositoryImpl implements TvSeriesRepository {
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getTopRatedTvSeries() {
-    // TODO: implement getTopRatedTvSeries
-    throw UnimplementedError();
+  Future<Either<Failure, List<TvSeries>>> getTopRatedTvSeries() async {
+    return await _remoteOperation(() => remoteDataSource.getTopRatedTvSeries());
   }
 
   @override
@@ -75,8 +87,7 @@ class SeriesRepositoryImpl implements TvSeriesRepository {
   }
 
   @override
-  Future<Either<Failure, MediaImageModel>> getSeriesImages(int id) {
-    // TODO: implement getSeriesImages
-    throw UnimplementedError();
+  Future<Either<Failure, MediaImageModel>> getSeriesImages(int id) async {
+    return await _remoteOperation(() => remoteDataSource.getSeriesImages(id));
   }
 }

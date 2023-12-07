@@ -25,6 +25,14 @@ class TvSeries extends Equatable {
       this.id});
 
   @override
-  List<Object?> get props =>
-      [title, date, rating, language, description, isAdult, id];
+  List<Object?> get props => [
+        title,
+        date,
+        rating,
+        backdropPath,
+        language,
+        description,
+        isAdult,
+        id,
+      ];
 }

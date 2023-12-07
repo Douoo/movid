@@ -17,24 +17,9 @@ class TvSeriesModel extends TvSeries {
     super.poster,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'title': title,
-      'date': date,
-      'rating': rating,
-      'language': language,
-      'description': description,
-      'isAdult': isAdult,
-      'id': id,
-      'genreIds': genreIds,
-      'backdropPath': backdropPath,
-      'poster': poster,
-    };
-  }
-
   factory TvSeriesModel.fromMap(Map<String, dynamic> map) {
     return TvSeriesModel(
-      title: map['title'] != null ? map['title'] as String : null,
+      title: map['name'] != null ? map['name'] as String : null,
       date: map['first_air_date'] != null
           ? map['first_air_date'] as String
           : null,
@@ -44,18 +29,15 @@ class TvSeriesModel extends TvSeries {
           ? map['original_language'] as String
           : null,
       description: map['overview'] != null ? map['overview'] as String : null,
-      isAdult: map['isAdult'] != null ? map['isAdult'] as bool : null,
+      isAdult: map['adult'] != null ? map['adult'] as bool : null,
       id: map['id'] != null ? map['id'] as int : null,
       genreIds: map['genreIds'] != null
           ? List<dynamic>.from((map['genreIds'] as List<dynamic>))
           : null,
-      backdropPath:
-          map['backdropPath'] != null ? map['backdropPath'] as String : null,
-      poster: map['poster'] != null ? map['poster'] as String : null,
+      backdropPath: map['backdrop_path'] as String?,
+      poster: map['poster_path'] != null ? map['poster_path'] as String : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   factory TvSeriesModel.fromJson(String source) =>
       TvSeriesModel.fromMap(json.decode(source) as Map<String, dynamic>);

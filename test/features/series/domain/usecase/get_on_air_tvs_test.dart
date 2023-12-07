@@ -29,10 +29,10 @@ void main() {
 
   test('should get on air tv series from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getOnAirTvSeries())
+    when(mockTvSeriesRepository.getOnAirTvSeries(3))
         .thenAnswer((_) async => const Right([testTvSeries]));
     //act
-    final result = await getOnAirTvsUseCase.call();
+    final result = await getOnAirTvsUseCase.call(2);
 
     // assert
     expect(result, [testTvSeries]);

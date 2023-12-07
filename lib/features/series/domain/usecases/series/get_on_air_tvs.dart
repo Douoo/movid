@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 class GetOnAirTvsUseCase {
   final TvSeriesRepository series;
   GetOnAirTvsUseCase({required this.series});
-  Future<Either<Failure, List<TvSeries>>> call() {
-    return series.getOnAirTvSeries();
+  Future<Either<Failure, List<TvSeries>>> call(int page) {
+    return series.getOnAirTvSeries(page);
   }
 }

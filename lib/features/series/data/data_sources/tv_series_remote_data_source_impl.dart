@@ -1,18 +1,21 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/data/model/media_image_model.dart';
+import 'package:movid/features/series/data/model/series_detail_model.dart';
+import 'package:movid/features/series/data/model/series_response.dart';
 import 'package:movid/features/series/data/model/tv_series_model.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
 abstract class TvSeriesRemoteDataSource {
-  Future<List<TvSeries>> getOnAirTvSeries();
+  Future<List<TvSeries>> getOnAirTvSeries(int page);
   Future<List<TvSeries>> getPopularTvSeries();
   Future<List<TvSeries>> getTopRatedTvSeries();
-  Future<List<SeriesDetail>> getDetailTvSeries(int id);
+  Future<SeriesDetail> getDetailTvSeries(int id);
   Future<List<TvSeries>> getRecommendedTvSeries(int id);
   Future<List<TvSeries>> getTvSeriesSeasons();
   Future<List<TvSeries>> searchTvSeries(String data);
@@ -32,24 +35,34 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
     throw UnimplementedError();
   }
 
-  @override
-  Future<List<TvSeries>> getOnAirTvSeries() async {
+  Future<T> _getData<T>(String url, T Function(dynamic) dataMapper,
+      Map<String, int> queryParams) async {
     try {
       final response = await client.get(
-        Uri.parse(Urls.onTheAirTvs),
+        Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
         },
       );
       if (response.statusCode == 200) {
-        final List result = jsonDecode(response.body)['results'];
-        return result.map((e) => TvSeriesModel.fromMap(e)).toList();
+        return dataMapper(response.body);
       } else {
+        log('Failed to load data from $url');
         throw ServerException();
       }
     } catch (e) {
-      throw CacheException();
+      print(" are wooooooooo $e");
+
+      throw ServerException();
     }
+  }
+
+  @override
+  Future<List<TvSeries>> getOnAirTvSeries(int page) async {
+    return _getData(
+        Urls.onTheAirTvs,
+        (response) => TvSeriesResponse.fromJson(response).tvList,
+        {"page": page});
   }
 
   @override
@@ -65,20 +78,19 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   }
 
   @override
-  Future<List<SeriesDetail>> getDetailTvSeries(
+  Future<SeriesDetail> getDetailTvSeries(
     int id,
   ) {
-    // series.forEach((series) {
-
-    // });
-    // TODO: implement getDetailTvSeries
-    throw UnimplementedError();
+    return _getData(Urls.tvDetail(id), (response) {
+      print("bura $response");
+      return SeriesDetailModel.fromJson(response);
+    }, {"page": 1});
   }
 
   @override
-  Future<List<TvSeries>> getPopularTvSeries() {
-    // TODO: implement getPopularTvSeries
-    throw UnimplementedError();
+  Future<List<TvSeries>> getPopularTvSeries() async {
+    return _getData(Urls.popularTvs,
+        (response) => TvSeriesResponse.fromJson(response).tvList, {"page": 1});
   }
 
   @override
@@ -88,9 +100,24 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   }
 
   @override
-  Future<List<TvSeries>> getTopRatedTvSeries() {
-    // TODO: implement getTopRatedTvSeries
-    throw UnimplementedError();
+  Future<List<TvSeries>> getTopRatedTvSeries() async {
+    log("this is log");
+    try {
+      final response = await client.get(
+        Uri.parse(Urls.topRatedTvs),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final List result = jsonDecode(response.body)['results'];
+        return result.map((e) => TvSeriesModel.fromMap(e)).toList();
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
   }
 
   @override
@@ -106,8 +133,9 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   }
 
   @override
-  Future<MediaImageModel> getSeriesImages(int id) {
-    // TODO: implement getSeriesImages
-    throw UnimplementedError();
+  Future<MediaImageModel> getSeriesImages(int id) async {
+    return _getData(Urls.tvImages(id), (response) {
+      return MediaImageModel.fromJson(response);
+    }, {"page": 1});
   }
 }

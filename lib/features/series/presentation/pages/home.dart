@@ -3,6 +3,7 @@ import 'package:movid/features/series/presentation/pages/drawer.dart';
 import 'package:movid/features/series/presentation/pages/tv_series.dart';
 
 class Home extends StatefulWidget {
+  static const String pageName = "homePage";
   const Home({super.key});
 
   @override

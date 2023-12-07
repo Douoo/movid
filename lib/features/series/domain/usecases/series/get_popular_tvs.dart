@@ -5,7 +5,9 @@ import 'package:movid/features/series/domain/repository/series_repository.dart';
 
 class GetPopularTvsUseCase {
   final TvSeriesRepository series;
+
   GetPopularTvsUseCase({required this.series});
+
   Future<Either<Failure, List<TvSeries>>> call() {
     return series.getPopularTvSeries();
   }

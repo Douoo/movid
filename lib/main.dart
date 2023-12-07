@@ -11,6 +11,12 @@ import 'package:movid/features/movies/presentation/provider/movie_images_provide
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
+import 'package:movid/features/series/presentation/pages/home.dart';
+import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
+import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
+import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
+import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
+import 'package:movid/features/series/presentation/provider/top_rated_series_provider.dart';
 import 'package:movid/injection.dart' as di;
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -56,6 +62,23 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TopRatedMoviesProvider>(),
         ),
+
+        ///Tv series providers
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvSeriesListProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvSeriesImagesProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<PopularTvSeriesProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TopRatedTvSeriesProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvSeriesDetailProvider>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Movid',
@@ -70,6 +93,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: HomePage.route,
         routes: {
+          Home.pageName: (context) => const Home(),
           HomePage.route: (context) => const HomePage(),
           PopularMoviesPage.route: (context) => const PopularMoviesPage(),
           TopRatedMoviesPage.route: (context) => const TopRatedMoviesPage(),

@@ -11,12 +11,12 @@ import '../../../../helpers/series/dummy_objects.dart';
 void main() {
   late MockNetworkConnection mockConnection;
   late MockTvSeriesRemoteDataSource mockTvSeriesRemoteDataSource;
-  late SeriesRepositoryImpl repositoryImpl;
+  late TvSeriesRepositoryImpl repositoryImpl;
 
   setUp(() {
     mockConnection = MockNetworkConnection();
     mockTvSeriesRemoteDataSource = MockTvSeriesRemoteDataSource();
-    repositoryImpl = SeriesRepositoryImpl(
+    repositoryImpl = TvSeriesRepositoryImpl(
       remoteDataSource: mockTvSeriesRemoteDataSource,
       connection: mockConnection,
     );
@@ -32,7 +32,7 @@ void main() {
           () async {
         //arrange
         when(mockTvSeriesRemoteDataSource.getDetailTvSeries(testTvSeriesId))
-            .thenAnswer((_) async => [testDetailTvSeriesModel]);
+            .thenAnswer((_) async => testDetailTvSeriesModel);
         //act
         final result = await repositoryImpl.getDetailTvSeries(testTvSeriesId);
         //assert
@@ -56,10 +56,10 @@ void main() {
           'should return a list of movie object when call to remote data source is succesfful',
           () async {
         //arrange
-        when(mockTvSeriesRemoteDataSource.getOnAirTvSeries())
+        when(mockTvSeriesRemoteDataSource.getOnAirTvSeries(3))
             .thenAnswer((_) async => [testOnAirTvSeries]);
         //act
-        final result = await repositoryImpl.getOnAirTvSeries();
+        final result = await repositoryImpl.getOnAirTvSeries(2);
         //assert
         verify(mockConnection.isAvailable);
         expect(result, equals(const Right(testOnAirTvSeries)));
@@ -202,7 +202,7 @@ void main() {
           'should return ConnectionFailure when there is no network connection',
           () async {
         //act
-        final result = await repositoryImpl.getOnAirTvSeries();
+        final result = await repositoryImpl.getOnAirTvSeries(2);
         //assert
         verifyZeroInteractions(mockTvSeriesRemoteDataSource);
         expect(result, const Left(ConnectionFailure()));

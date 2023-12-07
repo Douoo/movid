@@ -3,6 +3,7 @@ import 'package:movid/core/presentation/provider/home_provider.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
+import 'package:movid/features/series/presentation/pages/main_tv_series_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
     );
 
-    _drawerTween = Tween(begin: 0, end: 1).animate(
+    _drawerTween = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _drawerAnimationController,
         curve: Curves.easeInCirc,
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     _colorTween = ColorTween(
       begin: Colors.transparent,
-      end: Colors.black54,
+      end: Colors.black.withOpacity(0.7),
     ).animate(_colorAnimationController);
 
     super.initState();
@@ -76,8 +77,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: AnimatedBuilder(
         animation: _drawerTween,
         builder: (context, child) {
-          double slide = 300.0 * _drawerTween.value;
-          double scale = 1.0 - (_drawerTween.value * 0.25);
+          double slide = 200.0 * _drawerTween.value;
+          double scale = 1.0 - (_drawerTween.value * 0.15);
           double radius = _drawerTween.value * 30.0;
           double rotate = _drawerTween.value * -0.139626;
           double toolbarOpacity = 1.0 - _drawerTween.value;
@@ -103,47 +104,48 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       const SizedBox(
                         height: 150,
                       ),
-                      ListTile(
-                        key: const Key('movieListTile'),
-                        onTap: () {
-                          toggle();
-                          Provider.of<HomeProvider>(context)
-                              .setContentType(ContentType.movie);
-                        },
-                        leading: const Icon(Icons.movie_outlined),
-                        title: const Text('Movies'),
-                        iconColor: kWhiteColor,
-                        textColor: kWhiteColor,
-                        style: ListTileStyle.drawer,
-                        selected:
-                            Provider.of<HomeProvider>(context).contentType ==
-                                ContentType.movie,
-                        selectedTileColor: primaryColor,
-                        selectedColor: kWhiteColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      ListTile(
-                        key: const Key('tvListTile'),
-                        onTap: () {
-                          toggle();
-                          Provider.of<HomeProvider>(context)
-                              .setContentType(ContentType.tvSeries);
-                        },
-                        leading: const Icon(Icons.tv),
-                        title: const Text('TV Series'),
-                        iconColor: kWhiteColor,
-                        textColor: kWhiteColor,
-                        style: ListTileStyle.drawer,
-                        selected:
-                            Provider.of<HomeProvider>(context).contentType ==
-                                ContentType.tvSeries,
-                        selectedTileColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                      Consumer<HomeProvider>(builder: (context, data, child) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              key: const Key('movieListTile'),
+                              onTap: () {
+                                toggle();
+                                data.setContentType(ContentType.movie);
+                              },
+                              leading: const Icon(Icons.movie_outlined),
+                              title: const Text('Movies'),
+                              iconColor: kWhiteColor,
+                              textColor: kWhiteColor,
+                              style: ListTileStyle.drawer,
+                              selected: data.contentType == ContentType.movie,
+                              selectedTileColor: primaryColor,
+                              selectedColor: kWhiteColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            ListTile(
+                              key: const Key('tvListTile'),
+                              onTap: () {
+                                toggle();
+                                data.setContentType(ContentType.tvSeries);
+                              },
+                              leading: const Icon(Icons.tv),
+                              title: const Text('TV Series'),
+                              iconColor: kWhiteColor,
+                              textColor: kWhiteColor,
+                              style: ListTileStyle.drawer,
+                              selected:
+                                  data.contentType == ContentType.tvSeries,
+                              selectedTileColor: primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
                       ListTile(
                         key: const Key('watchlistTile'),
                         onTap: () {},
@@ -171,47 +173,47 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ..translate(slide)
                   ..scale(scale)
                   ..rotateZ(rotate),
-                alignment: Alignment.centerLeft,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(radius),
                   child: AnimatedBuilder(
-                      animation: _colorTween,
-                      builder: (context, child) {
-                        return Scaffold(
-                          extendBodyBehindAppBar: true,
-                          appBar: AppBar(
-                            toolbarOpacity: toolbarOpacity,
-                            leading: IconButton(
-                              key: const Key('menuButton'),
-                              onPressed: toggle,
-                              icon: const Icon(Icons.menu),
-                              tooltip: 'Menu',
-                              splashRadius: 20,
-                            ),
-                            actions: [
-                              IconButton(
-                                onPressed: () {
-                                  //TODO: implement search functionality
-                                },
-                                icon: const Icon(
-                                  Icons.search,
-                                  color: kWhiteColor,
-                                ),
-                              )
-                            ],
-                            backgroundColor: _colorTween.value,
-                            elevation: 0,
+                    animation: _colorTween,
+                    builder: (context, child) {
+                      return Scaffold(
+                        extendBodyBehindAppBar: true,
+                        appBar: AppBar(
+                          toolbarOpacity: toolbarOpacity,
+                          leading: IconButton(
+                            key: const Key('menuButton'),
+                            onPressed: toggle,
+                            icon: const Icon(Icons.menu),
+                            tooltip: 'Menu',
+                            splashRadius: 20,
                           ),
-                          body: NotificationListener<ScrollNotification>(
-                            onNotification: _scrollListener,
-                            child: Provider.of<HomeProvider>(context)
-                                        .contentType ==
-                                    ContentType.movie
-                                ? const MainMoviePage()
-                                : const SizedBox(),
-                          ),
-                        );
-                      }),
+                          actions: [
+                            IconButton(
+                              onPressed: () {
+                                //TODO: implement search functionality
+                              },
+                              icon: const Icon(
+                                Icons.search,
+                                color: kWhiteColor,
+                              ),
+                            )
+                          ],
+                          backgroundColor: _colorTween.value,
+                          elevation: 0,
+                        ),
+                        body: NotificationListener<ScrollNotification>(
+                          onNotification: _scrollListener,
+                          child:
+                              Provider.of<HomeProvider>(context).contentType ==
+                                      ContentType.movie
+                                  ? const MainMoviePage()
+                                  : const MainSeriesPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
             ],

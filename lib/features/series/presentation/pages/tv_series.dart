@@ -33,7 +33,7 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                 Container(
                   height: 573,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    // borderRadius: BorderRadius.circular(8),
                     color: Colors.white,
                   ),
                   width: MediaQuery.of(context).size.width,
@@ -62,6 +62,17 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MovieCard(
+                      headLine: "Trending",
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 40,

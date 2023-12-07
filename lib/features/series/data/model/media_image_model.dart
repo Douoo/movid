@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:movid/features/movies/domain/entities/media_image.dart';
+import 'package:movid/features/series/domain/entites/media_image.dart';
 
 class MediaImageModel extends MediaImage {
   //TODO: Revise this model - only one field enough

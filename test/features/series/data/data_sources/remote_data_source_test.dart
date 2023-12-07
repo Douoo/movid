@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/data/data_sources/remote/remote_data_source_impl.dart';
+import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart';
 import 'package:http/http.dart' as http;
 import '../../../../helpers/global_test_helpers.mocks.dart';
 import '../../../../helpers/json_reader.dart';
@@ -34,7 +34,7 @@ void main() {
           200));
       //act
 
-      await remoteDataSourceImpl.getOnAirTvSeries();
+      await remoteDataSourceImpl.getOnAirTvSeries(3);
 
       //assert
       // verify(
@@ -54,9 +54,8 @@ void main() {
       //act
       dynamic result;
       try {
-        result = await remoteDataSourceImpl.getOnAirTvSeries();
+        result = await remoteDataSourceImpl.getOnAirTvSeries(3);
       } catch (e) {
-        print("Error: $e");
         result = e;
       }
 

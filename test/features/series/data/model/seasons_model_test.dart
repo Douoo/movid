@@ -29,7 +29,6 @@ void main() {
     );
 
     //act
-    print(jsonMap);
     final result = SeasonModel.fromJson(jsonMap);
     //expect
 
