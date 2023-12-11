@@ -7,6 +7,8 @@ import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
 import 'package:movid/features/movies/presentation/widgets/sub_heading.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
+import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
+import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
@@ -226,7 +228,9 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
             SubHeading(
               valueKey: 'seePopularMovies',
               text: 'Popular',
-              onSeeMoreTapped: () {},
+              onSeeMoreTapped: () {
+                Navigator.pushNamed(context, PopularSeriesPage.route);
+              },
             ),
             Consumer<TvSeriesListProvider>(builder: (context, data, _) {
               if (data.popularTvsState == RequestState.loaded ||
@@ -247,7 +251,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
               valueKey: 'seeTopRatedMovies',
               text: 'Top rated',
               onSeeMoreTapped: () {
-                //TODO: Navigate to popular
+                Navigator.pushNamed(context, TopRatedSeriesPage.route);
               },
             ),
             Consumer<TvSeriesListProvider>(builder: (context, data, _) {

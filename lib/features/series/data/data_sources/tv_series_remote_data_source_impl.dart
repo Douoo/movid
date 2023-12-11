@@ -1,7 +1,5 @@
-import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:movid/core/errors/exception.dart';
-import 'package:movid/core/errors/failure.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/data/model/media_image_model.dart';
 import 'package:movid/features/series/data/model/series_detail_model.dart';

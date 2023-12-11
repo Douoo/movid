@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:movid/features/series/domain/entites/genre.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
 part 'series_data.g.dart';

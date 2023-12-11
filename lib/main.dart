@@ -18,7 +18,8 @@ import 'package:movid/features/movies/presentation/provider/popular_movies_provi
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
 import 'package:movid/features/series/data/model/series_data.dart';
 import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
-import 'package:movid/features/series/presentation/pages/home.dart';
+import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
+import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
@@ -123,7 +124,8 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: HomePage.route,
         routes: {
-          Home.pageName: (context) => const Home(),
+          PopularSeriesPage.route: (context) => const PopularSeriesPage(),
+          TopRatedSeriesPage.route: (context) => const TopRatedSeriesPage(),
           HomePage.route: (context) => const HomePage(),
           PopularMoviesPage.route: (context) => const PopularMoviesPage(),
           TopRatedMoviesPage.route: (context) => const TopRatedMoviesPage(),

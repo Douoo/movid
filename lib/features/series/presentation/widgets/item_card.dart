@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
 import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
 
 import '../../domain/entites/series.dart';
