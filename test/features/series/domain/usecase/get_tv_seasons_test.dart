@@ -27,11 +27,11 @@ void main() {
   test('should get popular tv series from repository', () async {
     //arrange
     when(mockTvSeriesRepository.getTvSeriesSeasons())
-        .thenAnswer((_) async => Right(testTvSeriesSeasons));
+        .thenAnswer((_) async => const Right(testTvSeriesSeasons));
     //act
     final result = await getTvsSeasonsUseCase.call();
 
     // assert
-    expect(result, Right(testTvSeriesSeasons));
+    expect(result, const Right(testTvSeriesSeasons));
   });
 }

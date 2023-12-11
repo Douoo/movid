@@ -54,7 +54,6 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
 
   @override
   Future<Either<Failure, SeriesDetail>> getDetailTvSeries(int id) async {
-    print(await remoteDataSource.getDetailTvSeries(id));
     return await _remoteOperation(() => remoteDataSource.getDetailTvSeries(id));
   }
 

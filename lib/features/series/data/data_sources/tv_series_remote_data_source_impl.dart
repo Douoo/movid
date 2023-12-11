@@ -33,15 +33,12 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
           'Content-Type': 'application/json',
         },
       );
-      print(url);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         return dataMapper(response.body);
       } else {
         throw ServerException();
       }
     } catch (e) {
-      print(e);
       throw ServerException();
     }
   }

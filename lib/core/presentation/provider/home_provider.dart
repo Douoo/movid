@@ -8,7 +8,6 @@ class HomeProvider extends ChangeNotifier {
 
   void setContentType(ContentType type) {
     _content = type;
-    print("content type is $_content");
     notifyListeners();
   }
 }

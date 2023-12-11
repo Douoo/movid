@@ -8,7 +8,7 @@ import 'package:shimmer/shimmer.dart';
 
 class SeriesDetailCard extends StatelessWidget {
   final TvSeries series;
-  SeriesDetailCard({required this.series, Key? key}) : super(key: key);
+  const SeriesDetailCard({required this.series, Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -46,7 +46,7 @@ class SeriesDetailCard extends StatelessWidget {
                     return Shimmer.fromColors(
                         baseColor: Colors.grey[850]!,
                         highlightColor: Colors.grey[800]!,
-                        child: Container(
+                        child: const SizedBox(
                           height: 205,
                           width: 155,
                         ));
@@ -69,7 +69,7 @@ class SeriesDetailCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             series.title!,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Row(

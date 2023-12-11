@@ -6,11 +6,11 @@ import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/genre.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/SeriesDetailCard.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/styles/colors.dart';
+import '../widgets/series_detail_card.dart';
 
 class DetailSeriesPage extends StatefulWidget {
   static const route = "DetailSeriesPage";
@@ -390,7 +390,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                       : 4,
             ),
           );
-        } else if (data.recommendedTvSeries == RequestState.error) {
+        } else if (data.recommendedSeriesState == RequestState.error) {
           return SliverToBoxAdapter(child: Center(child: Text(data.message)));
         } else {
           return const SliverToBoxAdapter(

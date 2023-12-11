@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:movid/features/movies/domain/entities/media_image.dart';
 
 class MediaImageModel extends MediaImage {
-  //TODO: Revise this model - only one field enough
   const MediaImageModel({
     required super.id,
     required super.backdropPaths,

@@ -20,7 +20,7 @@ void main() {
     mockProvider = MockTopRatedMoviesProvider();
   });
 
-  Widget _makeTestableWidget(body) {
+  Widget makeTestableWidget(body) {
     return ChangeNotifierProvider<TopRatedMoviesProvider>.value(
       value: mockProvider,
       child: MaterialApp(home: body),
@@ -37,7 +37,7 @@ void main() {
     final progressBar = find.byType(CircularProgressIndicator);
 
     await widgetTester.pumpWidget(
-      _makeTestableWidget(
+      makeTestableWidget(
         const TopRatedMoviesPage(),
       ),
     );
@@ -56,7 +56,7 @@ void main() {
     final listView = find.byType(ListView);
 
     await widgetTester
-        .pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
+        .pumpWidget(makeTestableWidget(const TopRatedMoviesPage()));
     await widgetTester.pumpAndSettle(const Duration(milliseconds: 500));
     //assert
     expect(listView, findsOneWidget);
@@ -69,10 +69,10 @@ void main() {
     when(mockProvider.message)
         .thenReturn('Something went wrong while fetching data');
     //act
-    final errorTextWidget = find.byKey(Key('error_message'));
+    final errorTextWidget = find.byKey(const Key('error_message'));
 
     await widgetTester.pumpWidget(
-      _makeTestableWidget(
+      makeTestableWidget(
         const TopRatedMoviesPage(),
       ),
     );

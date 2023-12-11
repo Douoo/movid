@@ -21,7 +21,6 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
       await watchListBox.put(series.id, series);
       return true;
     } catch (error) {
-      print(error);
       throw CacheException();
     }
   }
@@ -34,7 +33,6 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
           .toList();
       return seriesList;
     } catch (error) {
-      print(error);
       throw CacheException();
     }
   }
@@ -44,7 +42,6 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
     try {
       return watchListBox.containsKey(id);
     } catch (error) {
-      print(error);
       throw CacheException();
     }
   }
@@ -55,7 +52,6 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
       await watchListBox.delete(id);
       return true;
     } catch (error) {
-      print(error);
       throw CacheException();
     }
   }

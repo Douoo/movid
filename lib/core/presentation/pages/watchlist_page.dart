@@ -85,7 +85,6 @@ class _WatchlistPageState extends State<WatchlistPage> {
                 return ListView.builder(
                   itemCount: watchlistTvSeries.length,
                   itemBuilder: (context, index) {
-                    print(watchlistTvSeries[index].poster);
                     return series.ItemCard(item: watchlistTvSeries[index]);
                   },
                 );

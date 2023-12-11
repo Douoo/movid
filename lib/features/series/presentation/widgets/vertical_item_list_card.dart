@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/SeriesDetailCard.dart';
+import 'package:movid/features/series/presentation/widgets/series_detail_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -59,7 +59,7 @@ class VerticalItemList extends StatelessWidget {
                           return SeriesDetailCard(series: tvSeries);
                         });
                   },
-                  child: Container(
+                  child: SizedBox(
                     width: 155,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +81,7 @@ class VerticalItemList extends StatelessWidget {
                             return Shimmer.fromColors(
                                 baseColor: Colors.grey[850]!,
                                 highlightColor: Colors.grey[800]!,
-                                child: Container(
+                                child: const SizedBox(
                                   height: 205,
                                   width: 155,
                                 ));
