@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:movid/core/core.dart';
-import 'package:movid/features/movies/data/models/movie_table.dart';
 import 'package:hive/hive.dart';
-import 'package:movid/features/movies/movies.dart';
+
+import 'package:movid/features/movies/data/models/movie_table.dart';
 import 'package:movid/features/series/data/model/series_data.dart';
-import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
-import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
-import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
-import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
-import 'package:movid/features/series/presentation/provider/seasons_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
-import 'package:movid/features/series/presentation/provider/top_rated_series_provider.dart';
-import 'package:movid/features/search/presentation/pages/search_movie_page.dart';
-import 'package:movid/features/search/presentation/provider/movie_search_provider.dart';
+
+import 'package:movid/core/core.dart';
+import 'package:movid/features/movies/movies.dart';
+import 'package:movid/features/series/series.dart';
+import 'package:movid/features/search/search.dart';
+
 import 'package:movid/injection.dart' as di;
 import 'package:path_provider/path_provider.dart' as path_provider;
 
