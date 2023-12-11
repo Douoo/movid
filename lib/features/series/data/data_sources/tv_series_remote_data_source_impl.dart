@@ -1,7 +1,5 @@
-import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:movid/core/errors/exception.dart';
-import 'package:movid/core/errors/failure.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/data/model/media_image_model.dart';
 import 'package:movid/features/series/data/model/series_detail_model.dart';
@@ -35,15 +33,12 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
           'Content-Type': 'application/json',
         },
       );
-      print(url);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         return dataMapper(response.body);
       } else {
         throw ServerException();
       }
     } catch (e) {
-      print(e);
       throw ServerException();
     }
   }

@@ -4,9 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/movies/presentation/provider/movie_images_provider.dart';
-import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
+import '../provider/movie_images_provider.dart';
+import '../provider/movie_list_provider.dart';
 import 'popular_movies_page.dart';
 import 'top_rated_movies_page.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +27,6 @@ class _MainMoviePageState extends State<MainMoviePage> {
   void initState() {
     final movieProvider =
         Provider.of<MovieListProvider>(context, listen: false);
-    final tvProvider =
-        Provider.of<TvSeriesListProvider>(context, listen: false);
     Future.microtask(() {
       movieProvider.fetchNowPlayingMovies().whenComplete(() =>
           Provider.of<MovieImagesProvider>(context, listen: false)
@@ -37,9 +34,6 @@ class _MainMoviePageState extends State<MainMoviePage> {
 
       movieProvider.fetchPopularMovies();
       movieProvider.fetchTopRatedMovies();
-
-      tvProvider.fetchPopularSeries();
-      tvProvider.fetchTopRatedSeries();
     });
 
     super.initState();

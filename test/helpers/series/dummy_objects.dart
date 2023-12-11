@@ -65,12 +65,13 @@ const testDetailTvSeries = SeriesDetail(
     id: 1,
     posterPath: '/path.jpg',
     releaseDate: '2022-01-01',
-    runtime: [100],
     title: 'Title',
     voteAverage: 1.0,
     voteCount: 1,
     numberOfEpisodes: 2,
-    numberOfSeasons: 2);
+    numberOfSeasons: 2,
+    overView: '',
+    language: []);
 
 const testImage = MediaImage(
   id: 1,
@@ -90,9 +91,10 @@ const testDetailTvSeriesModel = SeriesDetailModel(
     id: 1,
     posterPath: '/path.jpg',
     releaseDate: '2022-01-01',
-    runtime: [100],
     title: 'Title',
     voteAverage: 1.0,
     voteCount: 1,
     numberOfEpisodes: 1,
-    numberOfSeasons: 2);
+    numberOfSeasons: 2,
+    language: [],
+    overView: '');

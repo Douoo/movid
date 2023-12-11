@@ -146,7 +146,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         textColor: kWhiteColor,
                         style: ListTileStyle.drawer,
                         selected:
-                            Provider.of<HomeProvider>(context).contentType ==
+                            Provider.of<HomeProvider>(context, listen: false)
+                                    .contentType ==
                                 ContentType.tvSeries,
                         selectedTileColor: primaryColor,
                         selectedColor: kWhiteColor,
