@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:movid/core/presentation/pages/about_page.dart';
 import 'package:movid/core/presentation/pages/watchlist_page.dart';
 import 'package:movid/core/presentation/provider/home_provider.dart';
@@ -114,7 +115,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         key: const Key('movieListTile'),
                         onTap: () {
                           toggle();
-                          Provider.of<HomeProvider>(context)
+                          Provider.of<HomeProvider>(context, listen: false)
                               .setContentType(ContentType.movie);
                         },
                         leading: const Icon(Icons.movie_outlined),
@@ -123,7 +124,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         textColor: kWhiteColor,
                         style: ListTileStyle.drawer,
                         selected:
-                            Provider.of<HomeProvider>(context).contentType ==
+                            Provider.of<HomeProvider>(context, listen: false)
+                                    .contentType ==
                                 ContentType.movie,
                         selectedTileColor: primaryColor,
                         selectedColor: kWhiteColor,
@@ -135,7 +137,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         key: const Key('tvListTile'),
                         onTap: () {
                           toggle();
-                          Provider.of<HomeProvider>(context)
+                          Provider.of<HomeProvider>(context, listen: false)
                               .setContentType(ContentType.tvSeries);
                         },
                         leading: const Icon(Icons.tv),
@@ -158,6 +160,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           context,
                           WatchlistPage.route,
                         ),
+                        // onTap: () async {
+                        //   final x = await Hive.openBox('watchlist');
+                        //   x.clear().then((value) => print("clear"));
+                        // },
+
                         leading: const Icon(Icons.star_border),
                         title: const Text('Watchlist'),
                         iconColor: kWhiteColor,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/movies/presentation/widgets/movie_card.dart';
+import 'package:movid/features/movies/presentation/widgets/item_card.dart';
 import 'package:movid/features/search/presentation/provider/movie_search_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +30,7 @@ class MovieSearchPage extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Search movies',
                 filled: true,
-                fillColor: Color(0xFF141414),
+                fillColor: const Color(0xFF141414),
                 suffixIcon: const Icon(
                   Icons.search,
                   color: Colors.white70,
@@ -82,7 +82,7 @@ class MovieSearchPage extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
                         final movie = result[index];
-                        return MovieCard(
+                        return ItemCard(
                           movie: movie,
                         );
                       },
@@ -109,7 +109,7 @@ class MovieSearchPage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
-                        Text('Find the movie you are looking for')
+                        const Text('Find the movie you are looking for')
                       ],
                     ),
                   );

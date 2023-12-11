@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:movid/features/series/data/model/series_data.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 
 class TvSeriesModel extends TvSeries {
@@ -16,6 +17,16 @@ class TvSeriesModel extends TvSeries {
     super.genreIds,
     super.poster,
   });
+
+  TvSeriesModel.copy(SeriesData series)
+      : this(
+          title: series.title,
+          id: series.id,
+          date: series.date,
+          backdropPath: series.backdropPath,
+          description: series.overView,
+          rating: series.voteAverage,
+        );
 
   factory TvSeriesModel.fromMap(Map<String, dynamic> map) {
     return TvSeriesModel(

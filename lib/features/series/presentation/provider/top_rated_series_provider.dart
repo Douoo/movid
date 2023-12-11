@@ -13,6 +13,7 @@ class TopRatedTvSeriesProvider extends ChangeNotifier {
 
   List<TvSeries> _series = [];
   List<TvSeries> get series => _series;
+  int page = 1;
 
   String _message = '';
   String get message => _message;
@@ -21,7 +22,7 @@ class TopRatedTvSeriesProvider extends ChangeNotifier {
     _state = RequestState.loading;
     notifyListeners();
 
-    final result = await getTopRatedTvsUseCase();
+    final result = await getTopRatedTvsUseCase(page);
 
     result.fold(
       (failure) {
@@ -31,6 +32,7 @@ class TopRatedTvSeriesProvider extends ChangeNotifier {
       (movies) {
         _series = movies;
         _state = RequestState.loaded;
+        page = page + 1;
       },
     );
     notifyListeners();

@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
-import '../widgets/movie_card.dart';
+import '../widgets/item_card.dart';
 import 'package:provider/provider.dart';
 
 class PopularMoviesPage extends StatefulWidget {
@@ -48,7 +48,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
                   key: const Key('popularMoviesListView'),
                   itemBuilder: (context, index) {
                     final movie = data.movies[index];
-                    return MovieCard(
+                    return ItemCard(
                       movie: movie,
                     );
                   },

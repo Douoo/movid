@@ -71,7 +71,7 @@ void main() {
         when(mockTvSeriesRemoteDataSource.getPopularTvSeries())
             .thenThrow(ServerException());
         //act
-        final result = await repositoryImpl.getPopularTvSeries();
+        final result = await repositoryImpl.getPopularTvSeries(1);
         //assert
         expect(result, const Left(ServerFailure()));
       });
@@ -85,7 +85,7 @@ void main() {
         when(mockTvSeriesRemoteDataSource.getTopRatedTvSeries())
             .thenAnswer((_) async => [testTopRatedTvSeries]);
         //act
-        final result = await repositoryImpl.getTopRatedTvSeries();
+        final result = await repositoryImpl.getTopRatedTvSeries(1);
         //assert
         verify(mockConnection.isAvailable);
         expect(result, equals(const Right(testTopRatedTvSeries)));
@@ -97,7 +97,7 @@ void main() {
         when(mockTvSeriesRemoteDataSource.getTopRatedTvSeries())
             .thenThrow(ServerException());
         //act
-        final result = await repositoryImpl.getTopRatedTvSeries();
+        final result = await repositoryImpl.getTopRatedTvSeries(1);
         //assert
         expect(result, const Left(ServerFailure()));
       });
@@ -138,7 +138,8 @@ void main() {
         when(mockTvSeriesRemoteDataSource.searchTvSeries(testTvSeriesQuery))
             .thenAnswer((_) async => testTvSeriesList);
         //act
-        final result = await repositoryImpl.searchTvSeries(testTvSeriesQuery);
+        final result =
+            await repositoryImpl.searchTvSeries(testTvSeriesQuery, 1);
         //assert
         verify(mockConnection.isAvailable);
         expect(result, equals(Right(testTvSeriesList)));
@@ -150,7 +151,8 @@ void main() {
         when(mockTvSeriesRemoteDataSource.searchTvSeries(testTvSeriesQuery))
             .thenThrow(ServerException());
         //act
-        final result = await repositoryImpl.searchTvSeries(testTvSeriesQuery);
+        final result =
+            await repositoryImpl.searchTvSeries(testTvSeriesQuery, 1);
         //assert
         expect(result, const Left(ServerFailure()));
       });
@@ -213,7 +215,7 @@ void main() {
           'should return ConnectionFailure when there is no network connection',
           () async {
         //act
-        final result = await repositoryImpl.getPopularTvSeries();
+        final result = await repositoryImpl.getPopularTvSeries(1);
         //assert
         verifyZeroInteractions(mockTvSeriesRemoteDataSource);
         expect(result, const Left(ConnectionFailure()));
@@ -224,7 +226,7 @@ void main() {
           'should return ConnectionFailure when there is no network connection',
           () async {
         //act
-        final result = await repositoryImpl.getTopRatedTvSeries();
+        final result = await repositoryImpl.getTopRatedTvSeries(1);
         //assert
         verifyZeroInteractions(mockTvSeriesRemoteDataSource);
         expect(result, const Left(ConnectionFailure()));
@@ -247,7 +249,8 @@ void main() {
           'should return ConnectionFailure when there is no network connection',
           () async {
         //act
-        final result = await repositoryImpl.searchTvSeries(testTvSeriesQuery);
+        final result =
+            await repositoryImpl.searchTvSeries(testTvSeriesQuery, 1);
         //assert
         verifyZeroInteractions(mockTvSeriesRemoteDataSource);
         expect(result, const Left(ConnectionFailure()));

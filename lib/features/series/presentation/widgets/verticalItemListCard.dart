@@ -9,8 +9,10 @@ import 'package:shimmer/shimmer.dart';
 
 class VerticalItemList extends StatelessWidget {
   final List<TvSeries> series;
+  final bool isTopRated;
 
-  const VerticalItemList({super.key, required this.series});
+  const VerticalItemList(
+      {super.key, required this.series, required this.isTopRated});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,9 @@ class VerticalItemList extends StatelessWidget {
             final before = _onScrollNotification.metrics.extentBefore;
             final max = _onScrollNotification.metrics.maxScrollExtent;
             if (before == max) {
-              print('scroll end');
+              if (isTopRated) {
+                movieProvider.fetchTopRatedSeries();
+              }
               movieProvider.fetchPopularSeries();
               return true;
             }
@@ -57,7 +61,6 @@ class VerticalItemList extends StatelessWidget {
                   },
                   child: Container(
                     width: 155,
-                    margin: const EdgeInsets.only(right: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

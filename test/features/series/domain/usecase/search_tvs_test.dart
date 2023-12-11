@@ -34,7 +34,7 @@ void main() {
     when(mockTvSeriesRepository.searchTvSeries(testSearchData))
         .thenAnswer((_) async => const Right([testTvSeries]));
     //act
-    final result = await searchTvsUseCase.call(testSearchData);
+    final result = await searchTvsUseCase.call(testSearchData, 1);
 
     // assert
     expect(result, const Right([testTvSeries]));

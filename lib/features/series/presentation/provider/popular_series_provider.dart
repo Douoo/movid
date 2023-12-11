@@ -10,6 +10,7 @@ class PopularTvSeriesProvider extends ChangeNotifier {
 
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
+  int page = 1;
 
   List<TvSeries> _seriesList = [];
   List<TvSeries> get series => _seriesList;
@@ -21,7 +22,7 @@ class PopularTvSeriesProvider extends ChangeNotifier {
     _state = RequestState.loading;
     notifyListeners();
 
-    final result = await getPopularTvsUseCase();
+    final result = await getPopularTvsUseCase(page);
 
     result.fold(
       (failure) {
@@ -29,8 +30,12 @@ class PopularTvSeriesProvider extends ChangeNotifier {
         _state = RequestState.error;
       },
       (failure) {
-        _seriesList = series;
+        if (_seriesList.isEmpty) {
+          _seriesList = series;
+        }
+        _seriesList.addAll(series);
         _state = RequestState.loaded;
+        page = page + 1;
       },
     );
     notifyListeners();

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/provider/watchlist_movies_provider.dart';
-import 'package:movid/features/movies/presentation/widgets/movie_card.dart';
+import 'package:movid/features/movies/presentation/widgets/item_card.dart'
+    as movie;
+import 'package:movid/features/series/presentation/widgets/item_card.dart'
+    as series;
+import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
 import 'package:provider/provider.dart';
 
 class WatchlistPage extends StatefulWidget {
@@ -19,6 +23,8 @@ class _WatchlistPageState extends State<WatchlistPage> {
           context,
           listen: false,
         ).fetchWatchlistMovies());
+    Provider.of<TvSeriesWatchListProvider>(context, listen: false)
+        .fetchWatchListSeries();
     super.initState();
   }
 
@@ -48,7 +54,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
                   return ListView.builder(
                     itemCount: watchlistMovies.length,
                     itemBuilder: (context, index) {
-                      return MovieCard(movie: watchlistMovies[index]);
+                      return movie.ItemCard(movie: watchlistMovies[index]);
                     },
                   );
                 }
@@ -72,14 +78,15 @@ class _WatchlistPageState extends State<WatchlistPage> {
             ),
           ),
           //TODO: Change the following provider widget to a tv watchlist
-          Consumer<MovieWatchlistProvider>(
+          Consumer<TvSeriesWatchListProvider>(
             builder: (context, data, child) {
               if (data.state == RequestState.loaded) {
-                final watchlistMovies = data.movies;
+                final watchlistTvSeries = data.movies;
                 return ListView.builder(
-                  itemCount: watchlistMovies.length,
+                  itemCount: watchlistTvSeries.length,
                   itemBuilder: (context, index) {
-                    return MovieCard(movie: watchlistMovies[index]);
+                    print(watchlistTvSeries[index].poster);
+                    return series.ItemCard(item: watchlistTvSeries[index]);
                   },
                 );
               }

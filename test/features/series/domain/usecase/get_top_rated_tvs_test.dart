@@ -33,7 +33,7 @@ void main() {
     when(mockTvSeriesRepository.getTopRatedTvSeries())
         .thenAnswer((_) async => const Right([testTvSeries]));
     //act
-    final result = await getTopRatedTvsUseCase.call();
+    final result = await getTopRatedTvsUseCase.call(1);
 
     // assert
     expect(result, const Right([testTvSeries]));

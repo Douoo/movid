@@ -16,11 +16,14 @@ import 'package:movid/features/movies/presentation/provider/movie_images_provide
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
+import 'package:movid/features/series/data/model/series_data.dart';
+import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
 import 'package:movid/features/series/presentation/pages/home.dart';
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
+import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
 import 'package:movid/features/series/presentation/provider/top_rated_series_provider.dart';
 import 'package:movid/features/movies/presentation/provider/watchlist_movies_provider.dart';
 import 'package:movid/features/search/presentation/pages/search_movie_page.dart';
@@ -37,6 +40,7 @@ void main() async {
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(MovieDataAdapter(), override: true);
+  Hive.registerAdapter(SeriesDataAdapter(), override: true);
 
   await di.init();
   runApp(const MyApp());
@@ -85,6 +89,10 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<TvSeriesImagesProvider>(),
         ),
         ChangeNotifierProvider(
+          create: (_) => di.locator<TvSeriesWatchListProvider>(),
+        ),
+
+        ChangeNotifierProvider(
           create: (_) => di.locator<PopularTvSeriesProvider>(),
         ),
         ChangeNotifierProvider(
@@ -123,6 +131,7 @@ class MyApp extends StatelessWidget {
           MovieSearchPage.routeName: (context) => const MovieSearchPage(),
           WatchlistPage.route: (context) => const WatchlistPage(),
           AboutPage.route: (context) => const AboutPage(),
+          DetailSeriesPage.route: (context) => const DetailSeriesPage(),
         },
       ),
     );

@@ -2,15 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
+import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
 
-import '../../domain/entities/movie.dart';
+import '../../domain/entites/series.dart';
 
-class MovieCard extends StatelessWidget {
-  final Movie movie;
+class ItemCard extends StatelessWidget {
+  final TvSeries item;
 
-  const MovieCard({
+  const ItemCard({
     Key? key,
-    required this.movie,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -20,8 +21,8 @@ class MovieCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailPage(
-              movieId: movie.id,
+            builder: (context) => DetailSeriesPage(
+              seriesId: item.id,
             ),
           ),
         );
@@ -41,7 +42,7 @@ class MovieCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 child: CachedNetworkImage(
                   imageUrl: Urls.imageUrl(
-                    movie.posterPath ?? '',
+                    item.backdropPath ?? '',
                   ),
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
@@ -57,7 +58,7 @@ class MovieCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    movie.title,
+                    item.title!,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           fontWeight: FontWeight.bold,
@@ -68,7 +69,7 @@ class MovieCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${(movie.language ?? '').toUpperCase()} | ${movie.releaseDate}',
+                        '${(item.language ?? '').toUpperCase()} | ${item.date}',
                       ),
                       const SizedBox(width: 16.0),
                       const Icon(
@@ -78,15 +79,15 @@ class MovieCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 4.0),
                       Text(
-                        (movie.voteAverage! / 2).toStringAsFixed(1),
+                        (item.rating! / 2).toStringAsFixed(1),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    movie.overview ?? '-',
+                    item.description ?? '-',
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
+                    maxLines: 3,
                   ),
                 ],
               ),

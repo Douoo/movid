@@ -14,8 +14,10 @@ class Urls {
 
   /// Tvs
   static final String onTheAirTvs = '$baseUrl/tv/on_the_air?$apiKey';
-  static final String popularTvs = '$baseUrl/tv/popular?$apiKey';
-  static final String topRatedTvs = '$baseUrl/tv/top_rated?$apiKey';
+  static String popularTvs(int page) =>
+      '$baseUrl/tv/popular?$apiKey&page=$page';
+  static String topRatedTvs(int page) =>
+      '$baseUrl/tv/top_rated?$apiKey&page=$page';
   static String tvDetail(int id) => '$baseUrl/tv/$id?$apiKey';
   static String tvSeasons(int id, int seasonNumber) =>
       '$baseUrl/tv/$id/season/$seasonNumber?$apiKey';
@@ -25,8 +27,8 @@ class Urls {
   /// Search Movies
   static String searchMovies(String query) =>
       '$baseUrl/search/movie?$apiKey&query=$query';
-  static String searchTvs(String query) =>
-      '$baseUrl/search/tv?$apiKey&query=$query';
+  static String searchTvs(String query, int page) =>
+      '$baseUrl/search/tv?$apiKey&query=$query&page=$page';
 
   /// Image
   static const String baseImageUrl = 'https://image.tmdb.org/t/p/w500';

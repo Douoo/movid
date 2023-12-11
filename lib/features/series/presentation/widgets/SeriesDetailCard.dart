@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
+import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SeriesDetailCard extends StatelessWidget {
@@ -102,18 +103,21 @@ class SeriesDetailCard extends StatelessWidget {
                       maxLines: 4,
                     ),
                     const SizedBox(height: 12.0),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor,
-                              foregroundColor: kWhiteColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              )),
-                          child: const Text('CHECK IT OUT')),
-                    )
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailSeriesPage(seriesId: series.id)));
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor,
+                            foregroundColor: kWhiteColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            )),
+                        child: const Text('CHECK IT OUT'))
                   ],
                 ),
               )

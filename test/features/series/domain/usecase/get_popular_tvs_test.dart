@@ -32,7 +32,7 @@ void main() {
     when(mockTvSeriesRepository.getPopularTvSeries())
         .thenAnswer((_) async => const Right([testTvSeries]));
     //act
-    final result = await getPopularTvsUseCase.call();
+    final result = await getPopularTvsUseCase.call(1);
 
     // assert
     expect(result, const Right([testTvSeries]));

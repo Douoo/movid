@@ -57,7 +57,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                       options: CarouselOptions(
                         height: 575.0,
                         viewportFraction: 1.0,
-                        autoPlay: false,
+                        autoPlay: true,
                         autoPlayInterval: const Duration(seconds: 5),
                         onPageChanged: (index, reason) {
                           Provider.of<TvSeriesImagesProvider>(context,
@@ -111,8 +111,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                 child: Consumer<TvSeriesImagesProvider>(
                                   builder: (context, seriesImageData, child) {
                                     if (seriesImageData.state ==
-                                            RequestState.loaded ||
-                                        movie.title!.isNotEmpty) {
+                                        RequestState.loaded) {
                                       return Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Column(
@@ -130,10 +129,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                                   builder: (context, detailData,
                                                       child) {
                                                     if (detailData.state ==
-                                                            RequestState
-                                                                .loaded ||
-                                                        movie.title!
-                                                            .isNotEmpty) {
+                                                        RequestState.loaded) {
                                                       return Row(
                                                         children: [
                                                           Text(movie.rating
@@ -141,14 +137,6 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                                               .substring(0, 3)),
                                                           const SizedBox(
                                                               width: 8),
-                                                          detailData
-                                                                  .seriesDetail
-                                                                  .runtime
-                                                                  .isNotEmpty
-                                                              ? Text(
-                                                                  "${detailData.seriesDetail.runtime[0]} min")
-                                                              : const Text(
-                                                                  "- min"),
                                                           const SizedBox(
                                                             width: 10,
                                                           ),
@@ -245,7 +233,10 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                   data.popularMovies.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
-                    child: VerticalItemList(series: data.popularMovies));
+                    child: VerticalItemList(
+                      series: data.popularMovies,
+                      isTopRated: false,
+                    ));
               } else if (data.popularTvsState == RequestState.error) {
                 return const Center(child: Text('Load data failed'));
               } else {
@@ -260,12 +251,15 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
               },
             ),
             Consumer<TvSeriesListProvider>(builder: (context, data, _) {
-              if (data.topRatedTvsState == RequestState.loaded) {
+              if (data.topRatedTvsState == RequestState.loaded ||
+                  data.topRatedTvs.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
-                    child: VerticalItemList(series: data.topRatedTvs));
+                    child: VerticalItemList(
+                      series: data.topRatedTvs,
+                      isTopRated: true,
+                    ));
               } else {
-                print("this is not loading");
                 return const SizedBox();
               }
             })

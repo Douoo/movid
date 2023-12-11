@@ -9,8 +9,6 @@ import 'package:movid/features/movies/presentation/provider/movie_list_provider.
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
 import 'popular_movies_page.dart';
 import 'top_rated_movies_page.dart';
-import '../provider/movie_images_provider.dart';
-import '../provider/movie_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 

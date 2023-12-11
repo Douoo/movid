@@ -8,7 +8,7 @@ class GetPopularTvsUseCase {
 
   GetPopularTvsUseCase({required this.series});
 
-  Future<Either<Failure, List<TvSeries>>> call() {
-    return series.getPopularTvSeries();
+  Future<Either<Failure, List<TvSeries>>> call(int page) {
+    return series.getPopularTvSeries(page);
   }
 }

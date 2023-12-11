@@ -7,26 +7,28 @@ class SeriesDetailModel extends SeriesDetail {
   const SeriesDetailModel({
     required super.backdropPath,
     required super.genres,
+    required super.language,
     required super.id,
     required super.posterPath,
     required super.releaseDate,
-    required super.runtime,
     required super.title,
     required super.voteAverage,
     required super.voteCount,
     required super.numberOfEpisodes,
     required super.numberOfSeasons,
+    required super.overView,
   });
 
   factory SeriesDetailModel.fromMap(Map<String, dynamic> map) {
     return SeriesDetailModel(
+        overView: map['overview'],
         backdropPath: map['backdrop_path'] as String?,
+        language: map['languages'] as List<dynamic>,
         genres: List.from(
             (map['genres']).map((genre) => GenreModel.fromMap(genre))),
         id: map['id'] as int,
         posterPath: map['poster_path'] as String?,
         releaseDate: map['first_air_date'] as String,
-        runtime: map['episode_run_time'],
         title: map['name'] as String,
         voteAverage: map['vote_average'] as double,
         voteCount: map['vote_count'] as int,

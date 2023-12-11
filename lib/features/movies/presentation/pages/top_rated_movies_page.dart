@@ -4,7 +4,7 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/top_rated_movies_provider.dart';
-import '../widgets/movie_card.dart';
+import '../widgets/item_card.dart';
 
 class TopRatedMoviesPage extends StatefulWidget {
   static const String route = '/top_rated';
@@ -51,7 +51,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
                   key: const Key('topRatedMoviesListView'),
                   itemBuilder: (context, index) {
                     final movie = data.movies[index];
-                    return MovieCard(
+                    return ItemCard(
                       movie: movie,
                     );
                   },

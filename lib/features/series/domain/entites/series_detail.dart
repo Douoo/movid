@@ -5,10 +5,10 @@ class SeriesDetail extends Equatable {
   final String? backdropPath;
   final List<Genre> genres;
   final int id;
-
+  final List<dynamic> language;
   final String? posterPath;
   final String releaseDate;
-  final List<dynamic> runtime;
+  final String overView;
   final String title;
   final double voteAverage;
   final int voteCount;
@@ -18,10 +18,11 @@ class SeriesDetail extends Equatable {
   const SeriesDetail({
     required this.backdropPath,
     required this.genres,
+    required this.overView,
     required this.id,
     required this.posterPath,
     required this.releaseDate,
-    required this.runtime,
+    required this.language,
     required this.title,
     required this.voteAverage,
     required this.voteCount,
@@ -33,13 +34,14 @@ class SeriesDetail extends Equatable {
         backdropPath,
         genres,
         id,
+        language,
         posterPath,
         releaseDate,
-        runtime,
         title,
         voteAverage,
         voteCount,
         numberOfEpisodes,
-        numberOfEpisodes
+        numberOfEpisodes,
+        overView,
       ];
 }

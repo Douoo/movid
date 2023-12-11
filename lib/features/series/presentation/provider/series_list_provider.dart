@@ -29,12 +29,14 @@ class TvSeriesListProvider extends ChangeNotifier {
 
   List<TvSeries> _popularTvs = [];
   List<TvSeries> get popularMovies => _popularTvs;
+  int popularPage = 1;
 
   RequestState _popularTvsState = RequestState.empty;
   RequestState get popularTvsState => _popularTvsState;
 
   List<TvSeries> _topRatedTvs = [];
   List<TvSeries> get topRatedTvs => _topRatedTvs;
+  int topRatedPage = 1;
 
   RequestState _topRatedTvsState = RequestState.empty;
   RequestState get topRatedTvsState => _topRatedTvsState;
@@ -68,14 +70,19 @@ class TvSeriesListProvider extends ChangeNotifier {
     _popularTvsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getPopularTvsUseCase();
+    final result = await getPopularTvsUseCase(popularPage);
 
     result.fold((failure) {
       _message = failure.message;
       _popularTvsState = RequestState.error;
     }, (series) {
-      _popularTvs = series;
+      if (series.isEmpty) {
+        _popularTvs = series;
+      } else {
+        _popularTvs.addAll(series);
+      }
       _popularTvsState = RequestState.loaded;
+      popularPage = popularPage + 1;
     });
     notifyListeners();
   }
@@ -84,14 +91,20 @@ class TvSeriesListProvider extends ChangeNotifier {
     _topRatedTvsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getTopRatedTvsUseCase();
+    final result = await getTopRatedTvsUseCase(topRatedPage);
 
     result.fold((failure) {
       _message = failure.message;
       _topRatedTvsState = RequestState.error;
     }, (series) {
-      _topRatedTvs = series;
+      if (series.isEmpty) {
+        _topRatedTvs = series;
+      } else {
+        _topRatedTvs.addAll(series);
+      }
+
       _topRatedTvsState = RequestState.loaded;
+      topRatedPage = topRatedPage + 1;
     });
     notifyListeners();
   }

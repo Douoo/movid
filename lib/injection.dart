@@ -23,18 +23,25 @@ import 'package:movid/features/movies/presentation/provider/movie_images_provide
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
+import 'package:movid/features/series/data/data_sources/local/tv_series_local_data_source.dart';
 import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart';
 import 'package:movid/features/series/data/repository/series_repository_impl.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
+import 'package:movid/features/series/domain/usecases/add_series_to_watchlist.dart';
+import 'package:movid/features/series/domain/usecases/get_movie_watchlist_status.dart';
+import 'package:movid/features/series/domain/usecases/get_watchlist_series.dart';
+import 'package:movid/features/series/domain/usecases/remove_watchlist_series.dart';
 import 'package:movid/features/series/domain/usecases/series/get_on_air_tvs.dart';
 import 'package:movid/features/series/domain/usecases/series/get_popular_tvs.dart';
 import 'package:movid/features/series/domain/usecases/series/get_series_images.dart';
 import 'package:movid/features/series/domain/usecases/series/get_top_rated_tvs.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_detail.dart';
+import 'package:movid/features/series/domain/usecases/series/get_tv_recommendations.dart';
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
+import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
 import 'package:movid/features/series/presentation/provider/top_rated_series_provider.dart';
 import 'package:movid/features/movies/presentation/provider/watchlist_movies_provider.dart';
 import 'package:movid/features/search/domain/usecases/search_movie.dart';
@@ -92,8 +99,13 @@ Future<void> init() async {
       () => PopularTvSeriesProvider(getPopularTvsUseCase: locator()));
   locator.registerFactory(
       () => TopRatedTvSeriesProvider(getTopRatedTvsUseCase: locator()));
-  locator.registerFactory(
-      () => TvSeriesDetailProvider(getDetailTvsUseCase: locator()));
+  locator.registerFactory(() => TvSeriesDetailProvider(
+        getDetailTvsUseCase: locator(),
+        addTvsToWatchListUseCase: locator(),
+        removeTvsFromWatchListUseCase: locator(),
+        getRecommendedTvsUseCase: locator(),
+        getSeriesWatchListStatus: locator(),
+      ));
   locator.registerFactory(
     () => MovieSearchProvider(
       searchMovie: locator(),
@@ -105,6 +117,8 @@ Future<void> init() async {
       getWatchlistMovies: locator(),
     ),
   );
+  locator.registerFactory(
+      () => TvSeriesWatchListProvider(getWatchListTvsUseCase: locator()));
 
   //******** Usecases **********//
   /// Movie related
@@ -128,6 +142,15 @@ Future<void> init() async {
   locator.registerLazySingleton(() => GetTopRatedTvsUseCase(series: locator()));
   locator.registerLazySingleton(() => GetDetailTvsUseCase(series: locator()));
   locator.registerLazySingleton(() => GetSeriesImages(locator()));
+  locator.registerLazySingleton(() => GetSeriesWatchListStatus(locator()));
+  locator.registerLazySingleton(
+      () => RemoveTvsFromWatchListUseCase(series: locator()));
+  locator
+      .registerLazySingleton(() => AddTvsToWatchListUseCase(series: locator()));
+  locator
+      .registerLazySingleton(() => GetWatchListTvsUseCase(series: locator()));
+  locator
+      .registerLazySingleton(() => GetRecommendedTvsUseCase(series: locator()));
 
   //******** Repository **********//
   ///Movie repo and its implementations
@@ -142,6 +165,7 @@ Future<void> init() async {
       .registerLazySingleton<TvSeriesRepository>(() => TvSeriesRepositoryImpl(
             connection: locator(),
             remoteDataSource: locator(),
+            localDataSource: locator(),
           ));
 
   //******** Local and Remote Data Sources **********//
@@ -160,9 +184,17 @@ Future<void> init() async {
       client: locator(),
     ),
   );
+  final seriesWatchListBox = await Hive.openBox('tvWatchList');
+  locator.registerLazySingleton<TvSeriesLocalDataSource>(
+    () => TvSeriesLocalDataSourceImpl(
+      watchListBox: seriesWatchListBox,
+    ),
+  );
   //******** External Plugin **********//
   final watchlistBox = await Hive.openBox('watchlist');
+
   locator.registerLazySingleton(() => watchlistBox);
+  // locator.registerLazySingleton(() => seriesWatchListBox);
   locator.registerLazySingleton(() => InternetConnectionChecker());
   locator.registerLazySingleton(() => http.Client());
 }
