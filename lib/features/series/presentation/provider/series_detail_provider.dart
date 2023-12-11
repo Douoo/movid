@@ -47,7 +47,6 @@ class TvSeriesDetailProvider extends ChangeNotifier {
 
   Future<void> fetchDetailTvSeries(int seriesId) async {
     _state = RequestState.loading;
-    print(seriesId);
 
     notifyListeners();
 

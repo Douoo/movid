@@ -6,7 +6,7 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/genre.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
-import 'package:movid/features/series/presentation/widgets/SeriesDetailCard.dart';
+import 'package:movid/features/series/presentation/widgets/series_detail_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -41,12 +41,9 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
       body: Consumer<TvSeriesDetailProvider>(
         builder: (context, provider, child) {
           if (provider.state == RequestState.loading) {
-            print("aaaaaaaaaaaaaaaaaaaaa");
-
             return const Center(child: CircularProgressIndicator());
           }
           if (provider.state == RequestState.loaded) {
-            print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
             final tvDetail = provider.seriesDetail;
             final isAddedToWatchList = provider.isAddedToWatchList;
 
@@ -87,17 +84,15 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                               ""),
                           fit: BoxFit.cover,
                           errorWidget: (context, url, error) {
-                            return Container(
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.warning,
-                                    size: 50,
-                                  ),
-                                  Text("Error Loading Image")
-                                ],
-                              ),
+                            return const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.warning,
+                                  size: 50,
+                                ),
+                                Text("Error Loading Image")
+                              ],
                             );
                           },
                         ),
@@ -204,6 +199,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                               }
 
                               final message =
+                                  // ignore: use_build_context_synchronously
                                   Provider.of<TvSeriesDetailProvider>(context,
                                           listen: false)
                                       .watchListMessage;
@@ -214,20 +210,28 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                                   message ==
                                       TvSeriesDetailProvider
                                           .watchListRemoveSuccessMessage) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  backgroundColor: Colors.black,
-                                  content: Text(message),
-                                ));
+                                Fluttertoast.showToast(
+                                    msg: message,
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: message ==
+                                            TvSeriesDetailProvider
+                                                .watchListAddSuccessMessage
+                                        ? kSpaceGrey
+                                        : Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
                               } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  backgroundColor: Colors.black,
-                                  content: Text(
-                                    "Sucess",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ));
+                                // ignore: use_build_context_synchronously
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: Text(message),
+                                    );
+                                  },
+                                );
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -400,7 +404,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                       : 4,
             ),
           );
-        } else if (data.recommendedTvSeries == RequestState.error) {
+        } else if (data.recommendedSeriesState == RequestState.error) {
           return SliverToBoxAdapter(child: Center(child: Text(data.message)));
         } else {
           return const SliverToBoxAdapter(

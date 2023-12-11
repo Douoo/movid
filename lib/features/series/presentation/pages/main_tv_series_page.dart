@@ -10,7 +10,7 @@ import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/verticalItemListCard.dart';
+import 'package:movid/features/series/presentation/widgets/vertical_item_list_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -279,7 +279,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
     List<Widget> genreWidget = [];
     for (int i = 0; i < series.genres.length - 1; i++) {
       genreWidget.add(Text(series.genres[i].name));
-      genreWidget.add(SizedBox(
+      genreWidget.add(const SizedBox(
         width: 5,
       ));
     }

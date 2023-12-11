@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -70,7 +69,7 @@ void main() {
         .thenReturn('Something went wrong while fetching data');
 
     //act
-    final errorTextWidget = find.byKey(Key('error_message'));
+    final errorTextWidget = find.byKey(const Key('error_message'));
     await widgetTester
         .pumpWidget(makeTestableWidget(const PopularMoviesPage()));
     await widgetTester.pumpAndSettle(const Duration(milliseconds: 500));

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/movies/presentation/pages/movie_detail_page.dart';
-import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
+
+import '../pages/detail_tv_series_page.dart';
 
 import '../../domain/entites/series.dart';
 
@@ -31,7 +31,7 @@ class ItemCard extends StatelessWidget {
         padding: const EdgeInsets.only(right: 8.0),
         margin: const EdgeInsets.only(bottom: 16.0),
         decoration: BoxDecoration(
-          color: Color(0xFF14141C),
+          color: const Color(0xFF14141C),
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Row(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:movid/core/presentation/pages/about_page.dart';
 import 'package:movid/core/presentation/pages/watchlist_page.dart';
 import 'package:movid/core/presentation/provider/home_provider.dart';
@@ -210,7 +209,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           actions: [
                             IconButton(
                               onPressed: () {
-                                //TODO: Add search function for tv
                                 Navigator.pushNamed(
                                     context, MovieSearchPage.routeName);
                               },

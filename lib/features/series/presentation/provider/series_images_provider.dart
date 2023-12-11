@@ -25,9 +25,7 @@ class TvSeriesImagesProvider extends ChangeNotifier {
     result.fold((failure) {
       _message = failure.message;
       _state = RequestState.error;
-      print("failures");
     }, (tvMediaImage) {
-      print("success");
       _mediaImages = tvMediaImage;
       _state = RequestState.loaded;
     });
