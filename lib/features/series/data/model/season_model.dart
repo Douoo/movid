@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:movid/features/series/domain/entites/season.dart';
 
 class SeasonModel extends Season {
@@ -10,16 +12,21 @@ class SeasonModel extends Season {
     super.runTime,
     super.voteAverage,
     super.voteCount,
+    super.still_path,
   });
-  factory SeasonModel.fromJson(Map<String, dynamic> json) {
+  factory SeasonModel.fromMap(Map<String, dynamic> map) {
     return SeasonModel(
-        id: json['id'],
-        name: json["name"],
-        episodeNumber: json['season_number'],
-        airDate: json['episodes'][0]['air_date'],
-        runTime: json['episodes'][0]['runtime'],
-        description: json['overview'],
-        voteAverage: json['vote_average'],
-        voteCount: json['episodes'][0]['vote_count']);
+        id: map['id'],
+        still_path: map['still_path'],
+        name: map["name"],
+        episodeNumber: map['season_number'],
+        airDate: map['air_date'],
+        runTime: map['runtime'],
+        description: map['overview'],
+        voteAverage: map['vote_average'],
+        voteCount: map['vote_count']);
   }
+
+  factory SeasonModel.fromJson(String source) =>
+      SeasonModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

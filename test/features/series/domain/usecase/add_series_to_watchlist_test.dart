@@ -1,9 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/usecases/add_series_to_watchlist.dart';
 
 import '../../../../helpers/global_test_helpers.mocks.dart';
+import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
   late AddTvsToWatchListUseCase addToWatchListUseCase;
@@ -15,29 +16,16 @@ void main() {
         AddTvsToWatchListUseCase(series: mockTvSeriesRepository);
   });
 
-  const testTvSeries = TvSeries(
-    id: 1,
-    title: 'test',
-    description: "this is a random ass description",
-    language: "en",
-    isAdult: false,
-    date: "2023/20/3",
-    rating: 8.3,
-    genreIds: [1, 2, 3],
-    backdropPath: "/path/to/backdrop.jpg",
-    poster: "/path/to/backdrop.jpg",
-  );
-
   test('should add TV series to watchList in the repository', () async {
     // Arrange
-    when(mockTvSeriesRepository.addSeriesToWatchList(testTvSeries))
-        .thenAnswer((_) async => true);
+    when(mockTvSeriesRepository.addSeriesToWatchList(testDetailTvSeries))
+        .thenAnswer((_) async => const Right(true));
 
     // Act
-    final result = await addToWatchListUseCase.call(testTvSeries);
+    final result = await addToWatchListUseCase.call(testDetailTvSeries);
 
     // Assert
     expect(result, true);
-    verify(mockTvSeriesRepository.addSeriesToWatchList(testTvSeries));
+    verify(mockTvSeriesRepository.addSeriesToWatchList(testDetailTvSeries));
   });
 }

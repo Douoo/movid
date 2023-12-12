@@ -82,9 +82,11 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
   }
 
   @override
-  Future<Either<Failure, Season>> getTvSeriesSeasons() {
-    // TODO: implement getTvSeriesSeasons
-    throw UnimplementedError();
+  Future<Either<Failure, List<Season>>> getTvSeriesSeasons(
+      int id, int seasonNumber) async {
+    print(await remoteDataSource.getTvSeriesSeasons(id, seasonNumber));
+    return await _remoteOperation(
+        () => remoteDataSource.getTvSeriesSeasons(id, seasonNumber));
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/genre.dart';
+import 'package:movid/features/series/presentation/provider/seasons_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
 import 'package:provider/provider.dart';
@@ -22,16 +23,44 @@ class DetailSeriesPage extends StatefulWidget {
 }
 
 class _DetailSeriesPageState extends State<DetailSeriesPage> {
+  List<int> items = [
+    1,
+  ];
+  int? selectedItem = 1;
+
+  void seasonsBuilder(int item) {
+    print(" fsjlj ${item}");
+    for (int i = 2; i < item; i++) {
+      items.add(i);
+    }
+    print(items.length);
+  }
+
+  void fetchSeasonEpisodes(season) {
+    setState(() {
+      selectedItem = season;
+    });
+    final seasonsProvider =
+        Provider.of<SeasonsProvider>(context, listen: false);
+
+    seasonsProvider.fetchSeasons(widget.seriesId!, season);
+  }
+
   @override
   void initState() {
+    print("series id ${widget.seriesId}");
     final movieDetailProvider =
         Provider.of<TvSeriesDetailProvider>(context, listen: false);
+    final seasonsProvider =
+        Provider.of<SeasonsProvider>(context, listen: false);
     Future.microtask(
       () {
         movieDetailProvider.fetchDetailTvSeries(widget.seriesId!);
         movieDetailProvider.loadWatchListStatus(widget.seriesId!);
       },
     );
+    seasonsBuilder(movieDetailProvider.seriesDetail.numberOfSeasons);
+    seasonsProvider.fetchSeasons(widget.seriesId!, 1);
     super.initState();
   }
 
@@ -105,180 +134,318 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: FadeInUp(
-                      from: 20,
-                      duration: const Duration(milliseconds: 500),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tvDetail.title,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 1.2,
-                                  ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 2.0,
-                                    horizontal: 8.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[800],
-                                    borderRadius: BorderRadius.circular(4.0),
-                                  ),
-                                  child: Text(
-                                    '${(tvDetail.language[0].toUpperCase())} | ${tvDetail.releaseDate}',
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w500,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(19),
+                      child: FadeInUp(
+                        from: 20,
+                        duration: const Duration(milliseconds: 500),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                tvDetail.title,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 1.2,
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: 16.0),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20.0,
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 2.0,
+                                      horizontal: 8.0,
                                     ),
-                                    const SizedBox(width: 4.0),
-                                    Text(
-                                      (tvDetail.voteAverage / 2)
-                                          .toStringAsFixed(1),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[800],
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: Text(
+                                      '${(tvDetail.language[0].toUpperCase())} | ${tvDetail.releaseDate}',
                                       style: const TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.2,
                                       ),
                                     ),
-                                    const SizedBox(width: 4.0),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        size: 20.0,
+                                      ),
+                                      const SizedBox(width: 4.0),
+                                      Text(
+                                        (tvDetail.voteAverage / 2)
+                                            .toStringAsFixed(1),
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 1.2,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4.0),
+                                      Text(
+                                        '(${tvDetail.voteAverage})',
+                                        style: const TextStyle(
+                                          fontSize: 1.0,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 1.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  // Text(
+                                  //   _showDuration(tvDetail.runtime as int),
+                                  //   style: const TextStyle(
+                                  //     color: Colors.white70,
+                                  //     fontSize: 16.0,
+                                  //     fontWeight: FontWeight.w500,
+                                  //     letterSpacing: 1.2,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                              const SizedBox(height: 16.0),
+                              ElevatedButton(
+                                key: const Key('movieToWatchlist'),
+                                onPressed: () async {
+                                  if (!isAddedToWatchList) {
+                                    await Provider.of<TvSeriesDetailProvider>(
+                                            context,
+                                            listen: false)
+                                        .addToWatchList(tvDetail);
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.black,
+                                      content: Text(
+                                        "Successfully added ${tvDetail.title} to watchList",
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    ));
+                                  } else {
+                                    await Provider.of<TvSeriesDetailProvider>(
+                                            context,
+                                            listen: false)
+                                        .removeFromWatchList(tvDetail);
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.black,
+                                      content: Text(
+                                        "Successfully removed ${tvDetail.title} From watchList",
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    ));
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isAddedToWatchList
+                                      ? Colors.grey[850]
+                                      : primaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  minimumSize: Size(
+                                    MediaQuery.of(context).size.width,
+                                    42.0,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    isAddedToWatchList
+                                        ? const Icon(Icons.check,
+                                            color: Colors.white)
+                                        : const Icon(Icons.add,
+                                            color: kWhiteColor),
+                                    const SizedBox(width: 16.0),
                                     Text(
-                                      '(${tvDetail.voteAverage})',
+                                      isAddedToWatchList
+                                          ? 'Added to watchlist'
+                                          : 'Add to watchlist',
                                       style: const TextStyle(
-                                        fontSize: 1.0,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 1.2,
+                                        color: kWhiteColor,
+                                        fontSize: 16,
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(width: 16.0),
-                                // Text(
-                                //   _showDuration(tvDetail.runtime as int),
-                                //   style: const TextStyle(
-                                //     color: Colors.white70,
-                                //     fontSize: 16.0,
-                                //     fontWeight: FontWeight.w500,
-                                //     letterSpacing: 1.2,
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                            const SizedBox(height: 16.0),
-                            ElevatedButton(
-                              key: const Key('movieToWatchlist'),
-                              onPressed: () async {
-                                if (!isAddedToWatchList) {
-                                  await Provider.of<TvSeriesDetailProvider>(
-                                          context,
-                                          listen: false)
-                                      .addToWatchList(tvDetail);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    backgroundColor: Colors.black,
-                                    content: Text(
-                                      "Successfully added ${tvDetail.title} to watchList",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ));
-                                } else {
-                                  await Provider.of<TvSeriesDetailProvider>(
-                                          context,
-                                          listen: false)
-                                      .removeFromWatchList(tvDetail);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    backgroundColor: Colors.black,
-                                    content: Text(
-                                      "Successfully removed ${tvDetail.title} From watchList",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ));
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isAddedToWatchList
-                                    ? Colors.grey[850]
-                                    : primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                minimumSize: Size(
-                                  MediaQuery.of(context).size.width,
-                                  42.0,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Text(
+                                'Storyline',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                tvDetail.overView,
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w200,
+                                  letterSpacing: 1.2,
                                 ),
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
+                              const SizedBox(height: 8.0),
+                              Text(
+                                'Genres',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 8.0),
+                              _showGenres(tvDetail.genres),
+                              const SizedBox(height: 8.0),
+                              Row(
                                 children: [
-                                  isAddedToWatchList
-                                      ? const Icon(Icons.check,
-                                          color: Colors.white)
-                                      : const Icon(Icons.add,
-                                          color: kWhiteColor),
-                                  const SizedBox(width: 16.0),
-                                  Text(
-                                    isAddedToWatchList
-                                        ? 'Added to watchlist'
-                                        : 'Add to watchlist',
-                                    style: const TextStyle(
-                                      color: kWhiteColor,
-                                      fontSize: 16,
+                                  Expanded(
+                                    child: Container(
+                                      child: const Text("Episodes"),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(height: 16.0),
-                            Text(
-                              'Storyline',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              tvDetail.overView,
-                              style: const TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w200,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              'Genres',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
-                            const SizedBox(height: 8.0),
-                            _showGenres(tvDetail.genres)
-                          ],
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Column(
+                                    children: [
+                                      DropdownButtonFormField<int>(
+                                        decoration:
+                                            const InputDecoration.collapsed(
+                                                hintText: ""),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        value: selectedItem,
+                                        items: items
+                                            .map(
+                                                (item) => DropdownMenuItem<int>(
+                                                    value: item,
+                                                    child: Text(
+                                                      "Season ${item}",
+                                                      style: const TextStyle(
+                                                          color: Colors.white),
+                                                    )))
+                                            .toList(),
+                                        onChanged: (item) => setState(
+                                            () => fetchSeasonEpisodes(item)),
+                                      ),
+                                      Consumer<SeasonsProvider>(
+                                        builder: (context, data, child) {
+                                          if (data.state ==
+                                              RequestState.loaded) {
+                                            return ListView.builder(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemExtent: 100.0,
+                                              itemCount: data.season.length,
+                                              itemBuilder: (context, index) {
+                                                final episode =
+                                                    data.season[index];
+                                                return Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 10),
+                                                  child: ListTile(
+                                                    visualDensity:
+                                                        const VisualDensity(
+                                                            vertical: 4,
+                                                            horizontal: 4),
+                                                    leading: Container(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: 500,
+                                                          imageUrl: Urls
+                                                              .imageUrl(episode
+                                                                      .still_path ??
+                                                                  tvDetail
+                                                                      .backdropPath ??
+                                                                  ""),
+                                                          fit: BoxFit.cover,
+                                                          errorWidget: (context,
+                                                              url, error) {
+                                                            return Container(
+                                                              child:
+                                                                  const Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Icon(
+                                                                    Icons
+                                                                        .warning,
+                                                                    size: 50,
+                                                                  ),
+                                                                  Text(
+                                                                      "Error Loading Image")
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    title: Text(
+                                                      "${index + 1}. ${episode.name.toString()}",
+                                                      style: const TextStyle(
+                                                          fontSize: 13),
+                                                    ),
+                                                    subtitle: Text(
+                                                      "${episode.description.toString()}",
+                                                      style: const TextStyle(
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w200),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          } else if (data.state ==
+                                              RequestState.loading) {
+                                            return const CircularProgressIndicator();
+                                          } else {
+                                            return const Center(
+                                                child: Text("No data"));
+                                          }
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

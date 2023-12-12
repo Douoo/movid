@@ -29,11 +29,11 @@ class PopularTvSeriesProvider extends ChangeNotifier {
         _message = failure.message;
         _state = RequestState.error;
       },
-      (failure) {
+      (tvSeries) {
         if (_seriesList.isEmpty) {
-          _seriesList = series;
+          _seriesList = tvSeries;
         }
-        _seriesList.addAll(series);
+        _seriesList.addAll(tvSeries);
         _state = RequestState.loaded;
         page = page + 1;
       },

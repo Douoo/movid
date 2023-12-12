@@ -30,7 +30,7 @@ void main() {
 
   test('should get TopRated tv series from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getTopRatedTvSeries())
+    when(mockTvSeriesRepository.getTopRatedTvSeries(1))
         .thenAnswer((_) async => const Right([testTvSeries]));
     //act
     final result = await getTopRatedTvsUseCase.call(1);

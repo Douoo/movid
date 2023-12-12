@@ -12,11 +12,14 @@ void main() {
   late MockNetworkConnection mockConnection;
   late MockTvSeriesRemoteDataSource mockTvSeriesRemoteDataSource;
   late TvSeriesRepositoryImpl repositoryImpl;
+  late MockTvSeriesLocalDataSource localDataSource;
 
   setUp(() {
     mockConnection = MockNetworkConnection();
     mockTvSeriesRemoteDataSource = MockTvSeriesRemoteDataSource();
+    localDataSource = MockTvSeriesLocalDataSource();
     repositoryImpl = TvSeriesRepositoryImpl(
+      localDataSource: localDataSource,
       remoteDataSource: mockTvSeriesRemoteDataSource,
       connection: mockConnection,
     );
@@ -68,7 +71,7 @@ void main() {
           'should throw ServerFailure when call to remote data source is not succesfful',
           () async {
         //arrange
-        when(mockTvSeriesRemoteDataSource.getPopularTvSeries())
+        when(mockTvSeriesRemoteDataSource.getPopularTvSeries(1))
             .thenThrow(ServerException());
         //act
         final result = await repositoryImpl.getPopularTvSeries(1);
@@ -82,7 +85,7 @@ void main() {
           'should return a list of movie object when call to remote data source is succesfful',
           () async {
         //arrange
-        when(mockTvSeriesRemoteDataSource.getTopRatedTvSeries())
+        when(mockTvSeriesRemoteDataSource.getTopRatedTvSeries(1))
             .thenAnswer((_) async => [testTopRatedTvSeries]);
         //act
         final result = await repositoryImpl.getTopRatedTvSeries(1);
@@ -94,7 +97,7 @@ void main() {
           'should throw ServerFailure when call to remote data source is not succesfful',
           () async {
         //arrange
-        when(mockTvSeriesRemoteDataSource.getTopRatedTvSeries())
+        when(mockTvSeriesRemoteDataSource.getTopRatedTvSeries(1))
             .thenThrow(ServerException());
         //act
         final result = await repositoryImpl.getTopRatedTvSeries(1);
@@ -135,7 +138,7 @@ void main() {
           'should return a list of movie object when call to remote data source is succesfful',
           () async {
         //arrange
-        when(mockTvSeriesRemoteDataSource.searchTvSeries(testTvSeriesQuery))
+        when(mockTvSeriesRemoteDataSource.searchTvSeries(testTvSeriesQuery, 1))
             .thenAnswer((_) async => testTvSeriesList);
         //act
         final result =
@@ -148,7 +151,7 @@ void main() {
           'should throw ServerFailure when call to remote data source is not succesfful',
           () async {
         //arrange
-        when(mockTvSeriesRemoteDataSource.searchTvSeries(testTvSeriesQuery))
+        when(mockTvSeriesRemoteDataSource.searchTvSeries(testTvSeriesQuery, 1))
             .thenThrow(ServerException());
         //act
         final result =

@@ -38,16 +38,21 @@ class ItemCard extends StatelessWidget {
           children: [
             Expanded(
               // flex: 2,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: CachedNetworkImage(
-                  imageUrl: Urls.imageUrl(
-                    item.backdropPath ?? '',
+              child: SizedBox(
+                height: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: Urls.imageUrl(
+                      item.backdropPath ?? '',
+                    ),
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),

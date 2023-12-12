@@ -6,7 +6,7 @@ import 'package:movid/features/series/domain/repository/series_repository.dart';
 class GetTvsSeasonsUseCase {
   final TvSeriesRepository series;
   GetTvsSeasonsUseCase({required this.series});
-  Future<Either<Failure, Season>> call() {
-    return series.getTvSeriesSeasons();
+  Future<Either<Failure, List<Season>>> call(int id, int seasonNumber) {
+    return series.getTvSeriesSeasons(id, seasonNumber);
   }
 }

@@ -31,7 +31,7 @@ void main() {
 
   test('should get on air tv series from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.searchTvSeries(testSearchData))
+    when(mockTvSeriesRepository.searchTvSeries(testSearchData, 1))
         .thenAnswer((_) async => const Right([testTvSeries]));
     //act
     final result = await searchTvsUseCase.call(testSearchData, 1);

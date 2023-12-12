@@ -5,6 +5,7 @@ import 'package:movid/features/series/domain/entites/season.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_seasons.dart';
 
 import '../../../../helpers/global_test_helpers.mocks.dart';
+import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
   late GetTvsSeasonsUseCase getTvsSeasonsUseCase;
@@ -26,10 +27,10 @@ void main() {
 
   test('should get popular tv series from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getTvSeriesSeasons())
-        .thenAnswer((_) async => const Right(testTvSeriesSeasons));
+    when(mockTvSeriesRepository.getTvSeriesSeasons(testTvSeriesId, 1))
+        .thenAnswer((_) async => const Right([testTvSeriesSeasons]));
     //act
-    final result = await getTvsSeasonsUseCase.call();
+    final result = await getTvsSeasonsUseCase.call(testTvSeriesId, 1);
 
     // assert
     expect(result, const Right(testTvSeriesSeasons));

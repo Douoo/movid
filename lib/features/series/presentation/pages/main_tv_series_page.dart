@@ -60,7 +60,8 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                         height: 575.0,
                         viewportFraction: 1.0,
                         autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 5),
+                        autoPlayInterval: const Duration(seconds: 8),
+                        autoPlayAnimationDuration: const Duration(seconds: 2),
                         onPageChanged: (index, reason) {
                           Provider.of<TvSeriesImagesProvider>(context,
                                   listen: false)

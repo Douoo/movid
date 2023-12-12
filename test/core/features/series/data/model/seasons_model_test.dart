@@ -29,7 +29,7 @@ void main() {
     );
 
     //act
-    final result = SeasonModel.fromJson(jsonMap);
+    final result = SeasonModel.fromMap(jsonMap);
     //expect
 
     expect(result, equals(testSeasonModel));

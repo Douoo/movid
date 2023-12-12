@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
-import 'package:movid/features/series/presentation/provider/top_rated_series_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/item_card.dart';
@@ -32,12 +31,12 @@ class _PopularSeriesPageState extends State<PopularSeriesPage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Popular Tv Series'),
-        backgroundColor: Colors.black.withOpacity(0.6),
+        backgroundColor: Colors.black.withOpacity(0.2),
         elevation: 0.0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TopRatedTvSeriesProvider>(
+        child: Consumer<PopularTvSeriesProvider>(
           builder: (context, data, child) {
             if (data.state == RequestState.loading) {
               return const Center(

@@ -46,7 +46,7 @@ class _TopRatedSeriesPageState extends State<TopRatedSeriesPage> {
                 from: 20,
                 duration: const Duration(milliseconds: 500),
                 child: ListView.builder(
-                  key: const Key('popularMoviesListView'),
+                  key: const Key('topRatedMoviesListView'),
                   itemBuilder: (context, index) {
                     final movie = data.series[index];
                     return ItemCard(

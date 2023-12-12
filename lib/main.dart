@@ -10,6 +10,7 @@ import 'package:movid/features/series/presentation/pages/detail_tv_series_page.d
 import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
 import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
+import 'package:movid/features/series/presentation/provider/seasons_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
@@ -92,6 +93,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<MovieWatchlistProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<SeasonsProvider>(),
         ),
 
         ///Search movie provider

@@ -9,6 +9,7 @@ class Season extends Equatable {
   final int? runTime;
   final double? voteAverage;
   final int? voteCount;
+  final String? still_path;
   const Season({
     this.id,
     this.airDate,
@@ -18,6 +19,7 @@ class Season extends Equatable {
     this.runTime,
     this.voteAverage,
     this.voteCount,
+    this.still_path,
   });
 
   @override
@@ -29,6 +31,7 @@ class Season extends Equatable {
         runTime,
         id,
         voteAverage,
-        voteCount
+        voteCount,
+        still_path
       ];
 }
