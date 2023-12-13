@@ -73,8 +73,9 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
 
   @override
   Future<List<TvSeries>> getRecommendedTvSeries(int id) {
-    // TODO: implement getRecommendedTvSeries
-    throw UnimplementedError();
+    return _getData(Urls.tvRecommendations(id), (response) {
+      return TvSeriesResponse.fromJson(response).tvList;
+    });
   }
 
   @override
@@ -86,7 +87,6 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   @override
   Future<List<Season>> getTvSeriesSeasons(int id, int seasonNumber) {
     return _getData(Urls.tvSeasons(id, seasonNumber), (response) {
-      print(response);
       return SeasonResponse.fromJson(response).seasonList;
     });
   }

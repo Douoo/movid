@@ -22,18 +22,19 @@ class DetailSeriesPage extends StatefulWidget {
   State<DetailSeriesPage> createState() => _DetailSeriesPageState();
 }
 
-class _DetailSeriesPageState extends State<DetailSeriesPage> {
+class _DetailSeriesPageState extends State<DetailSeriesPage>
+    with SingleTickerProviderStateMixin {
+  TabController? _tabController;
+  int? _selectedTab = 0;
   List<int> items = [
     1,
   ];
   int? selectedItem = 1;
 
   void seasonsBuilder(int item) {
-    print(" fsjlj ${item}");
     for (int i = 2; i < item; i++) {
       items.add(i);
     }
-    print(items.length);
   }
 
   void fetchSeasonEpisodes(season) {
@@ -48,7 +49,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
 
   @override
   void initState() {
-    print("series id ${widget.seriesId}");
+    _tabController = TabController(length: 2, vsync: this);
     final movieDetailProvider =
         Provider.of<TvSeriesDetailProvider>(context, listen: false);
     final seasonsProvider =
@@ -57,11 +58,19 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
       () {
         movieDetailProvider.fetchDetailTvSeries(widget.seriesId!);
         movieDetailProvider.loadWatchListStatus(widget.seriesId!);
+        seasonsProvider.fetchSeasons(widget.seriesId!, 1);
+        movieDetailProvider.fetchRecomanddTvSeres(widget.seriesId!);
       },
     );
     seasonsBuilder(movieDetailProvider.seriesDetail.numberOfSeasons);
-    seasonsProvider.fetchSeasons(widget.seriesId!, 1);
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController!.dispose();
+    super.dispose();
   }
 
   @override
@@ -312,138 +321,168 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
                               const SizedBox(height: 8.0),
                               _showGenres(tvDetail.genres),
                               const SizedBox(height: 8.0),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: const Text("Episodes"),
-                                    ),
+                              TabBar(
+                                  onTap: (index) {
+                                    setState(() {
+                                      _selectedTab = index;
+                                    });
+                                  },
+                                  controller: _tabController,
+                                  labelPadding:
+                                      const EdgeInsets.only(bottom: 8.0),
+                                  indicator: const UnderlineTabIndicator(
+                                    borderSide: BorderSide(color: primaryColor),
                                   ),
-                                ],
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  width: double.infinity,
-                                  child: Column(
-                                    children: [
-                                      DropdownButtonFormField<int>(
-                                        decoration:
-                                            const InputDecoration.collapsed(
-                                                hintText: ""),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        value: selectedItem,
-                                        items: items
-                                            .map(
-                                                (item) => DropdownMenuItem<int>(
-                                                    value: item,
-                                                    child: Text(
-                                                      "Season ${item}",
-                                                      style: const TextStyle(
-                                                          color: Colors.white),
-                                                    )))
-                                            .toList(),
-                                        onChanged: (item) => setState(
-                                            () => fetchSeasonEpisodes(item)),
-                                      ),
-                                      Consumer<SeasonsProvider>(
-                                        builder: (context, data, child) {
-                                          if (data.state ==
-                                              RequestState.loaded) {
-                                            return ListView.builder(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              itemExtent: 100.0,
-                                              itemCount: data.season.length,
-                                              itemBuilder: (context, index) {
-                                                final episode =
-                                                    data.season[index];
-                                                return Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(vertical: 10),
-                                                  child: ListTile(
-                                                    visualDensity:
-                                                        const VisualDensity(
-                                                            vertical: 4,
-                                                            horizontal: 4),
-                                                    leading: Container(
-                                                      width: 100,
-                                                      height: 100,
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          height: 500,
-                                                          imageUrl: Urls
-                                                              .imageUrl(episode
-                                                                      .still_path ??
-                                                                  tvDetail
-                                                                      .backdropPath ??
-                                                                  ""),
-                                                          fit: BoxFit.cover,
-                                                          errorWidget: (context,
-                                                              url, error) {
-                                                            return Container(
-                                                              child:
-                                                                  const Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons
-                                                                        .warning,
-                                                                    size: 50,
+                                  tabs: [
+                                    const Tab(
+                                      text: "Episodes",
+                                    ),
+                                    const Tab(
+                                      text: "More Like this",
+                                    )
+                                  ]),
+                              Builder(builder: (_) {
+                                if (_selectedTab == 0) {
+                                  return Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      width: double.infinity,
+                                      child: Column(
+                                        children: [
+                                          DropdownButtonFormField<int>(
+                                            decoration:
+                                                const InputDecoration.collapsed(
+                                                    hintText: ""),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20),
+                                            value: selectedItem,
+                                            items: items
+                                                .map((item) =>
+                                                    DropdownMenuItem<int>(
+                                                        value: item,
+                                                        child: Text(
+                                                          "Season ${item}",
+                                                          style:
+                                                              const TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                        )))
+                                                .toList(),
+                                            onChanged: (item) => setState(() =>
+                                                fetchSeasonEpisodes(item)),
+                                          ),
+                                          Consumer<SeasonsProvider>(
+                                            builder: (context, data, child) {
+                                              if (data.state ==
+                                                  RequestState.loaded) {
+                                                return ListView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  shrinkWrap: true,
+                                                  itemExtent: 100.0,
+                                                  itemCount: data.season.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final episode =
+                                                        data.season[index];
+                                                    return Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 10),
+                                                      child: ListTile(
+                                                        visualDensity:
+                                                            const VisualDensity(
+                                                                vertical: 4,
+                                                                horizontal: 4),
+                                                        leading: Container(
+                                                          width: 100,
+                                                          height: 100,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              height: 500,
+                                                              imageUrl: Urls
+                                                                  .imageUrl(episode
+                                                                          .still_path ??
+                                                                      tvDetail
+                                                                          .backdropPath ??
+                                                                      ""),
+                                                              fit: BoxFit.cover,
+                                                              errorWidget:
+                                                                  (context, url,
+                                                                      error) {
+                                                                return Container(
+                                                                  child:
+                                                                      const Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .warning,
+                                                                        size:
+                                                                            50,
+                                                                      ),
+                                                                      Text(
+                                                                          "Error Loading Image")
+                                                                    ],
                                                                   ),
-                                                                  Text(
-                                                                      "Error Loading Image")
-                                                                ],
-                                                              ),
-                                                            );
-                                                          },
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        title: Text(
+                                                          "${index + 1}. ${episode.name.toString()}",
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 13),
+                                                        ),
+                                                        subtitle: Text(
+                                                          "${episode.description.toString()}",
+                                                          style: const TextStyle(
+                                                              fontSize: 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w200),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 2,
                                                         ),
                                                       ),
-                                                    ),
-                                                    title: Text(
-                                                      "${index + 1}. ${episode.name.toString()}",
-                                                      style: const TextStyle(
-                                                          fontSize: 13),
-                                                    ),
-                                                    subtitle: Text(
-                                                      "${episode.description.toString()}",
-                                                      style: const TextStyle(
-                                                          fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w200),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                    ),
-                                                  ),
+                                                    );
+                                                  },
                                                 );
-                                              },
-                                            );
-                                          } else if (data.state ==
-                                              RequestState.loading) {
-                                            return const CircularProgressIndicator();
-                                          } else {
-                                            return const Center(
-                                                child: Text("No data"));
-                                          }
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
+                                              } else if (data.state ==
+                                                  RequestState.loading) {
+                                                return const CircularProgressIndicator();
+                                              } else {
+                                                return const Center(
+                                                    child: Text("No data"));
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  //To-Do: Impalement the redemanded series list here
+                                  return const SizedBox(
+                                      child: Center(
+                                          child: Text("Recommended series")));
+                                }
+                              }),
                             ],
                           ),
                         ),
@@ -488,73 +527,83 @@ class _DetailSeriesPageState extends State<DetailSeriesPage> {
     );
   }
 
-  Widget _showRecommendations() {
+  Widget _showSeriesRecommendations() {
     return Consumer<TvSeriesDetailProvider>(
       builder: (context, data, child) {
         if (data.recommendedSeriesState == RequestState.loaded) {
-          return SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final recommendation = data.recommendedTvSeries[index];
-                return FadeInUp(
-                  from: 20,
-                  duration: const Duration(milliseconds: 500),
-                  child: GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                        ),
-                        context: context,
-                        builder: (context) {
-                          return SeriesDetailCard(
-                            series: recommendation,
+          return SizedBox(
+            height: 800,
+            child: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final recommendation = data.recommendedTvSeries[index];
+                  return SizedBox(
+                    height: 800,
+                    child: FadeInUp(
+                      from: 20,
+                      duration: const Duration(milliseconds: 500),
+                      child: GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                              ),
+                            ),
+                            context: context,
+                            builder: (context) {
+                              return SeriesDetailCard(
+                                series: recommendation,
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                    child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(4.0)),
-                      child: CachedNetworkImage(
-                        imageUrl: Urls.imageUrl(recommendation.poster ?? ''),
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: Colors.grey[850]!,
-                          highlightColor: Colors.grey[800]!,
-                          child: Container(
-                            height: 170.0,
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(8.0),
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4.0)),
+                          child: SizedBox(
+                            height: 800,
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  Urls.imageUrl(recommendation.poster ?? ''),
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[850]!,
+                                highlightColor: Colors.grey[800]!,
+                                child: Container(
+                                  height: 170.0,
+                                  width: 120.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                  color: Colors.grey,
+                                  child: const Icon(
+                                    Icons.error,
+                                  )),
+                              height: 180.0,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                        errorWidget: (context, url, error) => Container(
-                            color: Colors.grey,
-                            child: const Icon(
-                              Icons.error,
-                            )),
-                        height: 180.0,
-                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                );
-              },
-              childCount: data.recommendedTvSeries.length,
-            ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              childAspectRatio: 0.7,
-              crossAxisCount:
-                  (MediaQuery.of(context).orientation == Orientation.portrait)
-                      ? 3
-                      : 4,
+                  );
+                },
+                childCount: data.recommendedTvSeries.length,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                childAspectRatio: 0.7,
+                crossAxisCount:
+                    (MediaQuery.of(context).orientation == Orientation.portrait)
+                        ? 3
+                        : 4,
+              ),
             ),
           );
         } else if (data.recommendedSeriesState == RequestState.error) {

@@ -45,6 +45,22 @@ class TvSeriesDetailProvider extends ChangeNotifier {
   String _watchListMessage = '';
   String get watchListMessage => _watchListMessage;
 
+  Future<void> fetchRecomanddTvSeres(int id) async {
+    _recommendedSeriesState = RequestState.loading;
+    notifyListeners();
+    final result = await getRecommendedTvsUseCase(id);
+
+    result.fold((failure) {
+      _recommendedSeriesState = RequestState.error;
+      _message = failure.message;
+      print("failure");
+    }, (recommended) {
+      _recommendedTvSeries = recommended;
+      _recommendedSeriesState = RequestState.loaded;
+    });
+    notifyListeners();
+  }
+
   Future<void> fetchDetailTvSeries(int seriesId) async {
     _state = RequestState.loading;
 

@@ -4,11 +4,13 @@ import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
+
 import 'package:shimmer/shimmer.dart';
 
 class SeriesDetailCard extends StatelessWidget {
   final TvSeries series;
   const SeriesDetailCard({required this.series, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -61,7 +63,7 @@ class SeriesDetailCard extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

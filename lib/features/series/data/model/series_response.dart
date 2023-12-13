@@ -2,17 +2,16 @@
 import 'dart:convert';
 
 import 'package:movid/features/series/data/model/tv_series_model.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
 
 class TvSeriesResponse {
-  final List<TvSeries> tvList;
+  final List<TvSeriesModel> tvList;
 
   TvSeriesResponse({required this.tvList});
 
   factory TvSeriesResponse.fromMap(Map<String, dynamic> map) {
     return TvSeriesResponse(
       tvList: List.from(
-        map['results'].map<TvSeries>(
+        map['results'].map<TvSeriesModel>(
           (x) => TvSeriesModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
