@@ -47,11 +47,11 @@ class _PopularSeriesPageState extends State<PopularSeriesPage> {
                 from: 20,
                 duration: const Duration(milliseconds: 500),
                 child: ListView.builder(
-                  key: const Key('popularMoviesListView'),
+                  key: const Key('popularTvsListView'),
                   itemBuilder: (context, index) {
-                    final movie = data.series[index];
+                    final tv = data.series[index];
                     return ItemCard(
-                      item: movie,
+                      item: tv,
                     );
                   },
                   itemCount: data.series.length,
