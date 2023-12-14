@@ -111,7 +111,7 @@ class SeriesDetailCard extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      DetailSeriesPage(seriesId: series.id)));
+                                      DetailSeriesPage(tvId: series.id)));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,

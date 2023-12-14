@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/errors/failure.dart';
 import 'package:movid/core/network/network_connection.dart';
-import 'package:movid/features/series/data/data_sources/local/tv_series_local_data_source.dart';
+import 'package:movid/features/series/data/data_sources/tv_series_local_data_source.dart';
 import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart';
 import 'package:movid/features/series/data/model/media_image_model.dart';
 import 'package:movid/features/series/data/model/series_data.dart';
-import 'package:movid/features/series/domain/entites/season.dart';
+import 'package:movid/features/series/domain/entites/season_episode.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
@@ -84,10 +84,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Season>>> getTvSeriesSeasons(
+  Future<Either<Failure, List<SeasonEpisode>>> getTvSeasonEpisodes(
       int id, int seasonNumber) async {
     return await _remoteOperation(
-        () => remoteDataSource.getTvSeriesSeasons(id, seasonNumber));
+        () => remoteDataSource.getTvSeasonEpisodes(id, seasonNumber));
   }
 
   @override

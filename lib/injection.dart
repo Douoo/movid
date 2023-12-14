@@ -23,7 +23,7 @@ import 'package:movid/features/movies/presentation/provider/movie_images_provide
 import 'package:movid/features/movies/presentation/provider/movie_list_provider.dart';
 import 'package:movid/features/movies/presentation/provider/popular_movies_provider.dart';
 import 'package:movid/features/movies/presentation/provider/top_rated_movies_provider.dart';
-import 'package:movid/features/series/data/data_sources/local/tv_series_local_data_source.dart';
+import 'package:movid/features/series/data/data_sources/tv_series_local_data_source.dart';
 import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart';
 import 'package:movid/features/series/data/repository/series_repository_impl.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
@@ -37,9 +37,9 @@ import 'package:movid/features/series/domain/usecases/series/get_series_images.d
 import 'package:movid/features/series/domain/usecases/series/get_top_rated_tvs.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_detail.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_recommendations.dart';
-import 'package:movid/features/series/domain/usecases/series/get_tv_seasons.dart';
+import 'package:movid/features/series/domain/usecases/series/get_tv_season_episodes.dart';
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
-import 'package:movid/features/series/presentation/provider/seasons_provider.dart';
+import 'package:movid/features/series/presentation/provider/season_episodes_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
@@ -123,7 +123,7 @@ Future<void> init() async {
       () => TvSeriesWatchListProvider(getWatchListTvsUseCase: locator()));
 
   locator
-      .registerFactory(() => SeasonsProvider(getTvsSeasonsUseCase: locator()));
+      .registerFactory(() => SeasonEpisodesProvider( getTvSeasonEpisodes: locator(),));
 
   //******** Usecases **********//
   /// Movie related
@@ -144,7 +144,7 @@ Future<void> init() async {
   ///Tv Series
   locator.registerLazySingleton(() => GetOnAirTvsUseCase(series: locator()));
   locator.registerLazySingleton(() => GetPopularTvsUseCase(series: locator()));
-  locator.registerLazySingleton(() => GetTvsSeasonsUseCase(series: locator()));
+  locator.registerLazySingleton(() => GetTvSeasonEpisodes(series: locator()));
 
   locator.registerLazySingleton(() => GetTopRatedTvsUseCase(series: locator()));
   locator.registerLazySingleton(() => GetDetailTvsUseCase(series: locator()));

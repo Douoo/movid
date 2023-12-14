@@ -22,7 +22,7 @@ class ItemCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => DetailSeriesPage(
-              seriesId: item.id,
+              tvId: item.id,
             ),
           ),
         );

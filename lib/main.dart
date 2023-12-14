@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<MovieWatchlistProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => di.locator<SeasonsProvider>(),
+          create: (_) => di.locator<SeasonEpisodesProvider>(),
         ),
 
         ///Search movie provider

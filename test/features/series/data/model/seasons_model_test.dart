@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movid/features/series/data/model/season_model.dart';
-import 'package:movid/features/series/domain/entites/season.dart';
+import 'package:movid/features/series/domain/entites/season_episode.dart';
 import '../../../../helpers/json_reader.dart';
 
 void main() {

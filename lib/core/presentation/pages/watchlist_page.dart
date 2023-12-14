@@ -19,12 +19,15 @@ class WatchlistPage extends StatefulWidget {
 class _WatchlistPageState extends State<WatchlistPage> {
   @override
   void initState() {
-    Future.microtask(() => Provider.of<MovieWatchlistProvider>(
-          context,
-          listen: false,
-        ).fetchWatchlistMovies());
-    Provider.of<TvSeriesWatchListProvider>(context, listen: false)
-        .fetchWatchListSeries();
+    Future.microtask(() {
+      Provider.of<MovieWatchlistProvider>(
+        context,
+        listen: false,
+      ).fetchWatchlistMovies();
+      Provider.of<TvSeriesWatchListProvider>(context, listen: false)
+          .fetchWatchListSeries();
+    });
+
     super.initState();
   }
 

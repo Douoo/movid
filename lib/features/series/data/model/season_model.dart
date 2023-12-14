@@ -1,32 +1,32 @@
 import 'dart:convert';
 
-import 'package:movid/features/series/domain/entites/season.dart';
+import 'package:movid/features/series/domain/entites/season_episode.dart';
 
-class SeasonModel extends Season {
-  const SeasonModel({
+class SeasonEpisodeModel extends SeasonEpisode {
+  const SeasonEpisodeModel({
     super.id,
     super.airDate,
-    super.description,
+    super.overview,
     super.episodeNumber,
     super.name,
     super.runTime,
     super.voteAverage,
     super.voteCount,
-    super.still_path,
+    super.stillPath,
   });
-  factory SeasonModel.fromMap(Map<String, dynamic> map) {
-    return SeasonModel(
+  factory SeasonEpisodeModel.fromMap(Map<String, dynamic> map) {
+    return SeasonEpisodeModel(
         id: map['id'],
-        still_path: map['still_path'],
+        stillPath: map['still_path'],
         name: map["name"],
         episodeNumber: map['season_number'],
         airDate: map['air_date'],
         runTime: map['runtime'],
-        description: map['overview'],
+        overview: map['overview'],
         voteAverage: map['vote_average'],
         voteCount: map['vote_count']);
   }
 
-  factory SeasonModel.fromJson(String source) =>
-      SeasonModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SeasonEpisodeModel.fromJson(String source) =>
+      SeasonEpisodeModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

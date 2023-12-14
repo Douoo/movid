@@ -28,13 +28,13 @@ class TvSeriesDetailProvider extends ChangeNotifier {
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
-  RequestState _recommendedSeriesState = RequestState.empty;
-  RequestState get recommendedSeriesState => _recommendedSeriesState;
+  RequestState _recommendedTvState = RequestState.empty;
+  RequestState get recommendedSeriesState => _recommendedTvState;
   late SeriesDetail _seriesDetail;
   SeriesDetail get seriesDetail => _seriesDetail;
 
-  late List<TvSeries> _recommendedTvSeries;
-  List<TvSeries> get recommendedTvSeries => _recommendedTvSeries;
+  late List<TvSeries> _recommendedTv;
+  List<TvSeries> get recommendedTvSeries => _recommendedTv;
 
   bool _isAddedToWatchList = false;
   bool get isAddedToWatchList => _isAddedToWatchList;
@@ -45,39 +45,36 @@ class TvSeriesDetailProvider extends ChangeNotifier {
   String _watchListMessage = '';
   String get watchListMessage => _watchListMessage;
 
-  Future<void> fetchRecomanddTvSeres(int id) async {
-    _recommendedSeriesState = RequestState.loading;
-    notifyListeners();
-    final result = await getRecommendedTvsUseCase(id);
-
-    result.fold((failure) {
-      _recommendedSeriesState = RequestState.error;
-      _message = failure.message;
-      print("failure");
-    }, (recommended) {
-      _recommendedTvSeries = recommended;
-      _recommendedSeriesState = RequestState.loaded;
-    });
-    notifyListeners();
-  }
-
-  Future<void> fetchDetailTvSeries(int seriesId) async {
+  Future<void> fetchDetailTvSeries(int tvId) async {
     _state = RequestState.loading;
 
     notifyListeners();
 
-    final result = await getDetailTvsUseCase(seriesId);
-    result.fold(
+    final detailResult = await getDetailTvsUseCase(tvId);
+    final recommendedTvResult = await getRecommendedTvsUseCase(tvId);
+    detailResult.fold(
       (failure) {
         _message = failure.message;
         _state = RequestState.error;
       },
       (movieDetail) {
-        _seriesDetail = movieDetail;
+        _recommendedTvState = RequestState.loading;
         _state = RequestState.loaded;
+        _seriesDetail = movieDetail;
+        notifyListeners();
+        recommendedTvResult.fold(
+          (failure) {
+            _recommendedTvState = RequestState.error;
+            _message = failure.message;
+          },
+          (tvs) {
+            _recommendedTvState = RequestState.loaded;
+            _recommendedTv = tvs;
+          },
+        );
+        notifyListeners();
       },
     );
-    notifyListeners();
   }
 
   Future<void> addToWatchList(SeriesDetail series) async {
