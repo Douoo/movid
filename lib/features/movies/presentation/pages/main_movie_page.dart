@@ -6,6 +6,7 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
 import '../provider/movie_images_provider.dart';
 import '../provider/movie_list_provider.dart';
+import '../widgets/loading_widgets.dart';
 import 'popular_movies_page.dart';
 import 'top_rated_movies_page.dart';
 import 'package:provider/provider.dart';
@@ -113,38 +114,6 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-
-                              // Padding(
-                              //   padding: const EdgeInsets.only(bottom: 16.0),
-                              //   child: Consumer<MovieImagesProvider>(
-                              //     builder: (context, data, child) {
-                              //       if (data.state == RequestState.loaded) {
-                              //         if (data.mediaImages.logoPaths.isEmpty) {
-                              //           return Text(movie.title);
-                              //         }
-                              //         return Align(
-                              //           alignment: Alignment.bottomCenter,
-                              //           child: CachedNetworkImage(
-                              //             width: 200.0,
-                              //             imageUrl: Urls.imageUrl(
-                              //               data.mediaImages.logoPaths[0],
-                              //             ),
-                              //           ),
-                              //         );
-                              //       } else if (data.state ==
-                              //           RequestState.error) {
-                              //         return const Center(
-                              //           child: Text('Load data failed'),
-                              //         );
-                              //       } else {
-                              //         //TODO: Remove this
-                              //         return const Center(
-                              //           child: SizedBox(),
-                              //         );
-                              //       }
-                              //     },
-                              //   ),
-                              // ),
                             ],
                           ),
                         );
@@ -227,42 +196,6 @@ class _MainMoviePageState extends State<MainMoviePage> {
             }),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 170.0,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: 5,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Shimmer.fromColors(
-              baseColor: Colors.grey[850]!,
-              highlightColor: Colors.grey[800]!,
-              child: Container(
-                height: 170.0,
-                width: 120.0,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }

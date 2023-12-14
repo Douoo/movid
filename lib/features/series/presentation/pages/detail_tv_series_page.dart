@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/styles/colors.dart';
-import '../widgets/series_detail_card.dart';
+import '../widgets/minimal_detail.dart';
 
 class DetailSeriesPage extends StatefulWidget {
   static const route = "DetailSeriesPage";
@@ -591,8 +591,8 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
                         ),
                         context: context,
                         builder: (context) {
-                          return SeriesDetailCard(
-                            series: recommendation,
+                          return MinimalDetail(
+                            tv: recommendation,
                           );
                         },
                       );

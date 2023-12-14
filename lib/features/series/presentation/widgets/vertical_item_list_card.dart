@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/series_detail_card.dart';
+import '../widgets/minimal_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,10 +21,10 @@ class VerticalItemList extends StatelessWidget {
     return SizedBox(
       height: 290,
       child: NotificationListener(
-        onNotification: (_onScrollNotification) {
-          if (_onScrollNotification is ScrollEndNotification) {
-            final before = _onScrollNotification.metrics.extentBefore;
-            final max = _onScrollNotification.metrics.maxScrollExtent;
+        onNotification: (onScrollNotification) {
+          if (onScrollNotification is ScrollEndNotification) {
+            final before = onScrollNotification.metrics.extentBefore;
+            final max = onScrollNotification.metrics.maxScrollExtent;
             if (before == max) {
               if (isTopRated) {
                 movieProvider.fetchTopRatedSeries();
@@ -56,7 +56,9 @@ class VerticalItemList extends StatelessWidget {
                         ),
                         context: context,
                         builder: (context) {
-                          return SeriesDetailCard(series: tvSeries);
+                          return MinimalDetail(
+                            tv: tvSeries,
+                          );
                         });
                   },
                   child: SizedBox(
@@ -102,10 +104,10 @@ class VerticalItemList extends StatelessWidget {
                           height: 5,
                         ),
                         Expanded(
-                            child: Text(
-                          "${series[index].date!.substring(0, 4)} - ${series[index].rating!.toStringAsFixed(1)}",
-                          style: const TextStyle(fontWeight: FontWeight.w100),
-                        )),
+                          child: Text(
+                            "${series[index].date!.substring(0, 4)} - ${series[index].rating!.toStringAsFixed(1)}",
+                          ),
+                        ),
                       ],
                     ),
                   ),

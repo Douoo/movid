@@ -28,7 +28,7 @@ class TvSeriesListProvider extends ChangeNotifier {
   RequestState get onAirTvsState => _onAirTvsState;
 
   List<TvSeries> _popularTvs = [];
-  List<TvSeries> get popularMovies => _popularTvs;
+  List<TvSeries> get popularTvs => _popularTvs;
   int popularPage = 1;
 
   RequestState _popularTvsState = RequestState.empty;

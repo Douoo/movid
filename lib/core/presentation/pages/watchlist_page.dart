@@ -80,7 +80,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
               },
             ),
           ),
-          //TODO: Change the following provider widget to a tv watchlist
+
           Consumer<TvSeriesWatchListProvider>(
             builder: (context, data, child) {
               if (data.state == RequestState.loaded) {

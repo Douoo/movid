@@ -4,8 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
-import 'package:movid/features/movies/presentation/widgets/sub_heading.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
 import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
@@ -15,6 +13,10 @@ import 'package:movid/features/series/presentation/provider/series_list_provider
 import 'package:movid/features/series/presentation/widgets/vertical_item_list_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../widgets/loading_widget.dart';
+import '../widgets/minimal_detail.dart';
+import '../widgets/sub_heading.dart';
 
 class MainSeriesPage extends StatefulWidget {
   const MainSeriesPage({super.key});
@@ -26,19 +28,19 @@ class MainSeriesPage extends StatefulWidget {
 class _MainSeriesPageState extends State<MainSeriesPage> {
   @override
   void initState() {
-    final movieProvider =
+    final tvProvider =
         Provider.of<TvSeriesListProvider>(context, listen: false);
 
     Future.microtask(() {
-      movieProvider.fetchOnAirTvs().whenComplete(() {
+      tvProvider.fetchOnAirTvs().whenComplete(() {
         Provider.of<TvSeriesImagesProvider>(context, listen: false)
-            .fetchSeriesImages(movieProvider.onAirTvs[0].id!);
+            .fetchSeriesImages(tvProvider.onAirTvs[0].id!);
         Provider.of<TvSeriesDetailProvider>(context, listen: false)
-            .fetchDetailTvSeries(movieProvider.onAirTvs[0].id!);
+            .fetchDetailTvSeries(tvProvider.onAirTvs[0].id!);
       });
 
-      movieProvider.fetchPopularSeries();
-      movieProvider.fetchTopRatedSeries();
+      tvProvider.fetchPopularSeries();
+      tvProvider.fetchTopRatedSeries();
     });
     super.initState();
   }
@@ -47,7 +49,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        key: const Key('movieScrollView'),
+        key: const Key('tvScrollView'),
         child: Column(
           children: [
             Consumer<TvSeriesListProvider>(
@@ -71,10 +73,23 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                               .fetchDetailTvSeries(data.onAirTvs[index].id!);
                         },
                       ),
-                      items: data.onAirTvs.map((movie) {
+                      items: data.onAirTvs.map((tv) {
                         return GestureDetector(
                           onTap: () {
-                            //TODO: Implement navigation
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return MinimalDetail(
+                                  tv: tv,
+                                );
+                              },
+                            );
                           },
                           child: Stack(
                             children: [
@@ -104,90 +119,8 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                   height: 560.0,
                                   width: double.infinity,
                                   imageUrl: Urls.imageUrl(
-                                      movie.poster ?? movie.backdropPath!),
+                                      tv.poster ?? tv.backdropPath!),
                                   fit: BoxFit.cover,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 16.0, left: 20),
-                                child: Consumer<TvSeriesImagesProvider>(
-                                  builder: (context, seriesImageData, child) {
-                                    if (seriesImageData.state ==
-                                        RequestState.loaded) {
-                                      return Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(movie.title!),
-                                                  ],
-                                                ),
-                                                const SizedBox(height: 8),
-                                                Consumer<
-                                                    TvSeriesDetailProvider>(
-                                                  builder: (context, detailData,
-                                                      child) {
-                                                    if (detailData.state ==
-                                                        RequestState.loaded) {
-                                                      return Row(
-                                                        children: [
-                                                          Text(movie.rating
-                                                              .toString()
-                                                              .substring(0, 3)),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          _drawGeners(detailData
-                                                              .seriesDetail)
-                                                        ],
-                                                      );
-                                                    } else {
-                                                      return const SizedBox();
-                                                    }
-                                                  },
-                                                ),
-                                                const SizedBox(height: 8),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        movie.description
-                                                            .toString(),
-                                                        maxLines: 4,
-                                                        style: const TextStyle(
-                                                            fontSize: 10),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ]));
-
-                                      // return Align(
-                                      //   alignment: Alignment.bottomCenter,
-                                      //   child: CachedNetworkImage(
-                                      //     width: 200.0,
-                                      //     imageUrl: Urls.imageUrl(
-                                      //       data.mediaImages.posterPaths[0],
-                                      //     ),
-                                      //   ),
-                                      // );
-                                    } else if (seriesImageData.state ==
-                                        RequestState.error) {
-                                      return const Center(
-                                        child: Text('Load data failed'),
-                                      );
-                                    } else {
-                                      return const Center(
-                                        child: SizedBox(),
-                                      );
-                                    }
-                                  },
                                 ),
                               ),
                             ],
@@ -227,7 +160,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
               },
             ),
             SubHeading(
-              valueKey: 'seePopularMovies',
+              valueKey: 'seePopulartvs',
               text: 'Popular',
               onSeeMoreTapped: () {
                 Navigator.pushNamed(context, PopularSeriesPage.route);
@@ -235,11 +168,11 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
             ),
             Consumer<TvSeriesListProvider>(builder: (context, data, _) {
               if (data.popularTvsState == RequestState.loaded ||
-                  data.popularMovies.isNotEmpty) {
+                  data.popularTvs.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
                     child: VerticalItemList(
-                      series: data.popularMovies,
+                      series: data.popularTvs,
                       isTopRated: false,
                     ));
               } else if (data.popularTvsState == RequestState.error) {
@@ -249,7 +182,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
               }
             }),
             SubHeading(
-              valueKey: 'seeTopRatedMovies',
+              valueKey: 'seeTopRatedtvs',
               text: 'Top rated',
               onSeeMoreTapped: () {
                 Navigator.pushNamed(context, TopRatedSeriesPage.route);
@@ -268,12 +201,6 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                 return const SizedBox();
               }
             })
-            //   } else if (data.topRatedMoviesState == RequestState.error) {
-            //     return const Center(child: Text('Load data failed'));
-            //   } else {
-            //     return LoadingWidget();
-            //   }
-            // }),
           ],
         ),
       ),
