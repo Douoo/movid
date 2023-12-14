@@ -9,13 +9,13 @@ import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
   late GetTvsSeasonsUseCase getTvsSeasonsUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
-    getTvsSeasonsUseCase = GetTvsSeasonsUseCase(series: mockTvSeriesRepository);
+    mockTvRepository = MockTvRepository();
+    getTvsSeasonsUseCase = GetTvsSeasonsUseCase(tv: mockTvRepository);
   });
 
-  const testTvSeriesSeasons = Season(
+  const testTvSeasons = SeasonEpisode(
       id: 1,
       name: 'test',
       description: "this is a random ass description",
@@ -25,14 +25,14 @@ void main() {
       runTime: 56,
       episodeNumber: 3);
 
-  test('should get popular tv series from repository', () async {
+  test('should get popular tv tv from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getTvSeriesSeasons(testTvSeriesId, 1))
-        .thenAnswer((_) async => const Right([testTvSeriesSeasons]));
+    when(mockTvRepository.getTvSeasons(testTvId, 1))
+        .thenAnswer((_) async => const Right([testTvSeasons]));
     //act
-    final result = await getTvsSeasonsUseCase.call(testTvSeriesId, 1);
+    final result = await getTvsSeasonsUseCase.call(testTvId, 1);
 
     // assert
-    expect(result, const Right(testTvSeriesSeasons));
+    expect(result, const Right(testOnAirTv));
   });
 }

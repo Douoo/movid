@@ -6,7 +6,7 @@ import 'package:movid/features/series/domain/entites/series_detail.dart';
 part 'series_data.g.dart';
 
 @HiveType(typeId: 1)
-class SeriesData extends HiveObject {
+class TvData extends HiveObject {
   @HiveField(0)
   final String? backdropPath;
   @HiveField(1)
@@ -28,7 +28,7 @@ class SeriesData extends HiveObject {
   @HiveField(9)
   final String date;
 
-  SeriesData(
+  TvData(
       {required this.backdropPath,
       required this.id,
       required this.numberOfEpisodes,
@@ -39,18 +39,18 @@ class SeriesData extends HiveObject {
       required this.voteAverage,
       required this.voteCount,
       required this.date});
-  SeriesData.copy(SeriesDetail seriesDetail)
+  TvData.copy(TvDetail tvDetail)
       : this(
-          backdropPath: seriesDetail.backdropPath,
-          id: seriesDetail.id,
-          numberOfEpisodes: seriesDetail.numberOfEpisodes,
-          numberOfSeasons: seriesDetail.numberOfSeasons,
-          overView: seriesDetail.overView,
-          voteAverage: seriesDetail.voteAverage,
-          voteCount: seriesDetail.voteCount,
-          posterPath: seriesDetail.posterPath,
-          title: seriesDetail.title,
-          date: seriesDetail.releaseDate,
+          backdropPath: tvDetail.backdropPath,
+          id: tvDetail.id,
+          numberOfEpisodes: tvDetail.numberOfEpisodes,
+          numberOfSeasons: tvDetail.numberOfSeasons,
+          overView: tvDetail.overView,
+          voteAverage: tvDetail.voteAverage,
+          voteCount: tvDetail.voteCount,
+          posterPath: tvDetail.posterPath,
+          title: tvDetail.title,
+          date: tvDetail.releaseDate,
         );
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -67,8 +67,8 @@ class SeriesData extends HiveObject {
     };
   }
 
-  factory SeriesData.fromMap(Map<String, dynamic> map) {
-    return SeriesData(
+  factory TvData.fromMap(Map<String, dynamic> map) {
+    return TvData(
         backdropPath: map['backdropPath'],
         id: map['id'],
         date: map['date'],
@@ -83,6 +83,6 @@ class SeriesData extends HiveObject {
 
   String toJson() => json.encode(toMap());
 
-  factory SeriesData.fromJson(String source) =>
-      SeriesData.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TvData.fromJson(String source) =>
+      TvData.fromMap(json.decode(source) as Map<String, dynamic>);
 }

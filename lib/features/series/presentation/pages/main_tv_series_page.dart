@@ -13,32 +13,32 @@ import 'package:movid/features/series/presentation/provider/series_detail_provid
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
 import 'package:movid/features/series/presentation/widgets/vertical_item_list_card.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MainSeriesPage extends StatefulWidget {
-  const MainSeriesPage({super.key});
+class MainTvPage extends StatefulWidget {
+  const MainTvPage({super.key});
 
   @override
-  State<MainSeriesPage> createState() => _MainSeriesPageState();
+  State<MainTvPage> createState() => _MainTvPageState();
 }
 
-class _MainSeriesPageState extends State<MainSeriesPage> {
+class _MainTvPageState extends State<MainTvPage> {
   @override
   void initState() {
-    final movieProvider =
-        Provider.of<TvSeriesListProvider>(context, listen: false);
+    final movieProvider = Provider.of<TvListProvider>(context, listen: false);
 
     Future.microtask(() {
-      movieProvider.fetchOnAirTvs().whenComplete(() {
-        Provider.of<TvSeriesImagesProvider>(context, listen: false)
-            .fetchSeriesImages(movieProvider.onAirTvs[0].id!);
-        Provider.of<TvSeriesDetailProvider>(context, listen: false)
-            .fetchDetailTvSeries(movieProvider.onAirTvs[0].id!);
+      movieProvider.fetchOnAirTv().whenComplete(() {
+        Provider.of<TvImagesProvider>(context, listen: false)
+            .fetchtvImages(movieProvider.onAirTvs[0].id!);
+        Provider.of<TvDetailProvider>(context, listen: false)
+            .fetchDetailTv(movieProvider.onAirTvs[0].id!);
       });
 
-      movieProvider.fetchPopularSeries();
-      movieProvider.fetchTopRatedSeries();
+      movieProvider.fetchPopularTv();
+      movieProvider.fetchTopRatedTv();
     });
     super.initState();
   }
@@ -50,7 +50,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
         key: const Key('movieScrollView'),
         child: Column(
           children: [
-            Consumer<TvSeriesListProvider>(
+            Consumer<TvListProvider>(
               builder: (context, data, child) {
                 if (data.onAirTvsState == RequestState.loaded) {
                   return FadeIn(
@@ -63,12 +63,10 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                         autoPlayInterval: const Duration(seconds: 8),
                         autoPlayAnimationDuration: const Duration(seconds: 2),
                         onPageChanged: (index, reason) {
-                          Provider.of<TvSeriesImagesProvider>(context,
-                                  listen: false)
-                              .fetchSeriesImages(data.onAirTvs[index].id!);
-                          Provider.of<TvSeriesDetailProvider>(context,
-                                  listen: false)
-                              .fetchDetailTvSeries(data.onAirTvs[index].id!);
+                          Provider.of<TvImagesProvider>(context, listen: false)
+                              .fetchtvImages(data.onAirTvs[index].id!);
+                          Provider.of<TvDetailProvider>(context, listen: false)
+                              .fetchDetailTv(data.onAirTvs[index].id!);
                         },
                       ),
                       items: data.onAirTvs.map((movie) {
@@ -111,9 +109,9 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     bottom: 16.0, left: 20),
-                                child: Consumer<TvSeriesImagesProvider>(
-                                  builder: (context, seriesImageData, child) {
-                                    if (seriesImageData.state ==
+                                child: Consumer<TvImagesProvider>(
+                                  builder: (context, tvImageData, child) {
+                                    if (tvImageData.state ==
                                         RequestState.loaded) {
                                       return Align(
                                           alignment: Alignment.bottomCenter,
@@ -127,8 +125,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                                   ],
                                                 ),
                                                 const SizedBox(height: 8),
-                                                Consumer<
-                                                    TvSeriesDetailProvider>(
+                                                Consumer<TvDetailProvider>(
                                                   builder: (context, detailData,
                                                       child) {
                                                     if (detailData.state ==
@@ -143,8 +140,8 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                                           const SizedBox(
                                                             width: 10,
                                                           ),
-                                                          _drawGeners(detailData
-                                                              .seriesDetail)
+                                                          _drawGenres(detailData
+                                                              .tvDetail)
                                                         ],
                                                       );
                                                     } else {
@@ -177,7 +174,7 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
                                       //     ),
                                       //   ),
                                       // );
-                                    } else if (seriesImageData.state ==
+                                    } else if (tvImageData.state ==
                                         RequestState.error) {
                                       return const Center(
                                         child: Text('Load data failed'),
@@ -230,16 +227,16 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
               valueKey: 'seePopularMovies',
               text: 'Popular',
               onSeeMoreTapped: () {
-                Navigator.pushNamed(context, PopularSeriesPage.route);
+                Navigator.pushNamed(context, PopularTvPage.route);
               },
             ),
-            Consumer<TvSeriesListProvider>(builder: (context, data, _) {
+            Consumer<TvListProvider>(builder: (context, data, _) {
               if (data.popularTvsState == RequestState.loaded ||
                   data.popularMovies.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
                     child: VerticalItemList(
-                      series: data.popularMovies,
+                      tvSeries: data.popularMovies,
                       isTopRated: false,
                     ));
               } else if (data.popularTvsState == RequestState.error) {
@@ -252,16 +249,16 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
               valueKey: 'seeTopRatedMovies',
               text: 'Top rated',
               onSeeMoreTapped: () {
-                Navigator.pushNamed(context, TopRatedSeriesPage.route);
+                Navigator.pushNamed(context, TopRatedTvPage.route);
               },
             ),
-            Consumer<TvSeriesListProvider>(builder: (context, data, _) {
+            Consumer<TvListProvider>(builder: (context, data, _) {
               if (data.topRatedTvsState == RequestState.loaded ||
                   data.topRatedTvs.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
                     child: VerticalItemList(
-                      series: data.topRatedTvs,
+                      tvSeries: data.topRatedTvs,
                       isTopRated: true,
                     ));
               } else {
@@ -280,10 +277,10 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
     );
   }
 
-  Widget _drawGeners(SeriesDetail series) {
+  Widget _drawGenres(TvDetail tv) {
     List<Widget> genreWidget = [];
-    for (int i = 0; i < series.genres.length - 1; i++) {
-      genreWidget.add(Text(series.genres[i].name));
+    for (int i = 0; i < tv.genres.length - 1; i++) {
+      genreWidget.add(Text(tv.genres[i].name));
       genreWidget.add(const SizedBox(
         width: 5,
       ));

@@ -8,24 +8,24 @@ import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
   late AddTvsToWatchListUseCase addToWatchListUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
 
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
+    mockTvRepository = MockTvRepository();
     addToWatchListUseCase =
-        AddTvsToWatchListUseCase(series: mockTvSeriesRepository);
+        AddTvsToWatchListUseCase(repository: mockTvRepository);
   });
 
-  test('should add TV series to watchList in the repository', () async {
+  test('should add TV tv to watchList in the repository', () async {
     // Arrange
-    when(mockTvSeriesRepository.addSeriesToWatchList(testDetailTvSeries))
+    when(mockTvRepository.addTvToWatchList(testDetailTv))
         .thenAnswer((_) async => const Right(true));
 
     // Act
-    final result = await addToWatchListUseCase.call(testDetailTvSeries);
+    final result = await addToWatchListUseCase.call(testDetailTv);
 
     // Assert
     expect(result, true);
-    verify(mockTvSeriesRepository.addSeriesToWatchList(testDetailTvSeries));
+    verify(mockTvRepository.addTvToWatchList(testDetailTv));
   });
 }

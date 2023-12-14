@@ -7,7 +7,7 @@ import 'package:movid/features/series/domain/entites/series.dart';
 import '../../../../../helpers/json_reader.dart';
 
 void main() {
-  const testSeriesModel = TvSeriesModel(
+  final testtvModel = TvModel(
     title: "Tagesschau",
     date: "1952-12-26",
     description:
@@ -21,20 +21,20 @@ void main() {
     poster: "/7dFZJ2ZJJdcmkp05B9NWlqTJ5tq.jpg",
   );
 
-  test('should be a subclass of series entity', () async {
+  test('should be a subclass of tv entity', () async {
     //assert
-    expect(testSeriesModel, isA<TvSeries>());
+    expect(testtvModel, isA<Tv>());
   });
   test('should return a valid model from json', () async {
     //arrange
     final Map<String, dynamic> jsonMap = json.decode(
-      readJson('helpers/dummy_data/dummy_series_json_response.json'),
+      readJson('helpers/dummy_data/dummy_tv_json_response.json'),
     );
     //act
 
-    final result = TvSeriesModel.fromMap(jsonMap);
+    final result = TvModel.fromMap(jsonMap);
 
     //assert
-    expect(result, equals(testSeriesModel));
+    expect(result, equals(testtvModel));
   });
 }

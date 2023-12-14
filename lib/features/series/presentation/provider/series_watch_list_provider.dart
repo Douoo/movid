@@ -3,13 +3,13 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/usecases/get_watchlist_series.dart';
 
-class TvSeriesWatchListProvider extends ChangeNotifier {
+class TvWatchListProvider extends ChangeNotifier {
   final GetWatchListTvsUseCase getWatchListTvsUseCase;
 
-  TvSeriesWatchListProvider({required this.getWatchListTvsUseCase});
+  TvWatchListProvider({required this.getWatchListTvsUseCase});
 
-  List<TvSeries> _series = [];
-  List<TvSeries> get movies => _series;
+  List<Tv> _tv = [];
+  List<Tv> get movies => _tv;
 
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
@@ -17,7 +17,7 @@ class TvSeriesWatchListProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  Future<void> fetchWatchListSeries() async {
+  Future<void> fetchWatchListTv() async {
     _state = RequestState.loading;
     notifyListeners();
 
@@ -26,8 +26,8 @@ class TvSeriesWatchListProvider extends ChangeNotifier {
     result.fold((failure) {
       _state = RequestState.error;
       _message = failure.message;
-    }, (tvSeries) {
-      _series = tvSeries;
+    }, (tv) {
+      _tv = tv;
       _state = RequestState.loaded;
     });
     notifyListeners();

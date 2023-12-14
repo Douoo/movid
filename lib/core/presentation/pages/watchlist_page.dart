@@ -3,9 +3,9 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/provider/watchlist_movies_provider.dart';
 import 'package:movid/features/movies/presentation/widgets/item_card.dart'
     as movie;
-import 'package:movid/features/series/presentation/widgets/item_card.dart'
-    as series;
 import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
+import 'package:movid/features/series/presentation/widgets/item_card.dart';
+
 import 'package:provider/provider.dart';
 
 class WatchlistPage extends StatefulWidget {
@@ -19,12 +19,15 @@ class WatchlistPage extends StatefulWidget {
 class _WatchlistPageState extends State<WatchlistPage> {
   @override
   void initState() {
-    Future.microtask(() => Provider.of<MovieWatchlistProvider>(
-          context,
-          listen: false,
-        ).fetchWatchlistMovies());
-    Provider.of<TvSeriesWatchListProvider>(context, listen: false)
-        .fetchWatchListSeries();
+    Future.microtask(() {
+      Provider.of<MovieWatchlistProvider>(
+        context,
+        listen: false,
+      ).fetchWatchlistMovies();
+      Provider.of<TvWatchListProvider>(context, listen: false)
+          .fetchWatchListTv();
+    });
+
     super.initState();
   }
 
@@ -40,7 +43,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
               text: 'Movies',
             ),
             Tab(
-              text: 'TV Series',
+              text: 'TV tv',
             )
           ]),
         ),
@@ -77,15 +80,14 @@ class _WatchlistPageState extends State<WatchlistPage> {
               },
             ),
           ),
-          //TODO: Change the following provider widget to a tv watchlist
-          Consumer<TvSeriesWatchListProvider>(
+          Consumer<TvWatchListProvider>(
             builder: (context, data, child) {
               if (data.state == RequestState.loaded) {
-                final watchlistTvSeries = data.movies;
+                final watchlistTv = data.movies;
                 return ListView.builder(
-                  itemCount: watchlistTvSeries.length,
+                  itemCount: watchlistTv.length,
                   itemBuilder: (context, index) {
-                    return series.ItemCard(item: watchlistTvSeries[index]);
+                    return TvItemCard(item: watchlistTv[index]);
                   },
                 );
               }

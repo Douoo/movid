@@ -8,16 +8,15 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class VerticalItemList extends StatelessWidget {
-  final List<TvSeries> series;
+  final List<Tv> tvSeries;
   final bool isTopRated;
 
   const VerticalItemList(
-      {super.key, required this.series, required this.isTopRated});
+      {super.key, required this.tvSeries, required this.isTopRated});
 
   @override
   Widget build(BuildContext context) {
-    final movieProvider =
-        Provider.of<TvSeriesListProvider>(context, listen: false);
+    final movieProvider = Provider.of<TvListProvider>(context, listen: false);
     return SizedBox(
       height: 290,
       child: NotificationListener(
@@ -27,9 +26,9 @@ class VerticalItemList extends StatelessWidget {
             final max = _onScrollNotification.metrics.maxScrollExtent;
             if (before == max) {
               if (isTopRated) {
-                movieProvider.fetchTopRatedSeries();
+                movieProvider.fetchTopRatedTv();
               }
-              movieProvider.fetchPopularSeries();
+              movieProvider.fetchPopularTv();
               return true;
             }
             return false;
@@ -40,9 +39,9 @@ class VerticalItemList extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            itemCount: series.length,
+            itemCount: tvSeries.length,
             itemBuilder: (context, index) {
-              final tvSeries = series[index];
+              final tv = tvSeries[index];
               return Container(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: GestureDetector(
@@ -56,7 +55,7 @@ class VerticalItemList extends StatelessWidget {
                         ),
                         context: context,
                         builder: (context) {
-                          return SeriesDetailCard(series: tvSeries);
+                          return TvDetailCard(tv: tv);
                         });
                   },
                   child: SizedBox(
@@ -76,7 +75,7 @@ class VerticalItemList extends StatelessWidget {
                               ),
                             );
                           },
-                          imageUrl: Urls.imageUrl(series[index].poster ?? ''),
+                          imageUrl: Urls.imageUrl(tvSeries[index].poster ?? ''),
                           placeholder: (context, url) {
                             return Shimmer.fromColors(
                                 baseColor: Colors.grey[850]!,
@@ -93,7 +92,7 @@ class VerticalItemList extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          series[index].title ?? "",
+                          tvSeries[index].title ?? "",
                           maxLines: 1,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
@@ -103,7 +102,7 @@ class VerticalItemList extends StatelessWidget {
                         ),
                         Expanded(
                             child: Text(
-                          "${series[index].date!.substring(0, 4)} - ${series[index].rating!.toStringAsFixed(1)}",
+                          "${tvSeries[index].date!.substring(0, 4)} - ${tvSeries[index].rating!.toStringAsFixed(1)}",
                           style: const TextStyle(fontWeight: FontWeight.w100),
                         )),
                       ],

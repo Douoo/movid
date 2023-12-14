@@ -5,19 +5,19 @@ import 'package:movid/features/series/domain/entites/season.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
-abstract class TvSeriesRepository {
-  Future<Either<Failure, List<TvSeries>>> getOnAirTvSeries(int page);
-  Future<Either<Failure, List<TvSeries>>> getPopularTvSeries(int page);
-  Future<Either<Failure, List<TvSeries>>> getTopRatedTvSeries(int page);
-  Future<Either<Failure, SeriesDetail>> getDetailTvSeries(int id);
-  Future<Either<Failure, List<TvSeries>>> getRecommendedTvSeries(int id);
-  Future<Either<Failure, List<Season>>> getTvSeriesSeasons(
+abstract class TvRepository {
+  Future<Either<Failure, List<Tv>>> getOnAirTv(int page);
+  Future<Either<Failure, List<Tv>>> getPopularTv(int page);
+  Future<Either<Failure, List<Tv>>> getTopRatedTv(int page);
+  Future<Either<Failure, TvDetail>> getDetailTv(int id);
+  Future<Either<Failure, List<Tv>>> getRecommendedTv(int id);
+  Future<Either<Failure, List<SeasonEpisode>>> getTvSeasons(
       int id, int seasonNumber);
-  Future<Either<Failure, List<TvSeries>>> searchTvSeries(String data, int page);
-  Future<Either<Failure, MediaImageModel>> getSeriesImages(int id);
+  Future<Either<Failure, List<Tv>>> searchTv(String data, int page);
+  Future<Either<Failure, MediaImageModel>> getTvImages(int id);
 
   Future<bool> isAddedToWatchList(int id);
-  Future<Either<Failure, List<TvSeries>>> getWatchListTvSeries();
-  Future<Either<Failure, bool>> addSeriesToWatchList(SeriesDetail series);
-  Future<Either<Failure, bool>> removeWatchListSeries(SeriesDetail series);
+  Future<Either<Failure, List<Tv>>> getWatchListTv();
+  Future<Either<Failure, bool>> addTvToWatchList(TvDetail tv);
+  Future<Either<Failure, bool>> removeWatchListTv(TvDetail tv);
 }

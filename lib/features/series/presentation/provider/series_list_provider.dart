@@ -7,42 +7,42 @@ import 'package:movid/features/series/domain/usecases/series/get_popular_tvs.dar
 import 'package:movid/features/series/domain/usecases/series/get_top_rated_tvs.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_detail.dart';
 
-class TvSeriesListProvider extends ChangeNotifier {
+class TvListProvider extends ChangeNotifier {
   final GetOnAirTvsUseCase getOnAirTvsUseCase;
   final GetPopularTvsUseCase getPopularTvsUseCase;
   final GetTopRatedTvsUseCase getTopRatedTvsUseCase;
   final GetDetailTvsUseCase getDetailTvsUseCase;
 
-  TvSeriesListProvider({
+  TvListProvider({
     required this.getOnAirTvsUseCase,
     required this.getPopularTvsUseCase,
     required this.getTopRatedTvsUseCase,
     required this.getDetailTvsUseCase,
   });
 
-  List<TvSeries> _onAirTvs = [];
+  List<Tv> _onAirTvs = [];
   int onAirPage = 0;
-  List<TvSeries> get onAirTvs => _onAirTvs;
+  List<Tv> get onAirTvs => _onAirTvs;
 
   RequestState _onAirTvsState = RequestState.empty;
   RequestState get onAirTvsState => _onAirTvsState;
 
-  List<TvSeries> _popularTvs = [];
-  List<TvSeries> get popularMovies => _popularTvs;
+  List<Tv> _popularTvs = [];
+  List<Tv> get popularMovies => _popularTvs;
   int popularPage = 1;
 
   RequestState _popularTvsState = RequestState.empty;
   RequestState get popularTvsState => _popularTvsState;
 
-  List<TvSeries> _topRatedTvs = [];
-  List<TvSeries> get topRatedTvs => _topRatedTvs;
+  List<Tv> _topRatedTvs = [];
+  List<Tv> get topRatedTvs => _topRatedTvs;
   int topRatedPage = 1;
 
   RequestState _topRatedTvsState = RequestState.empty;
   RequestState get topRatedTvsState => _topRatedTvsState;
 
-  late SeriesDetail _seriesDetail;
-  SeriesDetail get tvSeriesDetail => _seriesDetail;
+  late TvDetail _tvDetail;
+  TvDetail get Tvtail => _tvDetail;
 
   RequestState _detailTvsState = RequestState.empty;
   RequestState get detailTvsState => _detailTvsState;
@@ -50,7 +50,7 @@ class TvSeriesListProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  Future<void> fetchOnAirTvs() async {
+  Future<void> fetchOnAirTv() async {
     _onAirTvsState = RequestState.loading;
     notifyListeners();
 
@@ -58,15 +58,15 @@ class TvSeriesListProvider extends ChangeNotifier {
     result.fold((failure) {
       _message = failure.message;
       _onAirTvsState = RequestState.error;
-    }, (series) {
-      _onAirTvs = series;
+    }, (tv) {
+      _onAirTvs = tv;
       _onAirTvsState = RequestState.loaded;
       onAirPage = onAirPage + 1;
     });
     notifyListeners();
   }
 
-  Future<void> fetchPopularSeries() async {
+  Future<void> fetchPopularTv() async {
     _popularTvsState = RequestState.loading;
     notifyListeners();
 
@@ -75,11 +75,11 @@ class TvSeriesListProvider extends ChangeNotifier {
     result.fold((failure) {
       _message = failure.message;
       _popularTvsState = RequestState.error;
-    }, (series) {
-      if (series.isEmpty) {
-        _popularTvs = series;
+    }, (tv) {
+      if (tv.isEmpty) {
+        _popularTvs = tv;
       } else {
-        _popularTvs.addAll(series);
+        _popularTvs.addAll(tv);
       }
       _popularTvsState = RequestState.loaded;
       popularPage = popularPage + 1;
@@ -87,7 +87,7 @@ class TvSeriesListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchTopRatedSeries() async {
+  Future<void> fetchTopRatedTv() async {
     _topRatedTvsState = RequestState.loading;
     notifyListeners();
 
@@ -96,11 +96,11 @@ class TvSeriesListProvider extends ChangeNotifier {
     result.fold((failure) {
       _message = failure.message;
       _topRatedTvsState = RequestState.error;
-    }, (series) {
-      if (series.isEmpty) {
-        _topRatedTvs = series;
+    }, (tv) {
+      if (tv.isEmpty) {
+        _topRatedTvs = tv;
       } else {
-        _topRatedTvs.addAll(series);
+        _topRatedTvs.addAll(tv);
       }
 
       _topRatedTvsState = RequestState.loaded;
@@ -109,19 +109,19 @@ class TvSeriesListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchDetailTvSeries(int seriesId) async {
+  Future<void> fetchDetailTv(int tvId) async {
     _detailTvsState = RequestState.loading;
 
     notifyListeners();
 
-    final result = await getDetailTvsUseCase(seriesId);
+    final result = await getDetailTvsUseCase(tvId);
     result.fold(
       (failure) {
         _message = failure.message;
         _detailTvsState = RequestState.error;
       },
-      (seriesDetail) {
-        _seriesDetail = seriesDetail;
+      (tvDetail) {
+        _tvDetail = tvDetail;
         _detailTvsState = RequestState.loaded;
       },
     );

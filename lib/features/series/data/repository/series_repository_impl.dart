@@ -11,12 +11,12 @@ import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
 
-class TvSeriesRepositoryImpl implements TvSeriesRepository {
-  final TvSeriesRemoteDataSource remoteDataSource;
-  final TvSeriesLocalDataSource localDataSource;
+class TvRepositoryImpl implements TvRepository {
+  final TvRemoteDataSource remoteDataSource;
+  final TvLocalDataSource localDataSource;
   final NetworkConnection connection;
 
-  TvSeriesRepositoryImpl(
+  TvRepositoryImpl(
       {required this.remoteDataSource,
       required this.connection,
       required this.localDataSource});
@@ -36,70 +36,63 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> addSeriesToWatchList(SeriesDetail series) {
+  Future<Either<Failure, bool>> addTvToWatchList(TvDetail tv) {
     return _remoteOperation(
-        () => localDataSource.addSeriesToWatchList(SeriesData.copy(series)));
+        () => localDataSource.addTvToWatchList(TvData.copy(tv)));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getWatchListTvSeries() {
-    return _remoteOperation(() => localDataSource.getWatchListTvSeries());
+  Future<Either<Failure, List<Tv>>> getWatchListTv() {
+    return _remoteOperation(() => localDataSource.getWatchListTv());
   }
 
   @override
-  Future<Either<Failure, bool>> removeWatchListSeries(SeriesDetail series) {
-    return _remoteOperation(
-        () => localDataSource.removeWatchListSeries(series.id));
+  Future<Either<Failure, bool>> removeWatchListTv(TvDetail tv) {
+    return _remoteOperation(() => localDataSource.removeWatchListTv(tv.id));
   }
 
   @override
-  Future<Either<Failure, SeriesDetail>> getDetailTvSeries(int id) async {
-    return await _remoteOperation(() => remoteDataSource.getDetailTvSeries(id));
+  Future<Either<Failure, TvDetail>> getDetailTv(int id) async {
+    return await _remoteOperation(() => remoteDataSource.getDetailTv(id));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getOnAirTvSeries(int page) async {
-    return await _remoteOperation(
-        () => remoteDataSource.getOnAirTvSeries(page));
+  Future<Either<Failure, List<Tv>>> getOnAirTv(int page) async {
+    return await _remoteOperation(() => remoteDataSource.getOnAirTv(page));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getPopularTvSeries(int page) async {
-    return await _remoteOperation(
-        () => remoteDataSource.getPopularTvSeries(page));
+  Future<Either<Failure, List<Tv>>> getPopularTv(int page) async {
+    return await _remoteOperation(() => remoteDataSource.getPopularTv(page));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getRecommendedTvSeries(int id) async {
+  Future<Either<Failure, List<Tv>>> getRecommendedTv(int id) async {
     return await _remoteOperation(() async {
-      // print(await remoteDataSource.getRecommendedTvSeries(id));
-      return await remoteDataSource.getRecommendedTvSeries(id);
+      return await remoteDataSource.getRecommendedTv(id);
     });
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> getTopRatedTvSeries(int page) async {
-    return await _remoteOperation(
-        () => remoteDataSource.getTopRatedTvSeries(page));
+  Future<Either<Failure, List<Tv>>> getTopRatedTv(int page) async {
+    return await _remoteOperation(() => remoteDataSource.getTopRatedTv(page));
   }
 
   @override
-  Future<Either<Failure, List<Season>>> getTvSeriesSeasons(
+  Future<Either<Failure, List<SeasonEpisode>>> getTvSeasons(
       int id, int seasonNumber) async {
     return await _remoteOperation(
-        () => remoteDataSource.getTvSeriesSeasons(id, seasonNumber));
+        () => remoteDataSource.getTvSeasons(id, seasonNumber));
   }
 
   @override
-  Future<Either<Failure, List<TvSeries>>> searchTvSeries(
-      String data, int page) {
-    // TODO: implement searchTvSeries
-    throw UnimplementedError();
+  Future<Either<Failure, List<Tv>>> searchTv(String data, int page) async {
+    return await _remoteOperation(() => remoteDataSource.searchTv(data, page));
   }
 
   @override
-  Future<Either<Failure, MediaImageModel>> getSeriesImages(int id) async {
-    return await _remoteOperation(() => remoteDataSource.getSeriesImages(id));
+  Future<Either<Failure, MediaImageModel>> getTvImages(int id) async {
+    return await _remoteOperation(() => remoteDataSource.getTvImages(id));
   }
 
   @override

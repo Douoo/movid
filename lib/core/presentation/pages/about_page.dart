@@ -36,7 +36,7 @@ class AboutPage extends StatelessWidget {
                   padding: const EdgeInsets.all(32.0),
                   color: kRichBlack,
                   child: const Text(
-                    'MoviD is a movie and tv series catalog app developed by Biruksew B. and Biruk G. to showcase the flexiblity of the Flutter SDK and their expertise in Flutter app development profession.',
+                    'MoviD is a movie and tv tv catalog app developed by Biruksew B. and Biruk G. to showcase the flexiblity of the Flutter SDK and their expertise in Flutter app development profession.',
                     style: TextStyle(fontSize: 16.0),
                     textAlign: TextAlign.justify,
                   ),

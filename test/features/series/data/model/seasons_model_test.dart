@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movid/features/series/data/model/season_model.dart';
 import 'package:movid/features/series/domain/entites/season.dart';
+
 import '../../../../helpers/json_reader.dart';
 
 void main() {
@@ -19,7 +20,7 @@ void main() {
 
   test('should be a subclass of season entity', () async {
     //assert
-    expect(testSeasonModel, isA<Season>());
+    expect(testSeasonModel, isA<SeasonEpisode>());
   });
 
   test('should return a valid model from json', () async {

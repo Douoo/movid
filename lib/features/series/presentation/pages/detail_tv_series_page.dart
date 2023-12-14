@@ -7,22 +7,23 @@ import 'package:movid/features/series/domain/entites/genre.dart';
 import 'package:movid/features/series/presentation/provider/seasons_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
+import 'package:movid/features/series/presentation/widgets/series_detail_card.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/styles/colors.dart';
-import '../widgets/series_detail_card.dart';
 
-class DetailSeriesPage extends StatefulWidget {
-  static const route = "DetailSeriesPage";
-  final int? seriesId;
-  const DetailSeriesPage({super.key, this.seriesId});
+class DetailTvPage extends StatefulWidget {
+  static const route = "DetailTvPage";
+  final int? tvId;
+  const DetailTvPage({super.key, this.tvId});
 
   @override
-  State<DetailSeriesPage> createState() => _DetailSeriesPageState();
+  State<DetailTvPage> createState() => _DetailtvPageState();
 }
 
-class _DetailSeriesPageState extends State<DetailSeriesPage>
+class _DetailtvPageState extends State<DetailTvPage>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
   int? _selectedTab = 0;
@@ -44,25 +45,25 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
     final seasonsProvider =
         Provider.of<SeasonsProvider>(context, listen: false);
 
-    seasonsProvider.fetchSeasons(widget.seriesId!, season);
+    seasonsProvider.fetchSeasons(widget.tvId!, season);
   }
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     final movieDetailProvider =
-        Provider.of<TvSeriesDetailProvider>(context, listen: false);
+        Provider.of<TvDetailProvider>(context, listen: false);
     final seasonsProvider =
         Provider.of<SeasonsProvider>(context, listen: false);
     Future.microtask(
       () {
-        movieDetailProvider.fetchDetailTvSeries(widget.seriesId!);
-        movieDetailProvider.loadWatchListStatus(widget.seriesId!);
-        seasonsProvider.fetchSeasons(widget.seriesId!, 1);
-        movieDetailProvider.fetchRecomanddTvSeres(widget.seriesId!);
+        movieDetailProvider.fetchDetailTv(widget.tvId!);
+        movieDetailProvider.loadWatchListStatus(widget.tvId!);
+        seasonsProvider.fetchSeasons(widget.tvId!, 1);
+        movieDetailProvider.fetchRecommendTvSeres(widget.tvId!);
       },
     );
-    seasonsBuilder(movieDetailProvider.seriesDetail.numberOfSeasons);
+    seasonsBuilder(movieDetailProvider.tvDetail.numberOfSeasons);
 
     super.initState();
   }
@@ -78,17 +79,17 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: Consumer<TvSeriesDetailProvider>(
+        body: Consumer<TvDetailProvider>(
           builder: (context, provider, child) {
             if (provider.state == RequestState.loading) {
               return const Center(child: CircularProgressIndicator());
             }
             if (provider.state == RequestState.loaded) {
-              final tvDetail = provider.seriesDetail;
+              final tvDetail = provider.tvDetail;
               final isAddedToWatchList = provider.isAddedToWatchList;
 
               return CustomScrollView(
-                key: const Key("seriesDetailPage"),
+                key: const Key("tvDetailPage"),
                 slivers: [
                   SliverAppBar(
                     pinned: true,
@@ -231,8 +232,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
                                 key: const Key('movieToWatchlist'),
                                 onPressed: () async {
                                   if (!isAddedToWatchList) {
-                                    await Provider.of<TvSeriesDetailProvider>(
-                                            context,
+                                    await Provider.of<TvDetailProvider>(context,
                                             listen: false)
                                         .addToWatchList(tvDetail);
                                     ScaffoldMessenger.of(context)
@@ -245,8 +245,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
                                       ),
                                     ));
                                   } else {
-                                    await Provider.of<TvSeriesDetailProvider>(
-                                            context,
+                                    await Provider.of<TvDetailProvider>(context,
                                             listen: false)
                                         .removeFromWatchList(tvDetail);
                                     ScaffoldMessenger.of(context)
@@ -477,10 +476,10 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
                                     ),
                                   );
                                 } else {
-                                  //To-Do: Impalement the redemanded series list here
+                                  //To-Do: Impalement the redemanded tv list here
                                   return const SizedBox(
                                       child: Center(
-                                          child: Text("Recommended series")));
+                                          child: Text("Recommended tv")));
                                 }
                               }),
                             ],
@@ -527,16 +526,16 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
     );
   }
 
-  Widget _showSeriesRecommendations() {
-    return Consumer<TvSeriesDetailProvider>(
+  Widget _showtvRecommendations() {
+    return Consumer<TvDetailProvider>(
       builder: (context, data, child) {
-        if (data.recommendedSeriesState == RequestState.loaded) {
+        if (data.recommendedTvState == RequestState.loaded) {
           return SizedBox(
             height: 800,
             child: SliverGrid(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  final recommendation = data.recommendedTvSeries[index];
+                  final recommendation = data.recommendedTv[index];
                   return SizedBox(
                     height: 800,
                     child: FadeInUp(
@@ -553,8 +552,8 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
                             ),
                             context: context,
                             builder: (context) {
-                              return SeriesDetailCard(
-                                series: recommendation,
+                              return TvDetailCard(
+                                tv: recommendation,
                               );
                             },
                           );
@@ -593,7 +592,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
                     ),
                   );
                 },
-                childCount: data.recommendedTvSeries.length,
+                childCount: data.recommendedTv.length,
               ),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 8.0,
@@ -606,7 +605,7 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
               ),
             ),
           );
-        } else if (data.recommendedSeriesState == RequestState.error) {
+        } else if (data.recommendedTvState == RequestState.error) {
           return SliverToBoxAdapter(child: Center(child: Text(data.message)));
         } else {
           return const SliverToBoxAdapter(
@@ -628,12 +627,11 @@ class _DetailSeriesPageState extends State<DetailSeriesPage>
   }
 
   Future<bool> _onWillPop() async {
-    await fetchWatchListSeries();
+    fetchWatchListTv();
     return true;
   }
 
-  Future fetchWatchListSeries() async {
-    Provider.of<TvSeriesWatchListProvider>(context, listen: false)
-        .fetchWatchListSeries();
+  Future fetchWatchListTv() async {
+    Provider.of<TvWatchListProvider>(context, listen: false).fetchWatchListTv();
   }
 }

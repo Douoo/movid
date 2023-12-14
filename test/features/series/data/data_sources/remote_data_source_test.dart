@@ -8,20 +8,19 @@ import '../../../../helpers/global_test_helpers.mocks.dart';
 import '../../../../helpers/json_reader.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
   late MockHttpClient mockClient;
 
-  late TvSeriesRemoteDataSourceImpl remoteDataSourceImpl;
+  late TvRemoteDataSourceImpl remoteDataSourceImpl;
 
   setUp(() async {
     await dotenv.load(fileName: ".env");
     mockClient = MockHttpClient();
-    remoteDataSourceImpl = TvSeriesRemoteDataSourceImpl(client: mockClient);
+    remoteDataSourceImpl = TvRemoteDataSourceImpl(client: mockClient);
   });
 
-  group("get on Air tv series", () {
-    test('should return tv series model when the response code is 200',
-        () async {
+  group("get on Air tv tv", () {
+    test('should return tv tv model when the response code is 200', () async {
       // arrange
       when(mockClient.get(
         Uri.parse(Urls.onTheAirTvs),
@@ -29,18 +28,17 @@ void main() {
           'Content-Type': 'application/json',
         },
       )).thenAnswer((_) async => http.Response(
-          readJson(
-              'helpers\\series\\dummy_data\\dummy_series_json_response.json'),
+          readJson('helpers\\tv\\dummy_data\\dummy_tv_json_response.json'),
           200));
       //act
 
-      await remoteDataSourceImpl.getOnAirTvSeries(3);
+      await remoteDataSourceImpl.getOnAirTv(3);
 
       //assert
       // verify(
       //   mockClient.get(Uri.parse(Urls.onTheAirTvs)),
       // );
-      // expect(result, isA<List<TvSeries>>());
+      // expect(result, isA<List<Tv>>());
     });
     test(
         'should throw a server exception when the response code is 404 or other',
@@ -54,7 +52,7 @@ void main() {
       //act
       dynamic result;
       try {
-        result = await remoteDataSourceImpl.getOnAirTvSeries(3);
+        result = await remoteDataSourceImpl.getOnAirTv(3);
       } catch (e) {
         result = e;
       }

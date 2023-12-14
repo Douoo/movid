@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:movid/features/series/data/model/genre_model.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
-class SeriesDetailModel extends SeriesDetail {
-  const SeriesDetailModel({
+class TvDetailModel extends TvDetail {
+  const TvDetailModel({
     required super.backdropPath,
     required super.genres,
     required super.language,
@@ -19,8 +19,8 @@ class SeriesDetailModel extends SeriesDetail {
     required super.overView,
   });
 
-  factory SeriesDetailModel.fromMap(Map<String, dynamic> map) {
-    return SeriesDetailModel(
+  factory TvDetailModel.fromMap(Map<String, dynamic> map) {
+    return TvDetailModel(
         overView: map['overview'],
         backdropPath: map['backdrop_path'] as String?,
         language: map['languages'] as List<dynamic>,
@@ -36,6 +36,6 @@ class SeriesDetailModel extends SeriesDetail {
         numberOfSeasons: map['number_of_seasons']);
   }
 
-  factory SeriesDetailModel.fromJson(String source) =>
-      SeriesDetailModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TvDetailModel.fromJson(String source) =>
+      TvDetailModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

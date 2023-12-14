@@ -6,10 +6,10 @@ import 'package:movid/features/series/domain/entites/media_image.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
-const testTvSeriesId = 23112;
-const testTvSeriesQuery = "baby";
-final testTvSeriesList = [testTvSeries];
-const testTvSeries = TvSeries(
+const testTvId = 23112;
+const testTvQuery = "baby";
+final testTvTestTv = [];
+const testTv = Tv(
   id: 1,
   title: 'test',
   description: "this is a random ass description",
@@ -22,7 +22,7 @@ const testTvSeries = TvSeries(
   poster: "/path/to/backdrop.jpg",
 );
 
-const testRecommendedTvSeries = TvSeries(
+const testRecommendedTv = Tv(
   id: 1,
   title: 'test',
   description: "this is a random ass description",
@@ -34,7 +34,7 @@ const testRecommendedTvSeries = TvSeries(
   backdropPath: "/path/to/backdrop.jpg",
   poster: "/path/to/backdrop.jpg",
 );
-const testOnAirTvSeries = TvSeries(
+const testOnAirTv = Tv(
   id: 1,
   title: 'test',
   description: "this is a random ass description",
@@ -46,7 +46,7 @@ const testOnAirTvSeries = TvSeries(
   backdropPath: "/path/to/backdrop.jpg",
   poster: "/path/to/backdrop.jpg",
 );
-const testTopRatedTvSeries = TvSeries(
+const testTopRatedTv = Tv(
   id: 1,
   title: 'test',
   description: "this is a random ass description",
@@ -59,7 +59,7 @@ const testTopRatedTvSeries = TvSeries(
   poster: "/path/to/backdrop.jpg",
 );
 
-const testDetailTvSeries = SeriesDetail(
+const testDetailTv = TvDetail(
     backdropPath: '/path.jpg',
     genres: [Genre(id: 1, name: 'Genre 1')],
     id: 1,
@@ -85,7 +85,7 @@ const testImageModel = MediaImageModel(
   logoPaths: ['/path.jpg'],
   posterPaths: ['/path.jpg'],
 );
-const testDetailTvSeriesModel = SeriesDetailModel(
+const testDetailTvModel = TvDetailModel(
     backdropPath: '/path.jpg',
     genres: [GenreModel(id: 1, name: 'Genre 1')],
     id: 1,

@@ -4,9 +4,9 @@ import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
 
 class SearchTvsUseCase {
-  final TvSeriesRepository series;
-  SearchTvsUseCase({required this.series});
-  Future<Either<Failure, List<TvSeries>>> call(String data, int page) {
-    return series.searchTvSeries(data, page);
+  final TvRepository tv;
+  SearchTvsUseCase({required this.tv});
+  Future<Either<Failure, List<Tv>>> call(String data, int page) {
+    return tv.searchTv(data, page);
   }
 }

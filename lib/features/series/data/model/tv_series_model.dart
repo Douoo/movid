@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:movid/features/series/data/model/series_data.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 
-class TvSeriesModel extends TvSeries {
-  const TvSeriesModel({
+class TvModel extends Tv {
+  const TvModel({
     super.title,
     super.date,
     super.backdropPath,
@@ -18,18 +18,18 @@ class TvSeriesModel extends TvSeries {
     super.poster,
   });
 
-  TvSeriesModel.copy(SeriesData series)
+  TvModel.copy(TvData tv)
       : this(
-          title: series.title,
-          id: series.id,
-          date: series.date,
-          backdropPath: series.backdropPath,
-          description: series.overView,
-          rating: series.voteAverage,
+          title: tv.title,
+          id: tv.id,
+          date: tv.date,
+          backdropPath: tv.backdropPath,
+          description: tv.overView,
+          rating: tv.voteAverage,
         );
 
-  factory TvSeriesModel.fromMap(Map<String, dynamic> map) {
-    return TvSeriesModel(
+  factory TvModel.fromMap(Map<String, dynamic> map) {
+    return TvModel(
       title: map['name'] != null ? map['name'] as String : null,
       date: map['first_air_date'] != null
           ? map['first_air_date'] as String
@@ -50,6 +50,6 @@ class TvSeriesModel extends TvSeries {
     );
   }
 
-  factory TvSeriesModel.fromJson(String source) =>
-      TvSeriesModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TvModel.fromJson(String source) =>
+      TvModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

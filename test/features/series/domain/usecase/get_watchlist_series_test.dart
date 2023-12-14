@@ -3,18 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/usecases/get_watchlist_series.dart';
+
 import '../../../../helpers/global_test_helpers.mocks.dart';
 
 void main() {
   late GetWatchListTvsUseCase getWatchListTvsUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
-    getWatchListTvsUseCase =
-        GetWatchListTvsUseCase(series: mockTvSeriesRepository);
+    mockTvRepository = MockTvRepository();
+    getWatchListTvsUseCase = GetWatchListTvsUseCase(tv: mockTvRepository);
   });
 
-  const testTvSeries1 = TvSeries(
+  const testTv1 = Tv(
     id: 1,
     title: 'test',
     description: "this is a random ass description",
@@ -27,9 +27,9 @@ void main() {
     poster: "/path/to/backdrop.jpg",
   );
 
-  const testTvSeries2 = TvSeries(
+  const testTv2 = Tv(
     id: 2,
-    title: 'Test Series 2',
+    title: 'Test tv 2',
     description: "Another random description",
     language: "en",
     isAdult: true,
@@ -40,15 +40,15 @@ void main() {
     poster: "/path/to/poster2.jpg",
   );
 
-  test('should get TV series from watchList in the repository', () async {
+  test('should get TV tv from watchList in the repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getWatchListTvSeries())
-        .thenAnswer((_) async => const Right([testTvSeries1, testTvSeries2]));
+    when(mockTvRepository.getWatchListTv())
+        .thenAnswer((_) async => const Right([testTv1, testTv2]));
     //act
     final result = await getWatchListTvsUseCase.call();
 
     // assert
-    expect(result, const Right([testTvSeries1, testTvSeries2]));
-    verify(mockTvSeriesRepository.getWatchListTvSeries());
+    expect(result, const Right([testTv1, testTv2]));
+    verify(mockTvRepository.getWatchListTv);
   });
 }

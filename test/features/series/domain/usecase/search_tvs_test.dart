@@ -8,13 +8,13 @@ import '../../../../helpers/global_test_helpers.mocks.dart';
 
 void main() {
   late SearchTvsUseCase searchTvsUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
-    searchTvsUseCase = SearchTvsUseCase(series: mockTvSeriesRepository);
+    mockTvRepository = MockTvRepository();
+    searchTvsUseCase = SearchTvsUseCase(tv: mockTvRepository);
   });
 
-  const testTvSeries = TvSeries(
+  const testTv = Tv(
     id: 1,
     title: 'test',
     description: "this is a random ass description",
@@ -29,14 +29,14 @@ void main() {
 
   const testSearchData = "Happy";
 
-  test('should get on air tv series from repository', () async {
+  test('should get on air tv tv from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.searchTvSeries(testSearchData, 1))
-        .thenAnswer((_) async => const Right([testTvSeries]));
+    when(mockTvRepository.searchTv(testSearchData, 1))
+        .thenAnswer((_) async => const Right([testTv]));
     //act
     final result = await searchTvsUseCase.call(testSearchData, 1);
 
     // assert
-    expect(result, const Right([testTvSeries]));
+    expect(result, const Right([testTv]));
   });
 }

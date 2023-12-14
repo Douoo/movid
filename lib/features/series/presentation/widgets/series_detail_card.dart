@@ -7,9 +7,9 @@ import 'package:movid/features/series/presentation/pages/detail_tv_series_page.d
 
 import 'package:shimmer/shimmer.dart';
 
-class SeriesDetailCard extends StatelessWidget {
-  final TvSeries series;
-  const SeriesDetailCard({required this.series, Key? key}) : super(key: key);
+class TvDetailCard extends StatelessWidget {
+  final Tv tv;
+  const TvDetailCard({required this.tv, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class SeriesDetailCard extends StatelessWidget {
                       ),
                     );
                   },
-                  imageUrl: Urls.imageUrl(series.poster ?? ''),
+                  imageUrl: Urls.imageUrl(tv.poster ?? ''),
                   placeholder: (context, url) {
                     return Shimmer.fromColors(
                         baseColor: Colors.grey[850]!,
@@ -70,7 +70,7 @@ class SeriesDetailCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            series.title!,
+                            tv.title!,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -82,7 +82,7 @@ class SeriesDetailCard extends StatelessWidget {
                               size: 15,
                             ),
                             const SizedBox(width: 3),
-                            Text(series.rating.toString().substring(0, 3))
+                            Text(tv.rating.toString().substring(0, 3))
                           ],
                         ),
                       ],
@@ -91,14 +91,14 @@ class SeriesDetailCard extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "${series.language!.toUpperCase()} | ${series.date}",
+                      "${tv.language!.toUpperCase()} | ${tv.date}",
                       style: const TextStyle(fontWeight: FontWeight.w200),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "${series.description!}...",
+                      "${tv.description!}...",
                       style: const TextStyle(
                           fontSize: 12.0, fontWeight: FontWeight.w300),
                       overflow: TextOverflow.ellipsis,
@@ -111,7 +111,7 @@ class SeriesDetailCard extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      DetailSeriesPage(seriesId: series.id)));
+                                      DetailTvPage(tvId: tv.id)));
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor,

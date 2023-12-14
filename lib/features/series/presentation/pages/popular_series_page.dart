@@ -1,27 +1,27 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
-
 import 'package:movid/features/series/presentation/provider/popular_series_provider.dart';
+
 import 'package:provider/provider.dart';
 
 import '../widgets/item_card.dart';
 
-class PopularSeriesPage extends StatefulWidget {
-  static const String route = '/popularSeries';
-  const PopularSeriesPage({super.key});
+class PopularTvPage extends StatefulWidget {
+  static const String route = '/popularTv';
+  const PopularTvPage({super.key});
 
   @override
-  State<PopularSeriesPage> createState() => _PopularSeriesPageState();
+  State<PopularTvPage> createState() => _PopularTvPageState();
 }
 
-class _PopularSeriesPageState extends State<PopularSeriesPage> {
+class _PopularTvPageState extends State<PopularTvPage> {
   @override
   void initState() {
-    Future.microtask(() => Provider.of<PopularTvSeriesProvider>(
+    Future.microtask(() => Provider.of<PopularTvProvider>(
           context,
           listen: false,
-        ).fetchPopularTvSeries());
+        ).fetchPopularTv);
     super.initState();
   }
 
@@ -30,13 +30,13 @@ class _PopularSeriesPageState extends State<PopularSeriesPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Popular Tv Series'),
+        title: const Text('Popular Tv tv'),
         backgroundColor: Colors.black.withOpacity(0.2),
         elevation: 0.0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularTvSeriesProvider>(
+        child: Consumer<PopularTvProvider>(
           builder: (context, data, child) {
             if (data.state == RequestState.loading) {
               return const Center(
@@ -49,12 +49,12 @@ class _PopularSeriesPageState extends State<PopularSeriesPage> {
                 child: ListView.builder(
                   key: const Key('popularMoviesListView'),
                   itemBuilder: (context, index) {
-                    final movie = data.series[index];
-                    return ItemCard(
+                    final movie = data.tv[index];
+                    return TvItemCard(
                       item: movie,
                     );
                   },
-                  itemCount: data.series.length,
+                  itemCount: data.tv.length,
                 ),
               );
             } else {

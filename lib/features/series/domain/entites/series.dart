@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class TvSeries extends Equatable {
+class Tv extends Equatable {
   final String? title;
   final String? date;
   final double? rating;
@@ -12,7 +12,7 @@ class TvSeries extends Equatable {
   final String? backdropPath;
   final String? poster;
 
-  const TvSeries(
+  const Tv(
       {this.title,
       this.backdropPath,
       this.genreIds,

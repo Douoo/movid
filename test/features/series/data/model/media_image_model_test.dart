@@ -6,13 +6,13 @@ import '../../../../helpers/json_reader.dart';
 import '../../../../helpers/movie/dummy_objects.dart';
 
 void main() {
-  test('should be a sub class of Series MediaImage entity',
+  test('should be a sub class of tv MediaImage entity',
       () => {expect(testImage, isA<MediaImage>())});
 
   group("fromJson", () {
-    test("should convert json string to a Series Media Image object", () {
+    test("should convert json string to a tv Media Image object", () {
       //arrange
-      final jsonData = jsonReader('test/helpers/series/dummy_data/images.json');
+      final jsonData = jsonReader('test/helpers/tv/dummy_data/images.json');
       //act
       final result = MediaImageModel.fromJson(jsonData);
       //assert

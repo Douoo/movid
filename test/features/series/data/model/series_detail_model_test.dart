@@ -6,18 +6,17 @@ import '../../../../helpers/json_reader.dart';
 import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
-  test('should be a subclass of Series Detail entity', () {
-    expect(testDetailTvSeriesModel, isA<SeriesDetail>());
+  test('should be a subclass of tv Detail entity', () {
+    expect(testDetailTvModel, isA<TvDetail>());
   });
   group('fromJSON', () {
-    test('should convert json string to a series series object', () {
+    test('should convert json string to a tv tv object', () {
       //arrange
-      final jsonData =
-          jsonReader('test/helpers/series/dummy_data/series_detail.json');
+      final jsonData = jsonReader('test/helpers/tv/dummy_data/tv_detail.json');
       //act
-      final result = SeriesDetailModel.fromJson(jsonData);
+      final result = TvDetailModel.fromJson(jsonData);
       //assert
-      expect(result, testDetailTvSeriesModel);
+      expect(result, testDetailTvModel);
     });
   });
 }

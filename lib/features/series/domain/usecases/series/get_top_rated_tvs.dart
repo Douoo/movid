@@ -4,9 +4,9 @@ import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
 
 class GetTopRatedTvsUseCase {
-  final TvSeriesRepository series;
-  GetTopRatedTvsUseCase({required this.series});
-  Future<Either<Failure, List<TvSeries>>> call(int page) {
-    return series.getTopRatedTvSeries(page);
+  final TvRepository tv;
+  GetTopRatedTvsUseCase({required this.tv});
+  Future<Either<Failure, List<Tv>>> call(int page) {
+    return tv.getTopRatedTv(page);
   }
 }

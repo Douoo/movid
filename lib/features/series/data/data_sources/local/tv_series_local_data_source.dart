@@ -3,22 +3,23 @@ import 'package:movid/core/errors/exception.dart';
 import 'package:movid/features/series/data/model/series_data.dart';
 import 'package:movid/features/series/data/model/tv_series_model.dart';
 
-abstract class TvSeriesLocalDataSource {
-  Future<List<TvSeriesModel>> getWatchListTvSeries();
-  Future<bool> addSeriesToWatchList(SeriesData series);
-  Future<bool> removeWatchListSeries(int id);
+abstract class TvLocalDataSource {
+  Future<List<TvModel>> getWatchListTv();
+  Future<bool> addTvToWatchList(TvData tv);
+  Future<bool> removeWatchListTv(int id);
   Future<bool> isAddedToWatchList(int id);
 }
 
-class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
-  final Box<dynamic> watchListBox;
-
-  TvSeriesLocalDataSourceImpl({required this.watchListBox});
+class TvLocalDataSourceImpl implements TvLocalDataSource {
+  Future<Box<E>> openWatchlistBox<E>() async {
+    return await Hive.openBox('tvWatchList');
+  }
 
   @override
-  Future<bool> addSeriesToWatchList(SeriesData series) async {
+  Future<bool> addTvToWatchList(TvData tv) async {
     try {
-      await watchListBox.put(series.id, series);
+      final watchListBox = await openWatchlistBox();
+      await watchListBox.put(tv.id, tv);
       return true;
     } catch (error) {
       throw CacheException();
@@ -26,12 +27,13 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
   }
 
   @override
-  Future<List<TvSeriesModel>> getWatchListTvSeries() async {
+  Future<List<TvModel>> getWatchListTv() async {
     try {
-      final List<TvSeriesModel> seriesList = watchListBox.values
-          .map((seriesData) => TvSeriesModel.copy(seriesData))
-          .toList();
-      return seriesList;
+      final watchListBox = await openWatchlistBox();
+
+      final List<TvModel> tvList =
+          watchListBox.values.map((tvData) => TvModel.copy(tvData)).toList();
+      return tvList;
     } catch (error) {
       throw CacheException();
     }
@@ -40,6 +42,8 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
   @override
   Future<bool> isAddedToWatchList(int id) async {
     try {
+      final watchListBox = await openWatchlistBox();
+
       return watchListBox.containsKey(id);
     } catch (error) {
       throw CacheException();
@@ -47,8 +51,10 @@ class TvSeriesLocalDataSourceImpl implements TvSeriesLocalDataSource {
   }
 
   @override
-  Future<bool> removeWatchListSeries(int id) async {
+  Future<bool> removeWatchListTv(int id) async {
     try {
+      final watchListBox = await openWatchlistBox();
+
       await watchListBox.delete(id);
       return true;
     } catch (error) {

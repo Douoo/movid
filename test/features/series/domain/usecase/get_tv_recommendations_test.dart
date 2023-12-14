@@ -8,14 +8,13 @@ import '../../../../helpers/global_test_helpers.mocks.dart';
 
 void main() {
   late GetRecommendedTvsUseCase getRecommendedTvsUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
-    getRecommendedTvsUseCase =
-        GetRecommendedTvsUseCase(series: mockTvSeriesRepository);
+    mockTvRepository = MockTvRepository();
+    getRecommendedTvsUseCase = GetRecommendedTvsUseCase(tv: mockTvRepository);
   });
 
-  const testRecommendedTvSeries = TvSeries(
+  const testRecommendedTv = Tv(
     id: 1,
     title: 'test',
     description: "this is a random ass description",
@@ -27,15 +26,15 @@ void main() {
     backdropPath: "/path/to/backdrop.jpg",
     poster: "/path/to/backdrop.jpg",
   );
-  const testTvSeriesId = 23112;
-  test('should get Recommended tv series from repository', () async {
+  const testTvId = 23112;
+  test('should get Recommended tv tv from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getRecommendedTvSeries(testTvSeriesId))
-        .thenAnswer((_) async => const Right([testRecommendedTvSeries]));
+    when(mockTvRepository.getRecommendedTv(testTvId))
+        .thenAnswer((_) async => const Right([testRecommendedTv]));
     //act
-    final result = await getRecommendedTvsUseCase.call(testTvSeriesId);
+    final result = await getRecommendedTvsUseCase.call(testTvId);
 
     // assert
-    expect(result, const Right([testRecommendedTvSeries]));
+    expect(result, const Right([testRecommendedTv]));
   });
 }

@@ -6,6 +6,7 @@ import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
 import 'package:movid/features/search/presentation/pages/search_movie_page.dart';
+import 'package:movid/features/search/presentation/pages/search_tv_page.dart';
 import 'package:movid/features/series/presentation/pages/main_tv_series_page.dart';
 import 'package:provider/provider.dart';
 
@@ -137,17 +138,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         onTap: () {
                           toggle();
                           Provider.of<HomeProvider>(context, listen: false)
-                              .setContentType(ContentType.tvSeries);
+                              .setContentType(ContentType.Tv);
                         },
                         leading: const Icon(Icons.tv),
-                        title: const Text('TV Series'),
+                        title: const Text('TV'),
                         iconColor: kWhiteColor,
                         textColor: kWhiteColor,
                         style: ListTileStyle.drawer,
                         selected:
                             Provider.of<HomeProvider>(context, listen: false)
                                     .contentType ==
-                                ContentType.tvSeries,
+                                ContentType.Tv,
                         selectedTileColor: primaryColor,
                         selectedColor: kWhiteColor,
                         shape: RoundedRectangleBorder(
@@ -160,11 +161,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           context,
                           WatchlistPage.route,
                         ),
-                        // onTap: () async {
-                        //   final x = await Hive.openBox('watchlist');
-                        //   x.clear().then((value) => print("clear"));
-                        // },
-
                         leading: const Icon(Icons.star_border),
                         title: const Text('Watchlist'),
                         iconColor: kWhiteColor,
@@ -209,8 +205,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           actions: [
                             IconButton(
                               onPressed: () {
-                                Navigator.pushNamed(
-                                    context, MovieSearchPage.routeName);
+                                Provider.of<HomeProvider>(context,
+                                                listen: false)
+                                            .contentType ==
+                                        ContentType.movie
+                                    ? Navigator.pushNamed(
+                                        context, MovieSearchPage.routeName)
+                                    : Navigator.pushNamed(
+                                        context, SearchTvPage.routeName);
                               },
                               icon: const Icon(
                                 Icons.search,
@@ -227,7 +229,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               Provider.of<HomeProvider>(context).contentType ==
                                       ContentType.movie
                                   ? const MainMoviePage()
-                                  : const MainSeriesPage(),
+                                  : const MainTvPage(),
                         ),
                       );
                     },

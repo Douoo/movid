@@ -8,33 +8,33 @@ import 'package:movid/features/series/domain/usecases/remove_watchlist_series.da
 import 'package:movid/features/series/domain/usecases/series/get_tv_detail.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_recommendations.dart';
 
-class TvSeriesDetailProvider extends ChangeNotifier {
+class TvDetailProvider extends ChangeNotifier {
   static const watchListAddSuccessMessage = 'Added to watchList';
   static const watchListRemoveSuccessMessage = 'Removed from watchList';
 
   final GetDetailTvsUseCase getDetailTvsUseCase;
   final GetRecommendedTvsUseCase getRecommendedTvsUseCase;
-  final GetSeriesWatchListStatus getSeriesWatchListStatus;
+  final GetTvWatchListStatus getTvWatchListStatus;
   final AddTvsToWatchListUseCase addTvsToWatchListUseCase;
   final RemoveTvsFromWatchListUseCase removeTvsFromWatchListUseCase;
-  TvSeriesDetailProvider({
+  TvDetailProvider({
     required this.getDetailTvsUseCase,
     required this.addTvsToWatchListUseCase,
     required this.getRecommendedTvsUseCase,
-    required this.getSeriesWatchListStatus,
+    required this.getTvWatchListStatus,
     required this.removeTvsFromWatchListUseCase,
   });
 
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
 
-  RequestState _recommendedSeriesState = RequestState.empty;
-  RequestState get recommendedSeriesState => _recommendedSeriesState;
-  late SeriesDetail _seriesDetail;
-  SeriesDetail get seriesDetail => _seriesDetail;
+  RequestState _recommendedTvState = RequestState.empty;
+  RequestState get recommendedTvState => _recommendedTvState;
+  late TvDetail _tvDetail;
+  TvDetail get tvDetail => _tvDetail;
 
-  late List<TvSeries> _recommendedTvSeries;
-  List<TvSeries> get recommendedTvSeries => _recommendedTvSeries;
+  late List<Tv> _recommendedTv = [];
+  List<Tv> get recommendedTv => _recommendedTv;
 
   bool _isAddedToWatchList = false;
   bool get isAddedToWatchList => _isAddedToWatchList;
@@ -45,43 +45,42 @@ class TvSeriesDetailProvider extends ChangeNotifier {
   String _watchListMessage = '';
   String get watchListMessage => _watchListMessage;
 
-  Future<void> fetchRecomanddTvSeres(int id) async {
-    _recommendedSeriesState = RequestState.loading;
+  Future<void> fetchRecommendTvSeres(int id) async {
+    _recommendedTvState = RequestState.loading;
     notifyListeners();
     final result = await getRecommendedTvsUseCase(id);
 
     result.fold((failure) {
-      _recommendedSeriesState = RequestState.error;
+      _recommendedTvState = RequestState.error;
       _message = failure.message;
-      print("failure");
     }, (recommended) {
-      _recommendedTvSeries = recommended;
-      _recommendedSeriesState = RequestState.loaded;
+      _recommendedTv = recommended;
+      _recommendedTvState = RequestState.loaded;
     });
     notifyListeners();
   }
 
-  Future<void> fetchDetailTvSeries(int seriesId) async {
+  Future<void> fetchDetailTv(int tvId) async {
     _state = RequestState.loading;
 
     notifyListeners();
 
-    final result = await getDetailTvsUseCase(seriesId);
+    final result = await getDetailTvsUseCase(tvId);
     result.fold(
       (failure) {
         _message = failure.message;
         _state = RequestState.error;
       },
       (movieDetail) {
-        _seriesDetail = movieDetail;
+        _tvDetail = movieDetail;
         _state = RequestState.loaded;
       },
     );
     notifyListeners();
   }
 
-  Future<void> addToWatchList(SeriesDetail series) async {
-    final result = await addTvsToWatchListUseCase(series);
+  Future<void> addToWatchList(TvDetail tv) async {
+    final result = await addTvsToWatchListUseCase(tv);
 
     result.fold((failure) {
       _watchListMessage = 'Failed to add movie to watchlist';
@@ -89,24 +88,24 @@ class TvSeriesDetailProvider extends ChangeNotifier {
       _watchListMessage = successMsg.toString();
     });
 
-    loadWatchListStatus(series.id);
+    loadWatchListStatus(tv.id);
     notifyListeners();
   }
 
-  Future<void> removeFromWatchList(SeriesDetail series) async {
-    final result = await removeTvsFromWatchListUseCase(series);
+  Future<void> removeFromWatchList(TvDetail tv) async {
+    final result = await removeTvsFromWatchListUseCase(tv);
 
     result.fold((failure) {
       _watchListMessage = failure.message;
     }, (successMsg) {
       _watchListMessage = successMsg.toString();
     });
-    loadWatchListStatus(series.id);
+    loadWatchListStatus(tv.id);
     notifyListeners();
   }
 
   Future<void> loadWatchListStatus(int id) async {
-    final result = await getSeriesWatchListStatus(id);
+    final result = await getTvWatchListStatus(id);
     _isAddedToWatchList = result;
     notifyListeners();
   }

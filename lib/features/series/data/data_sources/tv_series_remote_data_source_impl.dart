@@ -9,20 +9,20 @@ import 'package:movid/features/series/domain/entites/season.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
-abstract class TvSeriesRemoteDataSource {
-  Future<List<TvSeries>> getOnAirTvSeries(int page);
-  Future<List<TvSeries>> getPopularTvSeries(int page);
-  Future<List<TvSeries>> getTopRatedTvSeries(int page);
-  Future<SeriesDetail> getDetailTvSeries(int id);
-  Future<List<TvSeries>> getRecommendedTvSeries(int id);
-  Future<List<Season>> getTvSeriesSeasons(int id, int seasonNumber);
-  Future<List<TvSeries>> searchTvSeries(String data, int page);
-  Future<MediaImageModel> getSeriesImages(int id);
+abstract class TvRemoteDataSource {
+  Future<List<Tv>> getOnAirTv(int page);
+  Future<List<Tv>> getPopularTv(int page);
+  Future<List<Tv>> getTopRatedTv(int page);
+  Future<TvDetail> getDetailTv(int id);
+  Future<List<Tv>> getRecommendedTv(int id);
+  Future<List<SeasonEpisode>> getTvSeasons(int id, int seasonNumber);
+  Future<List<Tv>> searchTv(String data, int page);
+  Future<MediaImageModel> getTvImages(int id);
 }
 
-class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
+class TvRemoteDataSourceImpl implements TvRemoteDataSource {
   final http.Client client;
-  const TvSeriesRemoteDataSourceImpl({required this.client});
+  const TvRemoteDataSourceImpl({required this.client});
 
   Future<T> _getData<T>(
     String url,
@@ -46,59 +46,59 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   }
 
   @override
-  Future<List<TvSeries>> getOnAirTvSeries(int page) async {
+  Future<List<Tv>> getOnAirTv(int page) async {
     return _getData(
       Urls.onTheAirTvs,
-      (response) => TvSeriesResponse.fromJson(response).tvList,
+      (response) => TvResponse.fromJson(response).tvList,
     );
   }
 
   @override
-  Future<SeriesDetail> getDetailTvSeries(
+  Future<TvDetail> getDetailTv(
     int id,
   ) async {
     return await _getData(
       Urls.tvDetail(id),
-      (response) => SeriesDetailModel.fromJson(response),
+      (response) => TvDetailModel.fromJson(response),
     );
   }
 
   @override
-  Future<List<TvSeries>> getPopularTvSeries(int page) async {
+  Future<List<Tv>> getPopularTv(int page) async {
     return _getData(
       Urls.popularTvs(page),
-      (response) => TvSeriesResponse.fromJson(response).tvList,
+      (response) => TvResponse.fromJson(response).tvList,
     );
   }
 
   @override
-  Future<List<TvSeries>> getRecommendedTvSeries(int id) {
+  Future<List<Tv>> getRecommendedTv(int id) {
     return _getData(Urls.tvRecommendations(id), (response) {
-      return TvSeriesResponse.fromJson(response).tvList;
+      return TvResponse.fromJson(response).tvList;
     });
   }
 
   @override
-  Future<List<TvSeries>> getTopRatedTvSeries(int page) async {
+  Future<List<Tv>> getTopRatedTv(int page) async {
     return _getData(Urls.topRatedTvs(page),
-        (response) => TvSeriesResponse.fromJson(response).tvList);
+        (response) => TvResponse.fromJson(response).tvList);
   }
 
   @override
-  Future<List<Season>> getTvSeriesSeasons(int id, int seasonNumber) {
+  Future<List<SeasonEpisode>> getTvSeasons(int id, int seasonNumber) {
     return _getData(Urls.tvSeasons(id, seasonNumber), (response) {
       return SeasonResponse.fromJson(response).seasonList;
     });
   }
 
   @override
-  Future<List<TvSeries>> searchTvSeries(String data, int page) {
-    // TODO: implement searchTvSeries
-    throw UnimplementedError();
+  Future<List<Tv>> searchTv(String query, int page) async {
+    return _getData(Urls.searchTvs(query, page),
+        (response) => TvResponse.fromJson(response).tvList);
   }
 
   @override
-  Future<MediaImageModel> getSeriesImages(int id) async {
+  Future<MediaImageModel> getTvImages(int id) async {
     return _getData(
       Urls.tvImages(id),
       (response) {

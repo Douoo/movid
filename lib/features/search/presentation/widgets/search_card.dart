@@ -1,29 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
+import 'package:movid/features/search/domain/entity/content.dart';
 
-class TvItemCard extends StatelessWidget {
-  final Tv item;
-
-  const TvItemCard({
-    Key? key,
-    required this.item,
-  }) : super(key: key);
-
+class SearchCard extends StatelessWidget {
+  final Content content;
+  const SearchCard({Key? key, required this.content}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailTvPage(
-              tvId: item.id,
-            ),
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => MovieDetailPage(
+        //       movieId: movie.id,
+        //     ),
+        //   ),
+        // );
       },
       child: Container(
         padding: const EdgeInsets.only(right: 8.0),
@@ -36,21 +31,16 @@ class TvItemCard extends StatelessWidget {
           children: [
             Expanded(
               // flex: 2,
-              child: SizedBox(
-                height: 200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: Urls.imageUrl(
-                      item.backdropPath ?? '',
-                    ),
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: CachedNetworkImage(
+                  imageUrl: Urls.imageUrl(
+                    content.posterPath ?? '',
                   ),
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
@@ -61,7 +51,7 @@ class TvItemCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.title!,
+                    content.title!,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           fontWeight: FontWeight.bold,
@@ -72,7 +62,7 @@ class TvItemCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${(item.language ?? '').toUpperCase()} | ${item.date}',
+                        '${(content.language ?? '').toUpperCase()} | ${content.releaseDate}',
                       ),
                       const SizedBox(width: 16.0),
                       const Icon(
@@ -82,15 +72,15 @@ class TvItemCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 4.0),
                       Text(
-                        (item.rating! / 2).toStringAsFixed(1),
+                        (content.voteAverage! / 2).toStringAsFixed(1),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    item.description ?? '-',
+                    content.overview ?? '-',
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
+                    maxLines: 4,
                   ),
                 ],
               ),

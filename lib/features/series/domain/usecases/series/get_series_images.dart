@@ -3,11 +3,11 @@ import 'package:movid/core/errors/failure.dart';
 import 'package:movid/features/series/data/model/media_image_model.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
 
-class GetSeriesImages {
-  final TvSeriesRepository series;
-  GetSeriesImages(this.series);
+class GetTvImages {
+  final TvRepository tv;
+  GetTvImages(this.tv);
 
   Future<Either<Failure, MediaImageModel>> call(int movieId) {
-    return series.getSeriesImages(movieId);
+    return tv.getTvImages(movieId);
   }
 }

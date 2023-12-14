@@ -8,24 +8,24 @@ import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
   late RemoveTvsFromWatchListUseCase removeTvsFromWatchListUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
 
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
+    mockTvRepository = MockTvRepository();
     removeTvsFromWatchListUseCase =
-        RemoveTvsFromWatchListUseCase(series: mockTvSeriesRepository);
+        RemoveTvsFromWatchListUseCase(repository: mockTvRepository);
   });
 
-  test('should remove TV series from watchList in the repository', () async {
+  test('should remove TV tv from watchList in the repository', () async {
     // Arrange
-    when(mockTvSeriesRepository.removeWatchListSeries(testDetailTvSeries))
+    when(mockTvRepository.removeWatchListTv(testDetailTv))
         .thenAnswer((_) async => const Right(true));
 
     // Act
-    final result = await removeTvsFromWatchListUseCase.call(testDetailTvSeries);
+    final result = await removeTvsFromWatchListUseCase.call(testDetailTv);
 
     // Assert
     expect(result, true);
-    verify(mockTvSeriesRepository.removeWatchListSeries(testDetailTvSeries));
+    verify(mockTvRepository.removeWatchListTv(testDetailTv));
   });
 }

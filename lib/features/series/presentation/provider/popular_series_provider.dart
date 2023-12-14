@@ -3,22 +3,22 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/usecases/series/get_popular_tvs.dart';
 
-class PopularTvSeriesProvider extends ChangeNotifier {
+class PopularTvProvider extends ChangeNotifier {
   final GetPopularTvsUseCase getPopularTvsUseCase;
 
-  PopularTvSeriesProvider({required this.getPopularTvsUseCase});
+  PopularTvProvider({required this.getPopularTvsUseCase});
 
   RequestState _state = RequestState.empty;
   RequestState get state => _state;
   int page = 1;
 
-  List<TvSeries> _seriesList = [];
-  List<TvSeries> get series => _seriesList;
+  List<Tv> _tvList = [];
+  List<Tv> get tv => _tvList;
 
   String _message = '';
   String get message => _message;
 
-  Future<void> fetchPopularTvSeries() async {
+  Future<void> fetchPopularTv() async {
     _state = RequestState.loading;
     notifyListeners();
 
@@ -29,11 +29,11 @@ class PopularTvSeriesProvider extends ChangeNotifier {
         _message = failure.message;
         _state = RequestState.error;
       },
-      (tvSeries) {
-        if (_seriesList.isEmpty) {
-          _seriesList = tvSeries;
+      (series) {
+        if (_tvList.isEmpty) {
+          _tvList = series;
         }
-        _seriesList.addAll(tvSeries);
+        _tvList.addAll(series);
         _state = RequestState.loaded;
         page = page + 1;
       },

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Season extends Equatable {
+class SeasonEpisode extends Equatable {
   final int? id;
   final String? airDate;
   final int? episodeNumber;
@@ -10,7 +10,7 @@ class Season extends Equatable {
   final double? voteAverage;
   final int? voteCount;
   final String? still_path;
-  const Season({
+  const SeasonEpisode({
     this.id,
     this.airDate,
     this.description,

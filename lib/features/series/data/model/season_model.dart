@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:movid/features/series/domain/entites/season.dart';
 
-class SeasonModel extends Season {
+class SeasonModel extends SeasonEpisode {
   const SeasonModel({
     super.id,
     super.airDate,

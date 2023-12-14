@@ -8,20 +8,20 @@ import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
   late GetDetailTvsUseCase getDetailTvsUseCase;
-  late MockTvSeriesRepository mockTvSeriesRepository;
+  late MockTvRepository mockTvRepository;
   setUp(() {
-    mockTvSeriesRepository = MockTvSeriesRepository();
-    getDetailTvsUseCase = GetDetailTvsUseCase(series: mockTvSeriesRepository);
+    mockTvRepository = MockTvRepository();
+    getDetailTvsUseCase = GetDetailTvsUseCase(tv: mockTvRepository);
   });
 
-  test('should get Detail tv series from repository', () async {
+  test('should get Detail tv tv from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getDetailTvSeries(testTvSeriesId))
-        .thenAnswer((_) async => const Right(testDetailTvSeries));
+    when(mockTvRepository.getDetailTv(testTvId))
+        .thenAnswer((_) async => const Right(testDetailTv));
     //act
-    final result = await getDetailTvsUseCase.call(testTvSeriesId);
+    final result = await getDetailTvsUseCase.call(testTvId);
 
     // assert
-    expect(result, const Right(testDetailTvSeries));
+    expect(result, const Right(testDetailTv));
   });
 }

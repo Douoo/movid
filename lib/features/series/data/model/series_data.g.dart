@@ -6,17 +6,17 @@ part of 'series_data.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SeriesDataAdapter extends TypeAdapter<SeriesData> {
+class TvDataAdapter extends TypeAdapter<TvData> {
   @override
   final int typeId = 1;
 
   @override
-  SeriesData read(BinaryReader reader) {
+  TvData read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SeriesData(
+    return TvData(
       backdropPath: fields[0] as String?,
       id: fields[1] as int,
       numberOfEpisodes: fields[7] as int,
@@ -31,7 +31,7 @@ class SeriesDataAdapter extends TypeAdapter<SeriesData> {
   }
 
   @override
-  void write(BinaryWriter writer, SeriesData obj) {
+  void write(BinaryWriter writer, TvData obj) {
     writer
       ..writeByte(10)
       ..writeByte(0)
@@ -62,7 +62,7 @@ class SeriesDataAdapter extends TypeAdapter<SeriesData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SeriesDataAdapter &&
+      other is TvDataAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

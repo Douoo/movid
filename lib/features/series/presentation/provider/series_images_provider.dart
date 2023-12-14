@@ -3,9 +3,9 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/series/domain/entites/media_image.dart';
 import 'package:movid/features/series/domain/usecases/series/get_series_images.dart';
 
-class TvSeriesImagesProvider extends ChangeNotifier {
-  final GetSeriesImages getSeriesImages;
-  TvSeriesImagesProvider({required this.getSeriesImages});
+class TvImagesProvider extends ChangeNotifier {
+  final GetTvImages getTvImages;
+  TvImagesProvider({required this.getTvImages});
 
   late MediaImage _mediaImages;
   MediaImage get mediaImages => _mediaImages;
@@ -16,11 +16,11 @@ class TvSeriesImagesProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  Future<void> fetchSeriesImages(int movieId) async {
+  Future<void> fetchtvImages(int movieId) async {
     _state = RequestState.loading;
     notifyListeners();
 
-    final result = await getSeriesImages(movieId);
+    final result = await getTvImages(movieId);
 
     result.fold((failure) {
       _message = failure.message;

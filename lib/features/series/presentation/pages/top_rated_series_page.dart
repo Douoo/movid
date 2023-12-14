@@ -6,18 +6,18 @@ import 'package:provider/provider.dart';
 
 import '../widgets/item_card.dart';
 
-class TopRatedSeriesPage extends StatefulWidget {
-  static const String route = '/topRatedSeries';
-  const TopRatedSeriesPage({super.key});
+class TopRatedTvPage extends StatefulWidget {
+  static const String route = '/topRatedTv';
+  const TopRatedTvPage({super.key});
 
   @override
-  State<TopRatedSeriesPage> createState() => _TopRatedSeriesPageState();
+  State<TopRatedTvPage> createState() => _TopRatedTvPageState();
 }
 
-class _TopRatedSeriesPageState extends State<TopRatedSeriesPage> {
+class _TopRatedTvPageState extends State<TopRatedTvPage> {
   @override
   void initState() {
-    Future.microtask(() => Provider.of<TopRatedTvSeriesProvider>(
+    Future.microtask(() => Provider.of<TopRatedTvProvider>(
           context,
           listen: false,
         ).fetchTopRatedMovies());
@@ -29,13 +29,13 @@ class _TopRatedSeriesPageState extends State<TopRatedSeriesPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Top Rated Tv Series'),
+        title: const Text('Top Rated Tv tv'),
         backgroundColor: Colors.black.withOpacity(0.6),
         elevation: 0.0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TopRatedTvSeriesProvider>(
+        child: Consumer<TopRatedTvProvider>(
           builder: (context, data, child) {
             if (data.state == RequestState.loading) {
               return const Center(
@@ -48,12 +48,12 @@ class _TopRatedSeriesPageState extends State<TopRatedSeriesPage> {
                 child: ListView.builder(
                   key: const Key('topRatedMoviesListView'),
                   itemBuilder: (context, index) {
-                    final movie = data.series[index];
-                    return ItemCard(
+                    final movie = data.tv[index];
+                    return TvItemCard(
                       item: movie,
                     );
                   },
-                  itemCount: data.series.length,
+                  itemCount: data.tv.length,
                 ),
               );
             } else {

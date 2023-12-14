@@ -4,9 +4,9 @@ import 'package:movid/features/series/domain/entites/season.dart';
 import 'package:movid/features/series/domain/repository/series_repository.dart';
 
 class GetTvsSeasonsUseCase {
-  final TvSeriesRepository series;
-  GetTvsSeasonsUseCase({required this.series});
-  Future<Either<Failure, List<Season>>> call(int id, int seasonNumber) {
-    return series.getTvSeriesSeasons(id, seasonNumber);
+  final TvRepository tv;
+  GetTvsSeasonsUseCase({required this.tv});
+  Future<Either<Failure, List<SeasonEpisode>>> call(int id, int seasonNumber) {
+    return tv.getTvSeasons(id, seasonNumber);
   }
 }

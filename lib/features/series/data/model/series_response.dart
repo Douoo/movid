@@ -3,21 +3,21 @@ import 'dart:convert';
 
 import 'package:movid/features/series/data/model/tv_series_model.dart';
 
-class TvSeriesResponse {
-  final List<TvSeriesModel> tvList;
+class TvResponse {
+  final List<TvModel> tvList;
 
-  TvSeriesResponse({required this.tvList});
+  TvResponse({required this.tvList});
 
-  factory TvSeriesResponse.fromMap(Map<String, dynamic> map) {
-    return TvSeriesResponse(
+  factory TvResponse.fromMap(Map<String, dynamic> map) {
+    return TvResponse(
       tvList: List.from(
-        map['results'].map<TvSeriesModel>(
-          (x) => TvSeriesModel.fromMap(x as Map<String, dynamic>),
+        map['results'].map<TvModel>(
+          (x) => TvModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
     );
   }
 
-  factory TvSeriesResponse.fromJson(String source) =>
-      TvSeriesResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory TvResponse.fromJson(String source) =>
+      TvResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 }

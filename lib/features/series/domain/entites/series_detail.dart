@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:movid/features/series/domain/entites/genre.dart';
 
-class SeriesDetail extends Equatable {
+class TvDetail extends Equatable {
   final String? backdropPath;
   final List<Genre> genres;
   final int id;
@@ -15,7 +15,7 @@ class SeriesDetail extends Equatable {
   final int numberOfEpisodes;
   final int numberOfSeasons;
 
-  const SeriesDetail({
+  const TvDetail({
     required this.backdropPath,
     required this.genres,
     required this.overView,
