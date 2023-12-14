@@ -44,6 +44,6 @@ IMPORTANT: You must follow the clean architecture and TDD proccess to add a new 
 
 ## Contributors
 - [@Douoo](https://github.com/Douoo)
-- []
+- [@Brook Gelila](https://github.com/BGLeee)
 
 Thanks 😊

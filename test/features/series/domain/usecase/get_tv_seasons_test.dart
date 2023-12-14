@@ -8,17 +8,17 @@ import '../../../../helpers/global_test_helpers.mocks.dart';
 import '../../../../helpers/series/dummy_objects.dart';
 
 void main() {
-  late GetTvsSeasonsUseCase getTvsSeasonsUseCase;
+  late GetTvSeasonEpisodes getTvsSeasonsUseCase;
   late MockTvSeriesRepository mockTvSeriesRepository;
   setUp(() {
     mockTvSeriesRepository = MockTvSeriesRepository();
-    getTvsSeasonsUseCase = GetTvsSeasonsUseCase(series: mockTvSeriesRepository);
+    getTvsSeasonsUseCase = GetTvSeasonEpisodes(series: mockTvSeriesRepository);
   });
 
-  const testTvSeriesSeasons = Season(
+  const testTvSeriesSeasons = SeasonEpisode(
       id: 1,
       name: 'test',
-      description: "this is a random ass description",
+      overview: "this is a random ass description",
       airDate: "2023/20/3",
       voteAverage: 8.3,
       voteCount: 0,

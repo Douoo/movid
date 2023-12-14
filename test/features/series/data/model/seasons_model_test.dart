@@ -6,12 +6,12 @@ import 'package:movid/features/series/domain/entites/season_episode.dart';
 import '../../../../helpers/json_reader.dart';
 
 void main() {
-  const testSeasonModel = SeasonModel(
+  const testSeasonModel = SeasonEpisodeModel(
     id: 170277,
     airDate: "1953-01-01",
     episodeNumber: 2,
     name: "Season 1953",
-    description: "",
+    overview: "",
     runTime: 15,
     voteAverage: 0.0,
     voteCount: 0,
@@ -19,7 +19,7 @@ void main() {
 
   test('should be a subclass of season entity', () async {
     //assert
-    expect(testSeasonModel, isA<Season>());
+    expect(testSeasonModel, isA<SeasonEpisode>());
   });
 
   test('should return a valid model from json', () async {
@@ -29,7 +29,7 @@ void main() {
     );
 
     //act
-    final result = SeasonModel.fromMap(jsonMap);
+    final result = SeasonEpisodeModel.fromMap(jsonMap);
     //expect
 
     expect(result, equals(testSeasonModel));
