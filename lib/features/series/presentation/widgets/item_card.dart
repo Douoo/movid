@@ -37,13 +37,13 @@ class TvItemCard extends StatelessWidget {
             Expanded(
               // flex: 2,
               child: SizedBox(
-                height: 200,
+                height: 300,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     imageUrl: Urls.imageUrl(
-                      item.backdropPath ?? '',
+                      item.poster ?? '',
                     ),
                     placeholder: (context, url) => const Center(
                       child: CircularProgressIndicator(),

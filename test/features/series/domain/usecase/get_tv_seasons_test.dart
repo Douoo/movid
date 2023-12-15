@@ -33,6 +33,6 @@ void main() {
     final result = await getTvsSeasonsUseCase.call(testTvId, 1);
 
     // assert
-    expect(result, const Right(testOnAirTv));
+    expect(result, const Right([testTvSeasons]));
   });
 }

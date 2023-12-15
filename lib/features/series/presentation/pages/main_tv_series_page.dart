@@ -4,18 +4,20 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
-import 'package:movid/features/movies/presentation/widgets/sub_heading.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
 import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
+import 'package:movid/features/series/presentation/widgets/item_card.dart';
 import 'package:movid/features/series/presentation/widgets/vertical_item_list_card.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../../movies/presentation/widgets/loading_widgets.dart';
+import '../../../movies/presentation/widgets/sub_heading.dart';
 
 class MainTvPage extends StatefulWidget {
   const MainTvPage({super.key});
@@ -27,18 +29,18 @@ class MainTvPage extends StatefulWidget {
 class _MainTvPageState extends State<MainTvPage> {
   @override
   void initState() {
-    final movieProvider = Provider.of<TvListProvider>(context, listen: false);
+    final tvProvider = Provider.of<TvListProvider>(context, listen: false);
 
     Future.microtask(() {
-      movieProvider.fetchOnAirTv().whenComplete(() {
+      tvProvider.fetchOnAirTv().whenComplete(() {
         Provider.of<TvImagesProvider>(context, listen: false)
-            .fetchtvImages(movieProvider.onAirTvs[0].id!);
+            .fetchtvImages(tvProvider.onAirTvs[0].id!);
         Provider.of<TvDetailProvider>(context, listen: false)
-            .fetchDetailTvSeries(movieProvider.onAirTvs[0].id!);
+            .fetchDetailTvSeries(tvProvider.onAirTvs[0].id!);
       });
 
-      movieProvider.fetchPopularTv(1);
-      movieProvider.fetchTopRatedTv();
+      tvProvider.fetchPopularTv(1);
+      tvProvider.fetchTopRatedTv();
     });
     super.initState();
   }
@@ -47,7 +49,7 @@ class _MainTvPageState extends State<MainTvPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        key: const Key('movieScrollView'),
+        key: const Key('tvScrollView'),
         child: Column(
           children: [
             Consumer<TvListProvider>(
@@ -69,10 +71,23 @@ class _MainTvPageState extends State<MainTvPage> {
                               .fetchDetailTvSeries(data.onAirTvs[index].id!);
                         },
                       ),
-                      items: data.onAirTvs.map((movie) {
+                      items: data.onAirTvs.map((tv) {
                         return GestureDetector(
                           onTap: () {
-                            //TODO: Implement navigation
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                ),
+                              ),
+                              context: context,
+                              builder: (context) {
+                                return TvItemCard(
+                                  item: tv,
+                                );
+                              },
+                            );
                           },
                           child: Stack(
                             children: [
@@ -102,7 +117,7 @@ class _MainTvPageState extends State<MainTvPage> {
                                   height: 560.0,
                                   width: double.infinity,
                                   imageUrl: Urls.imageUrl(
-                                      movie.poster ?? movie.backdropPath!),
+                                      tv.poster ?? tv.backdropPath!),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -121,7 +136,7 @@ class _MainTvPageState extends State<MainTvPage> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Text(movie.title!),
+                                                    Text(tv.title!),
                                                   ],
                                                 ),
                                                 const SizedBox(height: 8),
@@ -132,7 +147,7 @@ class _MainTvPageState extends State<MainTvPage> {
                                                         RequestState.loaded) {
                                                       return Row(
                                                         children: [
-                                                          Text(movie.rating
+                                                          Text(tv.rating
                                                               .toString()
                                                               .substring(0, 3)),
                                                           const SizedBox(
@@ -154,7 +169,7 @@ class _MainTvPageState extends State<MainTvPage> {
                                                   children: [
                                                     Expanded(
                                                       child: Text(
-                                                        movie.description
+                                                        tv.description
                                                             .toString(),
                                                         maxLines: 4,
                                                         style: const TextStyle(
@@ -224,7 +239,7 @@ class _MainTvPageState extends State<MainTvPage> {
               },
             ),
             SubHeading(
-              valueKey: 'seePopularMovies',
+              valueKey: 'seePopulartvs',
               text: 'Popular',
               onSeeMoreTapped: () {
                 Navigator.pushNamed(context, PopularTvPage.route);
@@ -246,7 +261,7 @@ class _MainTvPageState extends State<MainTvPage> {
               }
             }),
             SubHeading(
-              valueKey: 'seeTopRatedMovies',
+              valueKey: 'seeTopRatedtvs',
               text: 'Top rated',
               onSeeMoreTapped: () {
                 Navigator.pushNamed(context, TopRatedTvPage.route);
@@ -265,12 +280,6 @@ class _MainTvPageState extends State<MainTvPage> {
                 return const SizedBox();
               }
             })
-            //   } else if (data.topRatedMoviesState == RequestState.error) {
-            //     return const Center(child: Text('Load data failed'));
-            //   } else {
-            //     return LoadingWidget();
-            //   }
-            // }),
           ],
         ),
       ),

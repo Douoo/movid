@@ -42,8 +42,8 @@ class TvDetailProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  String _watchListMessage = '';
-  String get watchListMessage => _watchListMessage;
+  String _watchlistMessage = '';
+  String get watchlistMessage => _watchlistMessage;
 
   Future<void> fetchRecommendedTv(int tvId) async {
     _recommendedTvState = RequestState.loading;
@@ -88,9 +88,9 @@ class TvDetailProvider extends ChangeNotifier {
     final result = await addTvsToWatchListUseCase(tv);
 
     result.fold((failure) {
-      _watchListMessage = 'Failed to add movie to watchlist';
+      _watchlistMessage = 'Failed to add movie to watchlist';
     }, (successMsg) {
-      _watchListMessage = successMsg.toString();
+      _watchlistMessage = successMsg.toString();
     });
 
     loadTvWatchListStatus(tv.id);
@@ -101,9 +101,9 @@ class TvDetailProvider extends ChangeNotifier {
     final result = await removeTvsFromWatchListUseCase(tv);
 
     result.fold((failure) {
-      _watchListMessage = failure.message;
+      _watchlistMessage = failure.message;
     }, (successMsg) {
-      _watchListMessage = successMsg.toString();
+      _watchlistMessage = successMsg.toString();
     });
     loadTvWatchListStatus(tv.id);
     notifyListeners();

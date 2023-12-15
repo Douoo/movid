@@ -2,9 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/series_detail_card.dart';
+import '../widgets/minimal_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,10 +20,10 @@ class VerticalItemList extends StatelessWidget {
     return SizedBox(
       height: 205,
       child: NotificationListener(
-        onNotification: (_onScrollNotification) {
-          if (_onScrollNotification is ScrollEndNotification) {
-            final before = _onScrollNotification.metrics.extentBefore;
-            final max = _onScrollNotification.metrics.maxScrollExtent;
+        onNotification: (onScrollNotification) {
+          if (onScrollNotification is ScrollEndNotification) {
+            final before = onScrollNotification.metrics.extentBefore;
+            final max = onScrollNotification.metrics.maxScrollExtent;
             if (before == max) {
               if (isTopRated) {
                 movieProvider.fetchTopRatedTv();
@@ -47,9 +46,6 @@ class VerticalItemList extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    final tvDetailProvider =
-                        Provider.of<TvDetailProvider>(context, listen: false);
-                    tvDetailProvider.fetchDetailTvSeries(tv.id!);
                     showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -59,7 +55,9 @@ class VerticalItemList extends StatelessWidget {
                         ),
                         context: context,
                         builder: (context) {
-                          return TvDetailCard(tv: tv);
+                          return MinimalDetail(
+                            tv: tv,
+                          );
                         });
                   },
                   child: SizedBox(
@@ -106,10 +104,10 @@ class VerticalItemList extends StatelessWidget {
                           height: 5,
                         ),
                         Expanded(
-                            child: Text(
-                          "${tvSeries[index].date!.substring(0, 4)} - ${tvSeries[index].rating!.toStringAsFixed(1)}",
-                          style: const TextStyle(fontWeight: FontWeight.w100),
-                        )),
+                          child: Text(
+                            "${tv.date!.substring(0, 4)} - ${tv.rating!.toStringAsFixed(1)}",
+                          ),
+                        ),
                       ],
                     ),
                   ),

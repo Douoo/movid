@@ -13,16 +13,15 @@ abstract class MovieLocalDataSource {
 }
 
 class MovieLocalDataSourceImpl implements MovieLocalDataSource {
-  Box<dynamic> box;
 
-  MovieLocalDataSourceImpl({
-    required this.box,
-  });
+  Future<Box<E>> _openWatchlistBox<E>() async {
+    return await Hive.openBox('watchlist');
+  }
 
   @override
   Future<List<MovieModel>> getWatchlistMovies() async {
     try {
-      final watchlistBox = box;
+      final watchlistBox = await _openWatchlistBox();
 
       List<MovieModel> movies = [];
       for (MovieData movieData in watchlistBox.values) {
@@ -37,7 +36,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   @override
   Future<bool> hasMovie(int id) async {
     try {
-      final watchlistBox = box;
+      final watchlistBox = await _openWatchlistBox();
       final containsMovie = watchlistBox.containsKey(id);
       return containsMovie;
     } catch (error) {
@@ -48,7 +47,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   @override
   Future<String> removeWatchlist(MovieData movie) async {
     try {
-      final watchlistBox = box;
+      final watchlistBox = await _openWatchlistBox();
       watchlistBox.delete(movie.id);
       return 'Removed from watchlist';
     } catch (error) {
@@ -59,7 +58,7 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   @override
   Future<String> saveWatchlist(MovieData movie) async {
     try {
-      final watchlistBox = box;
+      final watchlistBox = await _openWatchlistBox();
       watchlistBox.put(movie.id, movie);
       return 'Added to watchlist';
     } catch (error) {

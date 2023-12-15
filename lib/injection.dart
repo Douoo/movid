@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -188,9 +187,7 @@ Future<void> init() async {
             client: locator(),
           ));
   locator.registerLazySingleton<MovieLocalDataSource>(
-      () => MovieLocalDataSourceImpl(
-            box: locator(),
-          ));
+      () => MovieLocalDataSourceImpl());
 
   ///Tv tv
   locator.registerLazySingleton<TvRemoteDataSource>(
@@ -203,9 +200,7 @@ Future<void> init() async {
   );
 
   //******** External Plugin **********//
-  final watchlistBox = await Hive.openBox('watchlist');
-
-  locator.registerLazySingleton(() => watchlistBox);
+  // locator.registerLazySingleton(() => seriesWatchListBox);
   locator.registerLazySingleton(() => InternetConnectionChecker());
   locator.registerLazySingleton(() => http.Client());
 }
