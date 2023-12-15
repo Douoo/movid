@@ -389,6 +389,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         builder: (context) {
                           return MinimalDetail(
                             movie: recommendation,
+                            ridComponentOnNavigation: true,
                           );
                         },
                       );

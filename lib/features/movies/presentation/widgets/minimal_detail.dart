@@ -10,11 +10,13 @@ class MinimalDetail extends StatelessWidget {
   final String? keyValue;
   final String? closeKeyValue;
   final Movie movie;
+  final bool ridComponentOnNavigation;
 
   const MinimalDetail({
     Key? key,
     this.keyValue,
     this.closeKeyValue,
+    this.ridComponentOnNavigation = false,
     required this.movie,
   }) : super(key: key);
 
@@ -94,14 +96,28 @@ class MinimalDetail extends StatelessWidget {
                       ),
                       const SizedBox(height: 12.0),
                       ElevatedButton(
-                          onPressed: () => Navigator.push(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            if (ridComponentOnNavigation) {
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MovieDetailPage(
                                     movieId: movie.id,
                                   ),
                                 ),
-                              ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MovieDetailPage(
+                                    movieId: movie.id,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor,
                               foregroundColor: kWhiteColor,
