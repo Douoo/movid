@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:movid/features/series/data/model/season_model.dart';
-import 'package:movid/features/series/domain/entites/season.dart';
+import 'package:movid/features/series/domain/entites/season_episode.dart';
 
 class SeasonResponse {
   final List<SeasonEpisode> seasonList;
@@ -12,7 +12,7 @@ class SeasonResponse {
     return SeasonResponse(
       seasonList: List.from(
         map['episodes'].map<SeasonEpisode>(
-          (y) => SeasonModel.fromMap(y as Map<String, dynamic>),
+          (y) => SeasonEpisodeModel.fromMap(y as Map<String, dynamic>),
         ),
       ),
     );

@@ -16,12 +16,13 @@ class PopularTvPage extends StatefulWidget {
 }
 
 class _PopularTvPageState extends State<PopularTvPage> {
+  int page = 2;
   @override
   void initState() {
     Future.microtask(() => Provider.of<PopularTvProvider>(
           context,
           listen: false,
-        ).fetchPopularTv);
+        ).fetchPopularTv());
     super.initState();
   }
 
@@ -42,19 +43,36 @@ class _PopularTvPageState extends State<PopularTvPage> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            } else if (data.state == RequestState.loaded ||
+                data.tv.isNotEmpty) {
               return FadeInUp(
                 from: 20,
                 duration: const Duration(milliseconds: 500),
-                child: ListView.builder(
-                  key: const Key('popularMoviesListView'),
-                  itemBuilder: (context, index) {
-                    final movie = data.tv[index];
-                    return TvItemCard(
-                      item: movie,
-                    );
+                child: NotificationListener(
+                  onNotification: (_onScrollNotification) {
+                    if (_onScrollNotification is ScrollEndNotification) {
+                      final before = _onScrollNotification.metrics.extentBefore;
+                      final max = _onScrollNotification.metrics.maxScrollExtent;
+                      if (before == max) {
+                        data.fetchPopularTv();
+
+                        return true;
+                      }
+                      return false;
+                    }
+                    return false;
                   },
-                  itemCount: data.tv.length,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    key: const Key('popularMoviesListView'),
+                    itemBuilder: (context, index) {
+                      final movie = data.tv[index];
+                      return TvItemCard(
+                        item: movie,
+                      );
+                    },
+                    itemCount: data.tv.length,
+                  ),
                 ),
               );
             } else {

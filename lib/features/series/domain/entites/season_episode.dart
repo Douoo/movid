@@ -5,21 +5,21 @@ class SeasonEpisode extends Equatable {
   final String? airDate;
   final int? episodeNumber;
   final String? name;
-  final String? description;
+  final String? overview;
   final int? runTime;
   final double? voteAverage;
   final int? voteCount;
-  final String? still_path;
+  final String? stillPath;
   const SeasonEpisode({
     this.id,
     this.airDate,
-    this.description,
+    this.overview,
     this.episodeNumber,
     this.name,
     this.runTime,
     this.voteAverage,
     this.voteCount,
-    this.still_path,
+    this.stillPath,
   });
 
   @override
@@ -27,11 +27,11 @@ class SeasonEpisode extends Equatable {
         airDate,
         episodeNumber,
         name,
-        description,
+        overview,
         runTime,
         id,
         voteAverage,
         voteCount,
-        still_path
+        stillPath
       ];
 }

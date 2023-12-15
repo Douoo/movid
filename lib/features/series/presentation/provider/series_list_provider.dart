@@ -21,7 +21,6 @@ class TvListProvider extends ChangeNotifier {
   });
 
   List<Tv> _onAirTvs = [];
-  int onAirPage = 0;
   List<Tv> get onAirTvs => _onAirTvs;
 
   RequestState _onAirTvsState = RequestState.empty;
@@ -42,7 +41,7 @@ class TvListProvider extends ChangeNotifier {
   RequestState get topRatedTvsState => _topRatedTvsState;
 
   late TvDetail _tvDetail;
-  TvDetail get Tvtail => _tvDetail;
+  TvDetail get tvDetail => _tvDetail;
 
   RequestState _detailTvsState = RequestState.empty;
   RequestState get detailTvsState => _detailTvsState;
@@ -54,35 +53,33 @@ class TvListProvider extends ChangeNotifier {
     _onAirTvsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getOnAirTvsUseCase(onAirPage);
+    final result = await getOnAirTvsUseCase(1);
     result.fold((failure) {
       _message = failure.message;
       _onAirTvsState = RequestState.error;
     }, (tv) {
       _onAirTvs = tv;
       _onAirTvsState = RequestState.loaded;
-      onAirPage = onAirPage + 1;
     });
     notifyListeners();
   }
 
-  Future<void> fetchPopularTv() async {
+  Future<void> fetchPopularTv(int page) async {
     _popularTvsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getPopularTvsUseCase(popularPage);
+    final result = await getPopularTvsUseCase(page);
 
     result.fold((failure) {
       _message = failure.message;
       _popularTvsState = RequestState.error;
     }, (tv) {
-      if (tv.isEmpty) {
+      if (_popularTvs.isEmpty) {
         _popularTvs = tv;
       } else {
         _popularTvs.addAll(tv);
       }
       _popularTvsState = RequestState.loaded;
-      popularPage = popularPage + 1;
     });
     notifyListeners();
   }
@@ -91,20 +88,19 @@ class TvListProvider extends ChangeNotifier {
     _topRatedTvsState = RequestState.loading;
     notifyListeners();
 
-    final result = await getTopRatedTvsUseCase(topRatedPage);
+    final result = await getTopRatedTvsUseCase(1);
 
     result.fold((failure) {
       _message = failure.message;
       _topRatedTvsState = RequestState.error;
     }, (tv) {
-      if (tv.isEmpty) {
+      if (_topRatedTvs.isEmpty) {
         _topRatedTvs = tv;
       } else {
         _topRatedTvs.addAll(tv);
       }
 
       _topRatedTvsState = RequestState.loaded;
-      topRatedPage = topRatedPage + 1;
     });
     notifyListeners();
   }

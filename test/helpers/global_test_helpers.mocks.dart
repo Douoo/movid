@@ -28,7 +28,7 @@ import 'package:movid/features/movies/data/models/movie_detail_model.dart'
     as _i2;
 import 'package:movid/features/movies/data/models/movie_model.dart' as _i15;
 import 'package:movid/features/movies/data/models/movie_table.dart' as _i17;
-import 'package:movid/features/series/data/data_sources/local/tv_series_local_data_source.dart'
+import 'package:movid/features/series/data/data_sources/tv_series_local_data_source.dart'
     as _i7;
 import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart'
     as _i6;
@@ -38,7 +38,8 @@ import 'package:movid/features/series/data/model/series_data.dart' as _i20;
 import 'package:movid/features/series/data/model/tv_series_model.dart' as _i19;
 import 'package:movid/features/series/data/repository/series_repository_impl.dart'
     as _i25;
-import 'package:movid/features/series/domain/entites/season.dart' as _i24;
+import 'package:movid/features/series/domain/entites/season_episode.dart'
+    as _i24;
 import 'package:movid/features/series/domain/entites/series.dart' as _i23;
 import 'package:movid/features/series/domain/entites/series_detail.dart' as _i9;
 import 'package:movid/features/series/domain/repository/series_repository.dart'
@@ -615,31 +616,32 @@ class MockTvRepository extends _i1.Mock implements _i21.TvRepository {
       ) as _i13.Future<_i5.Either<_i22.Failure, List<_i23.Tv>>>);
 
   @override
-  _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>> getTvSeasons(
+  _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>
+      getTvSeasonEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTvSeasons,
-          [
-            id,
-            seasonNumber,
-          ],
-        ),
-        returnValue: _i13
-            .Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>.value(
-            _FakeEither_4<_i22.Failure, List<_i24.SeasonEpisode>>(
-          this,
-          Invocation.method(
-            #getTvSeasons,
-            [
-              id,
-              seasonNumber,
-            ],
-          ),
-        )),
-      ) as _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>);
+          (super.noSuchMethod(
+            Invocation.method(
+              #getTvSeasonEpisodes,
+              [
+                id,
+                seasonNumber,
+              ],
+            ),
+            returnValue: _i13.Future<
+                    _i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>.value(
+                _FakeEither_4<_i22.Failure, List<_i24.SeasonEpisode>>(
+              this,
+              Invocation.method(
+                #getTvSeasonEpisodes,
+                [
+                  id,
+                  seasonNumber,
+                ],
+              ),
+            )),
+          ) as _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>);
 
   @override
   _i13.Future<_i5.Either<_i22.Failure, List<_i23.Tv>>> searchTv(
@@ -926,31 +928,32 @@ class MockTvRepositoryImpl extends _i1.Mock implements _i25.TvRepositoryImpl {
       ) as _i13.Future<_i5.Either<_i22.Failure, List<_i23.Tv>>>);
 
   @override
-  _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>> getTvSeasons(
+  _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>
+      getTvSeasonEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTvSeasons,
-          [
-            id,
-            seasonNumber,
-          ],
-        ),
-        returnValue: _i13
-            .Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>.value(
-            _FakeEither_4<_i22.Failure, List<_i24.SeasonEpisode>>(
-          this,
-          Invocation.method(
-            #getTvSeasons,
-            [
-              id,
-              seasonNumber,
-            ],
-          ),
-        )),
-      ) as _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>);
+          (super.noSuchMethod(
+            Invocation.method(
+              #getTvSeasonEpisodes,
+              [
+                id,
+                seasonNumber,
+              ],
+            ),
+            returnValue: _i13.Future<
+                    _i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>.value(
+                _FakeEither_4<_i22.Failure, List<_i24.SeasonEpisode>>(
+              this,
+              Invocation.method(
+                #getTvSeasonEpisodes,
+                [
+                  id,
+                  seasonNumber,
+                ],
+              ),
+            )),
+          ) as _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>);
 
   @override
   _i13.Future<_i5.Either<_i22.Failure, List<_i23.Tv>>> searchTv(
@@ -1068,13 +1071,13 @@ class MockTvRemoteDataSource extends _i1.Mock
       ) as _i13.Future<List<_i23.Tv>>);
 
   @override
-  _i13.Future<List<_i24.SeasonEpisode>> getTvSeasons(
+  _i13.Future<List<_i24.SeasonEpisode>> getTvSeasonEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getTvSeasons,
+          #getTvSeasonEpisodes,
           [
             id,
             seasonNumber,

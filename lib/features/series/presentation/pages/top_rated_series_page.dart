@@ -37,23 +37,38 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
         padding: const EdgeInsets.all(8.0),
         child: Consumer<TopRatedTvProvider>(
           builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+            if (data.state == RequestState.loading && data.tv.isEmpty) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            } else if (data.state == RequestState.loaded ||
+                data.tv.isNotEmpty) {
               return FadeInUp(
                 from: 20,
                 duration: const Duration(milliseconds: 500),
-                child: ListView.builder(
-                  key: const Key('topRatedMoviesListView'),
-                  itemBuilder: (context, index) {
-                    final movie = data.tv[index];
-                    return TvItemCard(
-                      item: movie,
-                    );
+                child: NotificationListener(
+                  onNotification: (_onScrollNotification) {
+                    if (_onScrollNotification is ScrollEndNotification) {
+                      final before = _onScrollNotification.metrics.extentBefore;
+                      final max = _onScrollNotification.metrics.maxScrollExtent;
+                      if (before == max) {
+                        data.fetchTopRatedMovies();
+                        return true;
+                      }
+                      return false;
+                    }
+                    return false;
                   },
-                  itemCount: data.tv.length,
+                  child: ListView.builder(
+                    key: const Key('topRatedMoviesListView'),
+                    itemBuilder: (context, index) {
+                      final movie = data.tv[index];
+                      return TvItemCard(
+                        item: movie,
+                      );
+                    },
+                    itemCount: data.tv.length,
+                  ),
                 ),
               );
             } else {

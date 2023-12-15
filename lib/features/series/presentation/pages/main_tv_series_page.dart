@@ -34,10 +34,10 @@ class _MainTvPageState extends State<MainTvPage> {
         Provider.of<TvImagesProvider>(context, listen: false)
             .fetchtvImages(movieProvider.onAirTvs[0].id!);
         Provider.of<TvDetailProvider>(context, listen: false)
-            .fetchDetailTv(movieProvider.onAirTvs[0].id!);
+            .fetchDetailTvSeries(movieProvider.onAirTvs[0].id!);
       });
 
-      movieProvider.fetchPopularTv();
+      movieProvider.fetchPopularTv(1);
       movieProvider.fetchTopRatedTv();
     });
     super.initState();
@@ -66,7 +66,7 @@ class _MainTvPageState extends State<MainTvPage> {
                           Provider.of<TvImagesProvider>(context, listen: false)
                               .fetchtvImages(data.onAirTvs[index].id!);
                           Provider.of<TvDetailProvider>(context, listen: false)
-                              .fetchDetailTv(data.onAirTvs[index].id!);
+                              .fetchDetailTvSeries(data.onAirTvs[index].id!);
                         },
                       ),
                       items: data.onAirTvs.map((movie) {

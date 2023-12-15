@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/series/domain/entites/season.dart';
 import 'package:movid/features/series/domain/usecases/series/get_tv_seasons.dart';
+
+import '../../domain/entites/season_episode.dart';
 
 class SeasonsProvider extends ChangeNotifier {
   final GetTvsSeasonsUseCase getTvsSeasonsUseCase;

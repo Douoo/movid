@@ -45,41 +45,46 @@ class TvDetailProvider extends ChangeNotifier {
   String _watchListMessage = '';
   String get watchListMessage => _watchListMessage;
 
-  Future<void> fetchRecommendTvSeres(int id) async {
+  Future<void> fetchRecommendedTv(int tvId) async {
     _recommendedTvState = RequestState.loading;
     notifyListeners();
-    final result = await getRecommendedTvsUseCase(id);
-
-    result.fold((failure) {
-      _recommendedTvState = RequestState.error;
-      _message = failure.message;
-    }, (recommended) {
-      _recommendedTv = recommended;
-      _recommendedTvState = RequestState.loaded;
-    });
-    notifyListeners();
-  }
-
-  Future<void> fetchDetailTv(int tvId) async {
-    _state = RequestState.loading;
-
-    notifyListeners();
-
-    final result = await getDetailTvsUseCase(tvId);
-    result.fold(
+    final recommendedTvResult = await getRecommendedTvsUseCase(tvId);
+    recommendedTvResult.fold(
       (failure) {
+        _recommendedTvState = RequestState.error;
         _message = failure.message;
-        _state = RequestState.error;
       },
-      (movieDetail) {
-        _tvDetail = movieDetail;
-        _state = RequestState.loaded;
+      (tvs) {
+        _recommendedTvState = RequestState.loaded;
+        _recommendedTv = tvs;
       },
     );
     notifyListeners();
   }
 
-  Future<void> addToWatchList(TvDetail tv) async {
+  Future<void> fetchDetailTvSeries(int tvId) async {
+    _state = RequestState.loading;
+
+    notifyListeners();
+
+    final detailResult = await getDetailTvsUseCase(tvId);
+
+    fetchRecommendedTv(tvId);
+
+    detailResult.fold(
+      (failure) {
+        _message = failure.message;
+        _state = RequestState.error;
+      },
+      (tvDetails) {
+        _state = RequestState.loaded;
+        _tvDetail = tvDetails;
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> addTvToWatchList(TvDetail tv) async {
     final result = await addTvsToWatchListUseCase(tv);
 
     result.fold((failure) {
@@ -88,11 +93,11 @@ class TvDetailProvider extends ChangeNotifier {
       _watchListMessage = successMsg.toString();
     });
 
-    loadWatchListStatus(tv.id);
+    loadTvWatchListStatus(tv.id);
     notifyListeners();
   }
 
-  Future<void> removeFromWatchList(TvDetail tv) async {
+  Future<void> removeTvFromWatchList(TvDetail tv) async {
     final result = await removeTvsFromWatchListUseCase(tv);
 
     result.fold((failure) {
@@ -100,11 +105,11 @@ class TvDetailProvider extends ChangeNotifier {
     }, (successMsg) {
       _watchListMessage = successMsg.toString();
     });
-    loadWatchListStatus(tv.id);
+    loadTvWatchListStatus(tv.id);
     notifyListeners();
   }
 
-  Future<void> loadWatchListStatus(int id) async {
+  Future<void> loadTvWatchListStatus(int id) async {
     final result = await getTvWatchListStatus(id);
     _isAddedToWatchList = result;
     notifyListeners();

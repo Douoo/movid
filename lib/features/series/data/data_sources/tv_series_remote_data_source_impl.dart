@@ -5,7 +5,7 @@ import 'package:movid/features/series/data/model/media_image_model.dart';
 import 'package:movid/features/series/data/model/seasons_response.dart';
 import 'package:movid/features/series/data/model/series_detail_model.dart';
 import 'package:movid/features/series/data/model/series_response.dart';
-import 'package:movid/features/series/domain/entites/season.dart';
+import 'package:movid/features/series/domain/entites/season_episode.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
 import 'package:movid/features/series/domain/entites/series_detail.dart';
 
@@ -15,7 +15,7 @@ abstract class TvRemoteDataSource {
   Future<List<Tv>> getTopRatedTv(int page);
   Future<TvDetail> getDetailTv(int id);
   Future<List<Tv>> getRecommendedTv(int id);
-  Future<List<SeasonEpisode>> getTvSeasons(int id, int seasonNumber);
+  Future<List<SeasonEpisode>> getTvSeasonEpisodes(int id, int seasonNumber);
   Future<List<Tv>> searchTv(String data, int page);
   Future<MediaImageModel> getTvImages(int id);
 }
@@ -85,7 +85,7 @@ class TvRemoteDataSourceImpl implements TvRemoteDataSource {
   }
 
   @override
-  Future<List<SeasonEpisode>> getTvSeasons(int id, int seasonNumber) {
+  Future<List<SeasonEpisode>> getTvSeasonEpisodes(int id, int seasonNumber) {
     return _getData(Urls.tvSeasons(id, seasonNumber), (response) {
       return SeasonResponse.fromJson(response).seasonList;
     });

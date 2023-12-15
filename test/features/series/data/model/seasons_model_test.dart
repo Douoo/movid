@@ -2,17 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movid/features/series/data/model/season_model.dart';
-import 'package:movid/features/series/domain/entites/season.dart';
-
+import 'package:movid/features/series/domain/entites/season_episode.dart';
 import '../../../../helpers/json_reader.dart';
 
 void main() {
-  const testSeasonModel = SeasonModel(
+  const testSeasonModel = SeasonEpisodeModel(
     id: 170277,
     airDate: "1953-01-01",
     episodeNumber: 2,
     name: "Season 1953",
-    description: "",
+    overview: "",
     runTime: 15,
     voteAverage: 0.0,
     voteCount: 0,
@@ -30,7 +29,7 @@ void main() {
     );
 
     //act
-    final result = SeasonModel.fromMap(jsonMap);
+    final result = SeasonEpisodeModel.fromMap(jsonMap);
     //expect
 
     expect(result, equals(testSeasonModel));

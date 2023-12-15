@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/urls.dart';
 import 'package:movid/features/series/domain/entites/series.dart';
+import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
 import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
 import 'package:movid/features/series/presentation/widgets/series_detail_card.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class VerticalItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     final movieProvider = Provider.of<TvListProvider>(context, listen: false);
     return SizedBox(
-      height: 290,
+      height: 205,
       child: NotificationListener(
         onNotification: (_onScrollNotification) {
           if (_onScrollNotification is ScrollEndNotification) {
@@ -28,7 +29,7 @@ class VerticalItemList extends StatelessWidget {
               if (isTopRated) {
                 movieProvider.fetchTopRatedTv();
               }
-              movieProvider.fetchPopularTv();
+
               return true;
             }
             return false;
@@ -46,6 +47,9 @@ class VerticalItemList extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: GestureDetector(
                   onTap: () {
+                    final tvDetailProvider =
+                        Provider.of<TvDetailProvider>(context, listen: false);
+                    tvDetailProvider.fetchDetailTvSeries(tv.id!);
                     showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -59,15 +63,16 @@ class VerticalItemList extends StatelessWidget {
                         });
                   },
                   child: SizedBox(
-                    width: 155,
+                    width: 125,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CachedNetworkImage(
+                          width: 125,
                           imageBuilder: (context, imageProvider) {
                             return Container(
-                              height: 205,
-                              width: 155,
+                              height: 170,
+                              width: 125,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
@@ -81,8 +86,8 @@ class VerticalItemList extends StatelessWidget {
                                 baseColor: Colors.grey[850]!,
                                 highlightColor: Colors.grey[800]!,
                                 child: const SizedBox(
-                                  height: 205,
-                                  width: 155,
+                                  height: 170,
+                                  width: 120,
                                 ));
                           },
                           errorWidget: (context, url, error) =>
