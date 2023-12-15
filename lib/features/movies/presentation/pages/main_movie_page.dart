@@ -122,7 +122,7 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                       if (data.state == RequestState.loaded) {
                                         if (data
                                             .mediaImages.logoPaths.isEmpty) {
-                                          return Text(movie.title!);
+                                          return Text(movie.title);
                                         }
                                         return CachedNetworkImage(
                                           width: MediaQuery.of(context)

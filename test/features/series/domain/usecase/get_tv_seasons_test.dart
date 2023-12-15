@@ -27,7 +27,7 @@ void main() {
 
   test('should get popular tv series from repository', () async {
     //arrange
-    when(mockTvSeriesRepository.getTvSeriesSeasons(testTvSeriesId, 1))
+    when(mockTvSeriesRepository.getTvSeasonEpisodes(testTvSeriesId, 1))
         .thenAnswer((_) async => const Right([testTvSeriesSeasons]));
     //act
     final result = await getTvsSeasonsUseCase.call(testTvSeriesId, 1);

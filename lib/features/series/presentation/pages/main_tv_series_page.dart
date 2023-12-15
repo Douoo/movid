@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
 import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
 import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
 import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
@@ -239,19 +238,6 @@ class _MainSeriesPageState extends State<MainSeriesPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _drawGeners(SeriesDetail series) {
-    List<Widget> genreWidget = [];
-    for (int i = 0; i < series.genres.length - 1; i++) {
-      genreWidget.add(Text(series.genres[i].name));
-      genreWidget.add(const SizedBox(
-        width: 5,
-      ));
-    }
-    return Row(
-      children: genreWidget,
     );
   }
 }

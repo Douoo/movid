@@ -627,13 +627,13 @@ class MockTvSeriesRepository extends _i1.Mock
 
   @override
   _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>
-      getTvSeriesSeasons(
+      getTvSeasonEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
           (super.noSuchMethod(
             Invocation.method(
-              #getTvSeriesSeasons,
+              #getTvSeasonEpisodes,
               [
                 id,
                 seasonNumber,
@@ -644,7 +644,7 @@ class MockTvSeriesRepository extends _i1.Mock
                 _FakeEither_4<_i22.Failure, List<_i24.SeasonEpisode>>(
               this,
               Invocation.method(
-                #getTvSeriesSeasons,
+                #getTvSeasonEpisodes,
                 [
                   id,
                   seasonNumber,
@@ -948,13 +948,13 @@ class MockTvSeriesRepositoryImpl extends _i1.Mock
 
   @override
   _i13.Future<_i5.Either<_i22.Failure, List<_i24.SeasonEpisode>>>
-      getTvSeriesSeasons(
+      getTvSeasonEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
           (super.noSuchMethod(
             Invocation.method(
-              #getTvSeriesSeasons,
+              #getTvSeasonEpisodes,
               [
                 id,
                 seasonNumber,
@@ -965,7 +965,7 @@ class MockTvSeriesRepositoryImpl extends _i1.Mock
                 _FakeEither_4<_i22.Failure, List<_i24.SeasonEpisode>>(
               this,
               Invocation.method(
-                #getTvSeriesSeasons,
+                #getTvSeasonEpisodes,
                 [
                   id,
                   seasonNumber,
@@ -1096,13 +1096,13 @@ class MockTvSeriesRemoteDataSource extends _i1.Mock
       ) as _i13.Future<List<_i23.TvSeries>>);
 
   @override
-  _i13.Future<List<_i24.SeasonEpisode>> getTvSeriesSeasons(
+  _i13.Future<List<_i24.SeasonEpisode>> getTvSeasonEpisodes(
     int? id,
     int? seasonNumber,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getTvSeriesSeasons,
+          #getTvSeasonEpisodes,
           [
             id,
             seasonNumber,

@@ -122,8 +122,9 @@ Future<void> init() async {
   locator.registerFactory(
       () => TvSeriesWatchListProvider(getWatchListTvsUseCase: locator()));
 
-  locator
-      .registerFactory(() => SeasonEpisodesProvider( getTvSeasonEpisodes: locator(),));
+  locator.registerFactory(() => SeasonEpisodesProvider(
+        getTvSeasonEpisodes: locator(),
+      ));
 
   //******** Usecases **********//
   /// Movie related
@@ -181,9 +182,7 @@ Future<void> init() async {
             client: locator(),
           ));
   locator.registerLazySingleton<MovieLocalDataSource>(
-      () => MovieLocalDataSourceImpl(
-            box: locator(),
-          ));
+      () => MovieLocalDataSourceImpl());
 
   ///Tv Series
   locator.registerLazySingleton<TvSeriesRemoteDataSource>(
@@ -198,9 +197,6 @@ Future<void> init() async {
     ),
   );
   //******** External Plugin **********//
-  final watchlistBox = await Hive.openBox('watchlist');
-
-  locator.registerLazySingleton(() => watchlistBox);
   // locator.registerLazySingleton(() => seriesWatchListBox);
   locator.registerLazySingleton(() => InternetConnectionChecker());
   locator.registerLazySingleton(() => http.Client());

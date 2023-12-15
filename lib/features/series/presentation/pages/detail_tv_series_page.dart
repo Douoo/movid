@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
@@ -159,17 +160,15 @@ class _TvDetailContentState extends State<TvDetailContent>
                       tvDetail.posterPath ?? tvDetail.backdropPath ?? ""),
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) {
-                    return Container(
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.warning,
-                            size: 50,
-                          ),
-                          Text("Error Loading Image")
-                        ],
-                      ),
+                    return const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.warning,
+                          size: 50,
+                        ),
+                        Text("Error Loading Image")
+                      ],
                     );
                   },
                 ),
@@ -284,6 +283,41 @@ class _TvDetailContentState extends State<TvDetailContent>
                               style: const TextStyle(color: Colors.white),
                             ),
                           ));
+                        }
+                        // ignore: use_build_context_synchronously
+                        final message = Provider.of<TvSeriesDetailProvider>(
+                                context,
+                                listen: false)
+                            .watchlistMessage;
+
+                        if (message ==
+                                TvSeriesDetailProvider
+                                    .watchlistAddSuccessMessage ||
+                            message ==
+                                TvSeriesDetailProvider
+                                    .watchlistRemoveSuccessMessage) {
+                          Fluttertoast.showToast(
+                              msg: message,
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: message ==
+                                      TvSeriesDetailProvider
+                                          .watchlistAddSuccessMessage
+                                  ? kSpaceGrey
+                                  : Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Text(message),
+                              );
+                            },
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(

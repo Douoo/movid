@@ -9,8 +9,8 @@ import 'package:movid/features/series/domain/usecases/series/get_tv_detail.dart'
 import 'package:movid/features/series/domain/usecases/series/get_tv_recommendations.dart';
 
 class TvSeriesDetailProvider extends ChangeNotifier {
-  static const watchListAddSuccessMessage = 'Added to watchList';
-  static const watchListRemoveSuccessMessage = 'Removed from watchList';
+  static const watchlistAddSuccessMessage = 'Added to watchList';
+  static const watchlistRemoveSuccessMessage = 'Removed from watchList';
 
   final GetDetailTvsUseCase getDetailTvsUseCase;
   final GetRecommendedTvsUseCase getRecommendedTvsUseCase;
@@ -42,8 +42,8 @@ class TvSeriesDetailProvider extends ChangeNotifier {
   String _message = '';
   String get message => _message;
 
-  String _watchListMessage = '';
-  String get watchListMessage => _watchListMessage;
+  String _watchlistMessage = '';
+  String get watchlistMessage => _watchlistMessage;
 
   Future<void> fetchDetailTvSeries(int tvId) async {
     _state = RequestState.loading;
@@ -81,9 +81,9 @@ class TvSeriesDetailProvider extends ChangeNotifier {
     final result = await addTvsToWatchListUseCase(series);
 
     result.fold((failure) {
-      _watchListMessage = 'Failed to add movie to watchlist';
+      _watchlistMessage = 'Failed to add movie to watchlist';
     }, (successMsg) {
-      _watchListMessage = successMsg.toString();
+      _watchlistMessage = successMsg.toString();
     });
 
     loadWatchListStatus(series.id);
@@ -94,9 +94,9 @@ class TvSeriesDetailProvider extends ChangeNotifier {
     final result = await removeTvsFromWatchListUseCase(series);
 
     result.fold((failure) {
-      _watchListMessage = failure.message;
+      _watchlistMessage = failure.message;
     }, (successMsg) {
-      _watchListMessage = successMsg.toString();
+      _watchlistMessage = successMsg.toString();
     });
     loadWatchListStatus(series.id);
     notifyListeners();

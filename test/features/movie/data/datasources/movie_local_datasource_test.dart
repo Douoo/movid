@@ -36,7 +36,7 @@ void main() {
     Hive.init(appDocumentDir.path);
     mockHive = MockHiveInterface();
     mockBox = MockHiveBox();
-    localDataSource = MovieLocalDataSourceImpl(box: mockBox);
+    localDataSource = MovieLocalDataSourceImpl();
   });
   group('getWatchlistMovies', () {
     test('should return a list of MovieModel from Hive', () async {
