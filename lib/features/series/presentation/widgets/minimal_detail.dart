@@ -7,7 +7,12 @@ import 'package:movid/features/series/presentation/pages/detail_tv_series_page.d
 
 class MinimalDetail extends StatelessWidget {
   final Tv tv;
-  const MinimalDetail({required this.tv, Key? key}) : super(key: key);
+  final bool ridComponentOnNavigation;
+  const MinimalDetail({
+    Key? key,
+    required this.tv,
+    this.ridComponentOnNavigation = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +90,28 @@ class MinimalDetail extends StatelessWidget {
                       ),
                       const SizedBox(height: 12.0),
                       ElevatedButton(
-                          onPressed: () => Navigator.push(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            if (ridComponentOnNavigation) {
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DetailTvPage(
                                     tvId: tv.id,
                                   ),
                                 ),
-                              ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailTvPage(
+                                    tvId: tv.id,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: primaryColor,
                               foregroundColor: kWhiteColor,

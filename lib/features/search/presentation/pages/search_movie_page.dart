@@ -14,7 +14,7 @@ class MovieSearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Movie'),
+        title: const Text('Search'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,7 +28,7 @@ class MovieSearchPage extends StatelessWidget {
                     .searchForMovie(query);
               },
               decoration: InputDecoration(
-                hintText: 'Search movies',
+                hintText: 'Search...',
                 filled: true,
                 fillColor: const Color(0xFF141414),
                 suffixIcon: const Icon(

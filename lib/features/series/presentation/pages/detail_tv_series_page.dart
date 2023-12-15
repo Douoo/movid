@@ -642,6 +642,7 @@ class _TvDetailContentState extends State<TvDetailContent>
                         builder: (context) {
                           return MinimalDetail(
                             tv: recommendation,
+                            ridComponentOnNavigation: true,
                           );
                         },
                       );

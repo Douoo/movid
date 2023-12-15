@@ -14,7 +14,7 @@ class SearchTvPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search tv'),
+        title: const Text('Search'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,7 +28,7 @@ class SearchTvPage extends StatelessWidget {
                     .searchTvs(query);
               },
               decoration: InputDecoration(
-                hintText: 'Search tv',
+                hintText: 'Search...',
                 filled: true,
                 fillColor: const Color(0xFF141414),
                 suffixIcon: const Icon(
