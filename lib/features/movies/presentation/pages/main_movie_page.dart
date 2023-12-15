@@ -114,6 +114,41 @@ class _MainMoviePageState extends State<MainMoviePage> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: Consumer<MovieImagesProvider>(
+                                    builder: (context, data, child) {
+                                      if (data.state == RequestState.loaded) {
+                                        if (data
+                                            .mediaImages.logoPaths.isEmpty) {
+                                          return Text(movie.title!);
+                                        }
+                                        return CachedNetworkImage(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.5,
+                                          imageUrl: Urls.imageUrl(
+                                            data.mediaImages.posterPaths[0],
+                                          ),
+                                        );
+                                      } else if (data.state ==
+                                          RequestState.error) {
+                                        return const Center(
+                                          child: Text('Load data failed'),
+                                        );
+                                      } else {
+                                        return const Center(
+                                          child: SizedBox(
+                                              width: 50,
+                                              child: LinearProgressIndicator()),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         );

@@ -30,10 +30,7 @@ class PopularTvSeriesProvider extends ChangeNotifier {
         _state = RequestState.error;
       },
       (tvSeries) {
-        if (_seriesList.isEmpty) {
-          _seriesList = tvSeries;
-        }
-        _seriesList.addAll(tvSeries);
+        _seriesList = tvSeries;
         _state = RequestState.loaded;
         page = page + 1;
       },
