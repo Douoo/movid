@@ -1,4 +1,6 @@
-import 'package:movid/features/series/domain/repository/series_repository.dart';
+
+
+import '../repository/series_repository.dart';
 
 class GetTvWatchListStatus {
   final TvRepository repository;

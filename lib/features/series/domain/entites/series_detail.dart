@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:movid/features/series/domain/entites/genre.dart';
+import '../../../series/domain/entites/genre.dart';
 
 class TvDetail extends Equatable {
   final String? backdropPath;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:movid/features/series/data/model/season_model.dart';
-import 'package:movid/features/series/domain/entites/season_episode.dart';
+import '../../data/model/season_model.dart';
+import '../../domain/entites/season_episode.dart';
 
 class SeasonResponse {
   final List<SeasonEpisode> seasonList;

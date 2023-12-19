@@ -29,7 +29,7 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Top Rated Tv tv'),
+        title: const Text('Top Rated Tv'),
         backgroundColor: Colors.black.withOpacity(0.6),
         elevation: 0.0,
       ),

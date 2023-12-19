@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:movid/features/series/data/model/genre_model.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
+import '../../data/model/genre_model.dart';
+import '../../domain/entites/series_detail.dart';
 
 class TvDetailModel extends TvDetail {
   const TvDetailModel({

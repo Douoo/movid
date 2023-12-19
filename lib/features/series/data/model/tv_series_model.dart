@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:movid/features/series/data/model/series_data.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
+import '../../domain/entites/series.dart';
+import 'series_data.dart';
 
 class TvModel extends Tv {
   const TvModel({

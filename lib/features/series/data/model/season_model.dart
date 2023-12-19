@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:movid/features/series/domain/entites/season_episode.dart';
+import '../../domain/entites/season_episode.dart';
 
 class SeasonEpisodeModel extends SeasonEpisode {
   const SeasonEpisodeModel({

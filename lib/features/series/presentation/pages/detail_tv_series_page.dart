@@ -5,15 +5,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/domain/entites/genre.dart';
-import 'package:movid/features/series/presentation/provider/season_episodes_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/styles/colors.dart';
+import '../../domain/entites/genre.dart';
 import '../../domain/entites/series_detail.dart';
+import '../provider/season_episodes_provider.dart';
+import '../provider/series_detail_provider.dart';
+import '../provider/series_watch_list_provider.dart';
 import '../widgets/minimal_detail.dart';
 
 class DetailTvPage extends StatefulWidget {

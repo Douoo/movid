@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/usecases/get_watchlist_series.dart';
+
+import '../../domain/entites/series.dart';
+import '../../domain/usecases/get_watchlist_series.dart';
+
 
 class TvWatchListProvider extends ChangeNotifier {
   final GetWatchListTvsUseCase getWatchListTvsUseCase;

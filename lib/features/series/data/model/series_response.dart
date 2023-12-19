@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:movid/features/series/data/model/tv_series_model.dart';
+import 'tv_series_model.dart';
 
 class TvResponse {
   final List<TvModel> tvList;

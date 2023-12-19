@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
-import 'package:movid/features/series/domain/usecases/series/get_on_air_tvs.dart';
-import 'package:movid/features/series/domain/usecases/series/get_popular_tvs.dart';
-import 'package:movid/features/series/domain/usecases/series/get_top_rated_tvs.dart';
-import 'package:movid/features/series/domain/usecases/series/get_tv_detail.dart';
+
+import '../../domain/entites/series.dart';
+import '../../domain/entites/series_detail.dart';
+import '../../domain/usecases/series/get_on_air_tvs.dart';
+import '../../domain/usecases/series/get_popular_tvs.dart';
+import '../../domain/usecases/series/get_top_rated_tvs.dart';
+import '../../domain/usecases/series/get_tv_detail.dart';
 
 class TvListProvider extends ChangeNotifier {
   final GetOnAirTvsUseCase getOnAirTvsUseCase;

@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/series/domain/entites/media_image.dart';
-import 'package:movid/features/series/domain/usecases/series/get_series_images.dart';
+
+import '../../domain/entites/media_image.dart';
+import '../../domain/usecases/series/get_series_images.dart';
 
 class TvImagesProvider extends ChangeNotifier {
   final GetTvImages getTvImages;

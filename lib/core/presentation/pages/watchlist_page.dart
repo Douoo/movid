@@ -43,7 +43,7 @@ class _WatchlistPageState extends State<WatchlistPage> {
               text: 'Movies',
             ),
             Tab(
-              text: 'TV tv',
+              text: 'TV',
             )
           ]),
         ),

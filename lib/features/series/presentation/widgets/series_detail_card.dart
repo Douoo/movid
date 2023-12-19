@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/presentation/pages/detail_tv_series_page.dart';
-import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:shimmer/shimmer.dart';
+
+import '../../domain/entites/series.dart';
+import '../pages/detail_tv_series_page.dart';
+import '../provider/series_detail_provider.dart';
 
 class TvDetailCard extends StatelessWidget {
   final Tv tv;

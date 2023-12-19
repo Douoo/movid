@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/usecases/series/get_top_rated_tvs.dart';
+
+import '../../domain/entites/series.dart';
+import '../../domain/usecases/series/get_top_rated_tvs.dart';
+
 
 class TopRatedTvProvider extends ChangeNotifier {
   final GetTopRatedTvsUseCase getTopRatedTvsUseCase;

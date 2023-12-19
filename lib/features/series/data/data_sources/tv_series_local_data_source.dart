@@ -1,7 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:movid/core/errors/exception.dart';
-import 'package:movid/features/series/data/model/series_data.dart';
-import 'package:movid/features/series/data/model/tv_series_model.dart';
+
+import '../model/series_data.dart';
+import '../model/tv_series_model.dart';
 
 abstract class TvLocalDataSource {
   Future<List<TvModel>> getWatchListTv();

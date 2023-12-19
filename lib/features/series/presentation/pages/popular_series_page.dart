@@ -31,7 +31,7 @@ class _PopularTvPageState extends State<PopularTvPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Popular Tv tv'),
+        title: const Text('Popular Tv'),
         backgroundColor: Colors.black.withOpacity(0.2),
         elevation: 0.0,
       ),

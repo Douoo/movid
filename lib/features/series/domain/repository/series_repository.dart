@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:movid/core/errors/failure.dart';
-import 'package:movid/features/series/data/model/media_image_model.dart';
-import 'package:movid/features/series/domain/entites/season_episode.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
+
+import '../entites/media_image.dart';
+import '../entites/season_episode.dart';
+import '../entites/series.dart';
+import '../entites/series_detail.dart';
+
 
 abstract class TvRepository {
   Future<Either<Failure, List<Tv>>> getOnAirTv(int page);
@@ -14,7 +16,7 @@ abstract class TvRepository {
   Future<Either<Failure, List<SeasonEpisode>>> getTvSeasonEpisodes(
       int id, int seasonNumber);
   Future<Either<Failure, List<Tv>>> searchTv(String data, int page);
-  Future<Either<Failure, MediaImageModel>> getTvImages(int id);
+  Future<Either<Failure, MediaImage>> getTvImages(int id);
 
   Future<bool> isAddedToWatchList(int id);
   Future<Either<Failure, List<Tv>>> getWatchListTv();

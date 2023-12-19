@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:movid/core/errors/failure.dart';
-import 'package:movid/features/series/domain/entites/season_episode.dart';
-import 'package:movid/features/series/domain/repository/series_repository.dart';
+
+import '../../entites/season_episode.dart';
+import '../../repository/series_repository.dart';
+
 
 class GetTvSeasonEpisodes {
   final TvRepository series;

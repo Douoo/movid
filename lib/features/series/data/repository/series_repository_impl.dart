@@ -2,14 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:movid/core/errors/exception.dart';
 import 'package:movid/core/errors/failure.dart';
 import 'package:movid/core/network/network_connection.dart';
-import 'package:movid/features/series/data/data_sources/tv_series_local_data_source.dart';
-import 'package:movid/features/series/data/data_sources/tv_series_remote_data_source_impl.dart';
-import 'package:movid/features/series/data/model/media_image_model.dart';
-import 'package:movid/features/series/data/model/series_data.dart';
-import 'package:movid/features/series/domain/entites/season_episode.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
-import 'package:movid/features/series/domain/repository/series_repository.dart';
+import '../data_sources/tv_series_local_data_source.dart';
+import '../data_sources/tv_series_remote_data_source_impl.dart';
+import '../model/media_image_model.dart';
+import '../model/series_data.dart';
+import '../../domain/entites/season_episode.dart';
+import '../../domain/entites/series.dart';
+import '../../domain/entites/series_detail.dart';
+import '../../domain/repository/series_repository.dart';
 
 class TvRepositoryImpl implements TvRepository {
   final TvRemoteDataSource remoteDataSource;

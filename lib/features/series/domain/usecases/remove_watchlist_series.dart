@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:movid/core/errors/failure.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
-import 'package:movid/features/series/domain/repository/series_repository.dart';
+
+import '../entites/series_detail.dart';
+import '../repository/series_repository.dart';
+
 
 class RemoveTvsFromWatchListUseCase {
   final TvRepository repository;

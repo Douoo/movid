@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:movid/core/errors/failure.dart';
-import 'package:movid/features/series/data/model/media_image_model.dart';
-import 'package:movid/features/series/domain/repository/series_repository.dart';
+
+import '../../entites/media_image.dart';
+import '../../repository/series_repository.dart';
 
 class GetTvImages {
   final TvRepository tv;
   GetTvImages(this.tv);
 
-  Future<Either<Failure, MediaImageModel>> call(int movieId) {
+  Future<Either<Failure, MediaImage>> call(int movieId) {
     return tv.getTvImages(movieId);
   }
 }

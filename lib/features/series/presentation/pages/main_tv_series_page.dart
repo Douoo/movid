@@ -4,20 +4,20 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/core/utils/urls.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
-import 'package:movid/features/series/presentation/pages/popular_series_page.dart';
-import 'package:movid/features/series/presentation/pages/top_rated_series_page.dart';
-import 'package:movid/features/series/presentation/provider/series_detail_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_images_provider.dart';
-import 'package:movid/features/series/presentation/provider/series_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/item_card.dart';
-import 'package:movid/features/series/presentation/widgets/vertical_item_list_card.dart';
+import '../../domain/entites/series_detail.dart';
+import 'popular_series_page.dart';
+import 'top_rated_series_page.dart';
+import '../provider/series_detail_provider.dart';
+import '../provider/series_images_provider.dart';
+import '../provider/series_list_provider.dart';
+import '../widgets/horizontal_item_list_card.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../movies/presentation/widgets/loading_widgets.dart';
 import '../../../movies/presentation/widgets/sub_heading.dart';
+import '../widgets/minimal_detail.dart';
 
 class MainTvPage extends StatefulWidget {
   const MainTvPage({super.key});
@@ -83,8 +83,8 @@ class _MainTvPageState extends State<MainTvPage> {
                               ),
                               context: context,
                               builder: (context) {
-                                return TvItemCard(
-                                  item: tv,
+                                return MinimalDetail(
+                                  tv: tv,
                                 );
                               },
                             );
@@ -136,7 +136,19 @@ class _MainTvPageState extends State<MainTvPage> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Text(tv.title!),
+                                                    Expanded(
+                                                      child: Text(
+                                                        tv.title!,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headlineMedium
+                                                            ?.copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                                 const SizedBox(height: 8),
@@ -145,20 +157,36 @@ class _MainTvPageState extends State<MainTvPage> {
                                                       child) {
                                                     if (detailData.state ==
                                                         RequestState.loaded) {
-                                                      return Row(
-                                                        children: [
-                                                          Text(tv.rating
-                                                              .toString()
-                                                              .substring(0, 3)),
-                                                          const SizedBox(
-                                                              width: 8),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          _drawGenres(detailData
-                                                              .tvDetail)
-                                                        ],
-                                                      );
+                                                      if (tv.rating != null &&
+                                                          tv.rating! > 0) {
+                                                        return Row(
+                                                          children: [
+                                                            const Icon(
+                                                                Icons.star),
+                                                            const SizedBox(
+                                                                width: 4),
+                                                            Text(
+                                                              tv.rating
+                                                                  .toString()
+                                                                  .substring(
+                                                                      0, 3),
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge,
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 8),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            _drawGenres(
+                                                                detailData
+                                                                    .tvDetail)
+                                                          ],
+                                                        );
+                                                      }
+                                                      return const SizedBox();
                                                     } else {
                                                       return const SizedBox();
                                                     }
@@ -171,24 +199,16 @@ class _MainTvPageState extends State<MainTvPage> {
                                                       child: Text(
                                                         tv.description
                                                             .toString(),
-                                                        maxLines: 4,
-                                                        style: const TextStyle(
-                                                            fontSize: 10),
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
                                                     )
                                                   ],
                                                 ),
                                               ]));
 
-                                      // return Align(
-                                      //   alignment: Alignment.bottomCenter,
-                                      //   child: CachedNetworkImage(
-                                      //     width: 200.0,
-                                      //     imageUrl: Urls.imageUrl(
-                                      //       data.mediaImages.posterPaths[0],
-                                      //     ),
-                                      //   ),
-                                      // );
+                                      
                                     } else if (tvImageData.state ==
                                         RequestState.error) {
                                       return const Center(
@@ -250,7 +270,7 @@ class _MainTvPageState extends State<MainTvPage> {
                   data.popularMovies.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
-                    child: VerticalItemList(
+                    child: HorizontalItemList(
                       tvSeries: data.popularMovies,
                       isTopRated: false,
                     ));
@@ -272,7 +292,7 @@ class _MainTvPageState extends State<MainTvPage> {
                   data.topRatedTvs.isNotEmpty) {
                 return FadeIn(
                     duration: const Duration(milliseconds: 500),
-                    child: VerticalItemList(
+                    child: HorizontalItemList(
                       tvSeries: data.topRatedTvs,
                       isTopRated: true,
                     ));
