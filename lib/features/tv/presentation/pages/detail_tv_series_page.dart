@@ -245,95 +245,89 @@ class _TvDetailContentState extends State<TvDetailContent>
                           ],
                         ),
                         const SizedBox(width: 16.0),
-                        // Text(
-                        //   _showDuration(tvDetail.runtime as int),
-                        //   style: const TextStyle(
-                        //     color: Colors.white70,
-                        //     fontSize: 16.0,
-                        //     fontWeight: FontWeight.w500,
-                        //     letterSpacing: 1.2,
-                        //   ),
-                        // ),
                       ],
                     ),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      key: const Key('movieToWatchlist'),
-                      onPressed: () async {
-                        if (!isAddedToWatchlist) {
-                          await Provider.of<TvDetailProvider>(context,
-                                  listen: false)
-                              .addTvToWatchList(tvDetail);
-                        } else {
-                          await Provider.of<TvDetailProvider>(context,
-                                  listen: false)
-                              .removeTvFromWatchList(tvDetail);
-                        }
-                        // ignore: use_build_context_synchronously
-                        final message = Provider.of<TvDetailProvider>(context,
-                                listen: false)
-                            .watchlistMessage;
-
-                        if (message ==
-                                TvDetailProvider.watchListAddSuccessMessage ||
-                            message ==
-                                TvDetailProvider
-                                    .watchListRemoveSuccessMessage) {
-                          Fluttertoast.showToast(
-                              msg: message,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: message ==
-                                      TvDetailProvider
-                                          .watchListAddSuccessMessage
-                                  ? kSpaceGrey
-                                  : Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
-                        } else {
+                    Consumer<TvDetailProvider>(builder: (context, data, child) {
+                      isAddedToWatchlist = data.isAddedToWatchList;
+                      return ElevatedButton(
+                        key: const Key('movieToWatchlist'),
+                        onPressed: () async {
+                          if (!isAddedToWatchlist) {
+                            await Provider.of<TvDetailProvider>(context,
+                                    listen: false)
+                                .addTvToWatchList(tvDetail);
+                          } else {
+                            await Provider.of<TvDetailProvider>(context,
+                                    listen: false)
+                                .removeTvFromWatchList(tvDetail);
+                          }
                           // ignore: use_build_context_synchronously
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                content: Text(message),
-                              );
-                            },
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: isAddedToWatchlist
-                            ? Colors.grey[850]
-                            : primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        minimumSize: Size(
-                          MediaQuery.of(context).size.width,
-                          42.0,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          isAddedToWatchlist
-                              ? const Icon(Icons.check, color: Colors.white)
-                              : const Icon(Icons.add, color: kWhiteColor),
-                          const SizedBox(width: 16.0),
-                          Text(
-                            isAddedToWatchlist
-                                ? 'Added to watchlist'
-                                : 'Add to watchlist',
-                            style: const TextStyle(
-                              color: kWhiteColor,
-                              fontSize: 16,
-                            ),
+                          final message = Provider.of<TvDetailProvider>(context,
+                                  listen: false)
+                              .watchlistMessage;
+
+                          if (message ==
+                                  TvDetailProvider.watchListAddSuccessMessage ||
+                              message ==
+                                  TvDetailProvider
+                                      .watchListRemoveSuccessMessage) {
+                            Fluttertoast.showToast(
+                                msg: message,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: message ==
+                                        TvDetailProvider
+                                            .watchListAddSuccessMessage
+                                    ? kSpaceGrey
+                                    : Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text(message),
+                                );
+                              },
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isAddedToWatchlist
+                              ? Colors.grey[850]
+                              : primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                        ],
-                      ),
-                    ),
+                          minimumSize: Size(
+                            MediaQuery.of(context).size.width,
+                            42.0,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            isAddedToWatchlist
+                                ? const Icon(Icons.check, color: Colors.white)
+                                : const Icon(Icons.add, color: kWhiteColor),
+                            const SizedBox(width: 16.0),
+                            Text(
+                              isAddedToWatchlist
+                                  ? 'Added to watchlist'
+                                  : 'Add to watchlist',
+                              style: const TextStyle(
+                                color: kWhiteColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
                     const SizedBox(height: 16.0),
                     Text(
                       'Storyline',

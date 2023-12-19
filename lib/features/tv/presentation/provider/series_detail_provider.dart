@@ -90,7 +90,7 @@ class TvDetailProvider extends ChangeNotifier {
     result.fold((failure) {
       _watchlistMessage = 'Failed to add movie to watchlist';
     }, (successMsg) {
-      _watchlistMessage = successMsg.toString();
+      _watchlistMessage = 'Added to watchList';
     });
 
     loadTvWatchListStatus(tv.id);
@@ -103,7 +103,7 @@ class TvDetailProvider extends ChangeNotifier {
     result.fold((failure) {
       _watchlistMessage = failure.message;
     }, (successMsg) {
-      _watchlistMessage = successMsg.toString();
+      _watchlistMessage = 'Removed from watchList';
     });
     loadTvWatchListStatus(tv.id);
     notifyListeners();

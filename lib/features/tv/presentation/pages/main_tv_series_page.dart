@@ -162,7 +162,10 @@ class _MainTvPageState extends State<MainTvPage> {
                                                         return Row(
                                                           children: [
                                                             const Icon(
-                                                                Icons.star),
+                                                              Icons.star,
+                                                              color:
+                                                                  Colors.amber,
+                                                            ),
                                                             const SizedBox(
                                                                 width: 4),
                                                             Text(
@@ -207,8 +210,6 @@ class _MainTvPageState extends State<MainTvPage> {
                                                   ],
                                                 ),
                                               ]));
-
-                                      
                                     } else if (tvImageData.state ==
                                         RequestState.error) {
                                       return const Center(
