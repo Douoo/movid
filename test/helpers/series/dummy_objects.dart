@@ -1,10 +1,10 @@
-import 'package:movid/features/series/data/model/genre_model.dart';
-import 'package:movid/features/series/data/model/media_image_model.dart';
-import 'package:movid/features/series/data/model/series_detail_model.dart';
-import 'package:movid/features/series/domain/entites/genre.dart';
-import 'package:movid/features/series/domain/entites/media_image.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/entites/series_detail.dart';
+import 'package:movid/features/tv/data/model/genre_model.dart';
+import 'package:movid/features/tv/data/model/media_image_model.dart';
+import 'package:movid/features/tv/data/model/series_detail_model.dart';
+import 'package:movid/features/tv/domain/entites/genre.dart';
+import 'package:movid/features/tv/domain/entites/media_image.dart';
+import 'package:movid/features/tv/domain/entites/series.dart';
+import 'package:movid/features/tv/domain/entites/series_detail.dart';
 
 const testTvId = 23112;
 const testTvQuery = "baby";

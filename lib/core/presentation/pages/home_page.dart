@@ -7,7 +7,7 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/pages/main_movie_page.dart';
 import 'package:movid/features/search/presentation/pages/search_movie_page.dart';
 import 'package:movid/features/search/presentation/pages/search_tv_page.dart';
-import 'package:movid/features/series/presentation/pages/main_tv_series_page.dart';
+import 'package:movid/features/tv/presentation/pages/main_tv_series_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {

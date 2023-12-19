@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movid/core/utils/state_enum.dart';
-import 'package:movid/features/series/domain/entites/series.dart';
-import 'package:movid/features/series/domain/usecases/series/search_tvs.dart';
+import 'package:movid/features/tv/domain/entites/series.dart';
+import 'package:movid/features/tv/domain/usecases/series/search_tvs.dart';
 
 class TvSearchProvider extends ChangeNotifier {
   final SearchTvsUseCase searchTv;

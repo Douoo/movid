@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movid/core/styles/colors.dart';
 import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/search/presentation/provider/tv_search_provider.dart';
-import 'package:movid/features/series/presentation/widgets/item_card.dart';
+import 'package:movid/features/tv/presentation/widgets/item_card.dart';
 import 'package:provider/provider.dart';
 
 class SearchTvPage extends StatelessWidget {

@@ -4,10 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:movid/features/tv/data/model/tv_series_model.dart';
 import 'package:movid/features/tv/domain/entites/series.dart';
 
-import '../../../../../helpers/json_reader.dart';
+import '../../../../helpers/json_reader.dart';
 
 void main() {
-  final testtvModel = TvModel(
+  final testTvModel = TvModel(
     title: "Tagesschau",
     date: "1952-12-26",
     description:
@@ -23,7 +23,7 @@ void main() {
 
   test('should be a subclass of tv entity', () async {
     //assert
-    expect(testtvModel, isA<Tv>());
+    expect(testTvModel, isA<Tv>());
   });
   test('should return a valid model from json', () async {
     //arrange
@@ -35,6 +35,6 @@ void main() {
     final result = TvModel.fromMap(jsonMap);
 
     //assert
-    expect(result, equals(testtvModel));
+    expect(result, equals(testTvModel));
   });
 }

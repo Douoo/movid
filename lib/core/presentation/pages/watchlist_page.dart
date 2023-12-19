@@ -3,8 +3,8 @@ import 'package:movid/core/utils/state_enum.dart';
 import 'package:movid/features/movies/presentation/provider/watchlist_movies_provider.dart';
 import 'package:movid/features/movies/presentation/widgets/item_card.dart'
     as movie;
-import 'package:movid/features/series/presentation/provider/series_watch_list_provider.dart';
-import 'package:movid/features/series/presentation/widgets/item_card.dart';
+import 'package:movid/features/tv/presentation/provider/series_watch_list_provider.dart';
+import 'package:movid/features/tv/presentation/widgets/item_card.dart';
 
 import 'package:provider/provider.dart';
 

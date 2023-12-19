@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movid/features/tv/data/model/season_model.dart';
 import 'package:movid/features/tv/domain/entites/season_episode.dart';
-import '../../../../../helpers/json_reader.dart';
+
+import '../../../../helpers/json_reader.dart';
 
 void main() {
   const testSeasonModel = SeasonEpisodeModel(
