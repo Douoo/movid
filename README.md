@@ -6,6 +6,9 @@
 <img width="30%" src="./preview/minimal_card.jpeg">
 </div>
 
+<div>
+<img src="./preview/video_preview.mov">
+</div>
 
 Movid is a Flutter app project that allows users to search for a movie and tv series, see their detail, season & episode, and save watchlist. The API used for the movies and tv series data is obtained from https://www.themoviedb.org/
 

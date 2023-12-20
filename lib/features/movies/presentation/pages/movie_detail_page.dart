@@ -310,9 +310,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               from: 20,
                               duration: const Duration(milliseconds: 500),
                               child: Text(
-                                'More like this'.toUpperCase(),
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
+                                'More like this',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(fontWeight: FontWeight.w500),
                               ),
                             ),
                           ),
