@@ -39,6 +39,21 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   mockito: 5.4.3
+  flutter_native_splash: ^2.3.7
+  # flutter_native_splash-production.yaml
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splash-logo.png
+  color_dark: "#121212"
+  image_dark: assets/splash-logo.png
+
+  android_12:
+    image: assets/splash-logo.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/splash-logo.png
+    icon_background_color_dark: "#121212"
+
+  web: false
 
 flutter:
   uses-material-design: true
